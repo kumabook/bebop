@@ -13,6 +13,7 @@ import {
   getPort,
   createPortChannel,
 } from '../utils/port';
+import commands from '../commands';
 import * as cursor from '../cursor';
 
 const history = createHashHistory();
@@ -43,6 +44,13 @@ function passAction(type) {
   return function* watch() {
     yield takeEvery(type, ({ payload }) => post(type, payload));
   };
+}
+
+function* watchQuery() {
+  yield takeEvery('QUERY', function* searchCandidates({ payload }) {
+    const candidates = yield commands.candidates(payload);
+    yield put({ type: 'CANDIDATES', payload: candidates });
+  });
 }
 
 function* watchKeySequence() {
@@ -82,6 +90,7 @@ export default function* root() {
   yield [
     fork(passAction('COMMAND')),
     fork(passAction('MESSAGE')),
+    fork(watchQuery),
     fork(watchKeySequence),
     fork(watchPort),
     fork(watchClose),
