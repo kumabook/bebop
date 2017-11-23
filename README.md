@@ -14,7 +14,7 @@ Usage
 
 ## command
 
-1. Click icon on toolbar or Ctrl+0 ... snow popup that has command input
+1. `Click icon on toolbar` or `Ctrl+Comma` ... snow popup that has command input
 2. Input a query to narrow down the commands.
 
 | type        | description                     |
