@@ -2,7 +2,7 @@ import browser from 'webextension-polyfill';
 
 const commands = [];
 
-function filterContentCommands(q) {
+function contentCommands(q) {
   return commands
     .filter(n => n.includes(q))
     .map(name => ({
@@ -12,36 +12,43 @@ function filterContentCommands(q) {
     }));
 }
 
-function candidates(query) {
-  const q = query.toLowerCase();
-  return Promise.all([
-    browser.history.search({ text: q, startTime: 0 }),
-    browser.bookmarks.search({ query: q }),
-    Promise.resolve(filterContentCommands(q)),
-  ]).then(([histories, bookmarks, commandItems]) => {
-    const h = histories.map(v => ({
+function historyCommands(q) {
+  return browser.history.search({ text: q, startTime: 0 })
+    .then(l => l.map(v => ({
       id:   `${v.title}:${v.url}`,
       type: 'history',
       name: 'open-history',
       args: [v.url],
-    }));
-    const b = bookmarks.map(v => ({
+    })));
+}
+
+function bookmarkCommands(q) {
+  return browser.bookmarks.search({ query: q })
+    .then(l => l.map(v => ({
       id:   `${v.title}:${v.url}`,
       type: 'bookmark',
       name: 'open-bookmark',
       args: [v.url],
-    }));
-    const items = [{
-      id:   `${q} － Search with Google`,
-      type: 'search',
-      name: 'google-search',
-      args: [q],
-    }];
-    return items
-      .concat(h)
-      .concat(b)
-      .concat(commandItems);
-  });
+    })));
+}
+
+function searchCommands(q) {
+  return Promise.resolve([{
+    id:   `${q} － Search with Google`,
+    type: 'search',
+    name: 'google-search',
+    args: [q],
+  }]);
+}
+
+function candidates(query) {
+  const q = query.toLowerCase();
+  return Promise.all([
+    searchCommands(q),
+    historyCommands(q),
+    bookmarkCommands(q),
+    contentCommands(q),
+  ]).then(list => list.reduce((items, v) => items.concat(v), []));
 }
 
 function googleSearch(query) {
