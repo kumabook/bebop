@@ -34,6 +34,35 @@ function candidates(query) {
   });
 }
 
+function googleSearch(query) {
+  return browser.tabs.create({
+    url: `https://www.google.com/search?q=${query}`,
+  });
+}
+
+function open(url) {
+  return browser.tabs.create({ url });
+}
+
+function execute(command, postCommandToContent) {
+  const { id, type, args } = command;
+  switch (type) {
+    case 'content': {
+      postCommandToContent(id);
+      break;
+    }
+    case 'search':
+      googleSearch.apply(this, args);
+      break;
+    case 'history':
+      open.apply(this, args);
+      break;
+    default:
+      break;
+  }
+}
+
 export default {
+  execute,
   candidates,
 };
