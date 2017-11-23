@@ -10,7 +10,7 @@
     "build": "webpack && web-ext build --overwrite-dest -i src/ \"**/*~\"",
     "start": "webpack && web-ext run -i src/ \"**/*~\" --bc",
     "sign": "webpack && web-ext sign -i src/ \"**/*~\"",
-    "pack": "git archive HEAD --output=stickynotes.zip",
+    "pack": "git archive HEAD --output=bebop.zip",
     "watch": "webpack --watch"
   },
   "devDependencies": {
