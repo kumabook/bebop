@@ -32,8 +32,9 @@
   "commands": {
     "_execute_browser_action": {
       "suggested_key": {
-        "default": "Ctrl+J",
-        "mac"    : "MacCtrl+J"
+        "default": "Ctrl+0",
+        "mac"    : "MacCtrl+0",
+        "linux"  : "Ctrl+0"
       }
     }
   },
