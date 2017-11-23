@@ -11,7 +11,6 @@ const query = (state = '', action) => {
 };
 
 function normalize({ index, items }) {
-  console.log({ index: index % items.length, items });
   return { index: (index + items.length) % items.length, items };
 }
 

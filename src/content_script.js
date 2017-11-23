@@ -56,7 +56,7 @@ function messageListenner(msg) {
     logger.trace('This content script is not active.');
     return;
   }
-  logger.trace(`Handle message ${type} ${payload}`);
+  logger.trace(`Handle message ${type} ${JSON.stringify(payload)}`);
   switch (type) {
     case 'COMMAND':
       executeCommand(payload);
