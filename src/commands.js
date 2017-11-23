@@ -8,6 +8,7 @@ const commands = [
   'previous-line',
   'end-of-buffer',
   'beginning-of-buffer',
+  'delete-backward-char',
 ];
 
 export function search(query) {

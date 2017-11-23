@@ -108,3 +108,14 @@ export function beginningOfBuffer() {
     elem.setSelectionRange(0, 0);
   }
 }
+
+export function deleteBackwardChar() {
+  const elem = document.activeElement;
+  if (!elem || !elem.value) {
+    return;
+  }
+  const v     = elem.value;
+  const start = elem.selectionStart;
+  elem.value = v.slice(0, start - 1) + v.slice(start, v.length);
+  elem.setSelectionRange(start - 1, start - 1);
+}

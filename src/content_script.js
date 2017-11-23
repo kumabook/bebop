@@ -15,17 +15,19 @@ const commandNameOfSeq = {
   'C-p': 'previous-line',
   'M->': 'end-of-buffer',
   'M-<': 'beginning-of-buffer',
+  'C-h': 'delete-backward-char',
 };
 
 const commands = {
-  'forward-char':        cursor.forwardChar,
-  'backward-char':       cursor.backwardChar,
-  'beginning-of-line':   cursor.beginningOfLine,
-  'end-of-line':         cursor.endOfLine,
-  'next-line':           cursor.nextLine,
-  'previous-line':       cursor.previousLine,
-  'end-of-buffer':       cursor.endOfBuffer,
-  'beginning-of-buffer': cursor.beginningOfBuffer,
+  'forward-char':         cursor.forwardChar,
+  'backward-char':        cursor.backwardChar,
+  'beginning-of-line':    cursor.beginningOfLine,
+  'end-of-line':          cursor.endOfLine,
+  'next-line':            cursor.nextLine,
+  'previous-line':        cursor.previousLine,
+  'end-of-buffer':        cursor.endOfBuffer,
+  'beginning-of-buffer':  cursor.beginningOfBuffer,
+  'delete-backward-char': cursor.deleteBackwardChar,
 };
 
 function executeCommand(name) {
