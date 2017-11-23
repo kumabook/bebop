@@ -1,3 +1,4 @@
+/* global browser: false */
 const commands = [
   'forward-char',
   'backward-char',
@@ -8,5 +9,11 @@ const commands = [
   'end-of-buffer',
   'beginning-of-buffer',
 ];
+
+export function search(query) {
+  return browser.tabs.create({
+    url: `https://www.google.com/search?q=${query}`,
+  });
+}
 
 export default commands;

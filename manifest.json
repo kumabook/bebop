@@ -7,7 +7,7 @@
       "id": "bebop@kumabook"
     }
   },
-  "permissions": [],
+  "permissions": ["tabs", "activeTab"],
   "background": {
     "scripts": ["background/bundle.js"]
   },
