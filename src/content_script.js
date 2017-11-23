@@ -64,7 +64,18 @@ function messageListenner(msg) {
   }
 }
 
-window.addEventListener('keydown', keydownListener, true);
+browser.runtime.getPlatformInfo().then((info) => {
+  switch (info.os) {
+    case 'mac':
+      break;
+    case 'android':
+      break;
+    default:
+      window.addEventListener('keydown', keydownListener, true);
+      break;
+  }
+});
+
 setTimeout(() => {
   port = browser.runtime.connect({ name: portName });
   port.onMessage.addListener(messageListenner);

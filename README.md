@@ -23,7 +23,7 @@ Usage
 | history     | open a history                  |
 
 
-## emacs key-bindings on textarea
+## emacs key-bindings on textarea (except mac)
 
 You can edit with key-bindings in text input of html (not browser native-ui):
 
@@ -38,3 +38,6 @@ You can edit with key-bindings in text input of html (not browser native-ui):
 | M->         | end-of-buffer        |
 | M-<         | beginning-of-buffer  |
 | C-h         | delete-backward-char |
+
+macOS provides emacs key-bindings for text editing.
+So this extension does nothing on macOS.
