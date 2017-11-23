@@ -1,4 +1,4 @@
-/* global browser: false */
+import browser from 'webextension-polyfill';
 
 export function getMessage(key) {
   if (typeof browser === 'undefined') {

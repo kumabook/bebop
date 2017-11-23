@@ -1,4 +1,4 @@
-/* global browser: false */
+import browser from 'webextension-polyfill';
 import logger from 'kiroku';
 import * as cursor from './cursor';
 import keySequence from './key_sequences';

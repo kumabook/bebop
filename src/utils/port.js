@@ -1,12 +1,12 @@
-/* global browser: false */
-
+import browser from 'webextension-polyfill';
+import logger from 'kiroku';
 import { eventChannel } from 'redux-saga';
 
 const ports = {};
 
 const createDummyPort = () => ({
   postMessage: ({ type }) => {
-    console.log(`post message: ${type}`);
+    logger.log(`post message: ${type}`);
   },
   onMessage: {
     addEventListener:    () => {},

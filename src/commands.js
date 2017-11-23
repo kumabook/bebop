@@ -1,4 +1,5 @@
-/* global browser: false */
+import browser from 'webextension-polyfill';
+
 const commands = [
   'forward-char',
   'backward-char',

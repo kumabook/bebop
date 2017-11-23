@@ -1,4 +1,4 @@
-/* global browser: false, confirm: false */
+/* global confirm: false */
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
