@@ -1,4 +1,6 @@
 const webpack = require('webpack');
+
+const NODE_ENV = process.env.NODE_ENV || 'production';
 module.exports = {
   entry: {
     background:      './src/background.js',
@@ -20,7 +22,7 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env': { NODE_ENV: JSON.stringify('production') },
+      'process.env': { NODE_ENV: JSON.stringify(NODE_ENV) },
     }),
   ],
   devtool: 'source-map',
