@@ -9,18 +9,19 @@
       "strict_min_version": "42.0"
     }
   },
-  "permissions": ["tabs", "activeTab", "history"],
+  "permissions": ["tabs", "activeTab", "history", "<all_urls>"],
   "background": {
     "scripts": ["background/bundle.js"]
   },
   "default_locale": "en",
   "content_scripts": [
     {
-      "matches": ["*://*/*"],
-      "match_about_blank": true,
+      "matches": ["<all_urls>"],
       "js": [
          "content_scripts/bundle.js"
-      ]
+      ],
+      "run_at": "document_start",
+      "match_about_blank": true
     }
   ],
   "browser_action": {
