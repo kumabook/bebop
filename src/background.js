@@ -1,6 +1,6 @@
 import browser from 'webextension-polyfill';
 import logger from 'kiroku';
-import commands, { search } from './commands';
+import commands from './commands';
 
 const contentScriptPorts = {};
 const popupPorts         = {};
@@ -53,14 +53,10 @@ function handlePopupMessage(msg) {
   logger.info(`handlePopupMessage ${type} from ${portName}`);
   const port = getPort(portName);
   switch (type) {
-    case 'QUERY':
-      break;
     case 'COMMAND':
-      if (commands.includes(payload)) {
-        postMessageToContentScript('COMMAND', payload);
-      } else {
-        search(payload);
-      }
+      commands.execute(payload, (contentCommand) => {
+        postMessageToContentScript('COMMAND', contentCommand);
+      });
       port.postMessage({ type: 'CLOSE' });
       break;
     default:
