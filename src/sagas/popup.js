@@ -62,6 +62,9 @@ function* watchKeySequence() {
       return;
     }
     yield command();
+    if (command === cursor.deleteBackwardChar) {
+      yield put({ type: 'QUERY', payload: cursor.activeElementValue() });
+    }
   });
 }
 

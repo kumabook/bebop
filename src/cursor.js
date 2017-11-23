@@ -119,3 +119,11 @@ export function deleteBackwardChar() {
   elem.value = v.slice(0, start - 1) + v.slice(start, v.length);
   elem.setSelectionRange(start - 1, start - 1);
 }
+
+export function activeElementValue() {
+  const elem = document.activeElement;
+  if (!elem || !elem.value) {
+    return '';
+  }
+  return elem.value;
+}
