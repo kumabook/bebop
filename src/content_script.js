@@ -26,3 +26,8 @@ function keydownListener(e) {
 }
 
 window.addEventListener('keydown', keydownListener, true);
+setTimeout(() => {
+  port = browser.runtime.connect({ name: portName });
+  port.onMessage.addListener(messageListenner);
+  logger.info('bebop content_script is loaded');
+}, 500);
