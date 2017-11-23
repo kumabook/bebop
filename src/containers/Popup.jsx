@@ -10,7 +10,10 @@ class Popup extends React.Component {
   }
   render() {
     return (
-      <form onSubmit={() => this.props.handleSubmit(this.input.value)}>
+      <form
+        className="commandForm"
+        onSubmit={() => this.props.handleSubmit(this.input.value)}
+      >
         <input
           ref={(input) => { this.input = input; }}
           type="text"
