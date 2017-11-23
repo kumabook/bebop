@@ -50,7 +50,16 @@ So this extension does nothing on macOS.
 
 Change popup width from `Add-ons` -> `Extensions` -> `Preferences` of `bebop`.
 
-### Change shortcut key with your own private addon
+
+### Change shortcut key
+
+#### Chrome: Extensions page
+
+1. Open `chrome://extensions/`
+2. Click `Keyboard shortcuts` at thxe bottom of the page
+3. Set `Activate the extension` as your favorite shortcut key
+
+#### Firefox: Change shortcut key with your own private addon
 
 You can change the shourcut key if you build and upload the addon as your own private addon.
 
