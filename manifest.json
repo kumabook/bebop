@@ -9,7 +9,7 @@
       "strict_min_version": "42.0"
     }
   },
-  "permissions": ["tabs", "activeTab", "history", "<all_urls>"],
+  "permissions": ["tabs", "activeTab", "history", "bookmarks", "<all_urls>"],
   "background": {
     "scripts": ["background/bundle.js"]
   },

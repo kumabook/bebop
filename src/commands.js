@@ -16,12 +16,19 @@ function candidates(query) {
   const q = query.toLowerCase();
   return Promise.all([
     browser.history.search({ text: q, startTime: 0 }),
+    browser.bookmarks.search({ query: q }),
     Promise.resolve(filterContentCommands(q)),
-  ]).then(([histories, commandItems]) => {
+  ]).then(([histories, bookmarks, commandItems]) => {
     const h = histories.map(v => ({
       id:   `${v.title}:${v.url}`,
       type: 'history',
       name: 'open-history',
+      args: [v.url],
+    }));
+    const b = bookmarks.map(v => ({
+      id:   `${v.title}:${v.url}`,
+      type: 'bookmark',
+      name: 'open-bookmark',
       args: [v.url],
     }));
     const items = [{
@@ -30,7 +37,10 @@ function candidates(query) {
       name: 'google-search',
       args: [q],
     }];
-    return items.concat(h).concat(commandItems);
+    return items
+      .concat(h)
+      .concat(b)
+      .concat(commandItems);
   });
 }
 
@@ -55,6 +65,9 @@ function execute(command, postCommandToContent) {
       googleSearch.apply(this, args);
       break;
     case 'history':
+      open.apply(this, args);
+      break;
+    case 'bookmark':
       open.apply(this, args);
       break;
     default:
