@@ -19,7 +19,7 @@ class Popup extends React.Component {
           type="text"
           value={this.props.query}
           onChange={e => this.props.handleInputChange(e.target.value)}
-          placeholder={getMessage('commandInput.placeholder')}
+          placeholder={getMessage('commandInput_placeholder')}
         />
       </form>
     );
