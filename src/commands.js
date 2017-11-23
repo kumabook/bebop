@@ -12,6 +12,17 @@ function contentCommands(q) {
     }));
 }
 
+function tabCommands(q) {
+  return browser.tabs.query({})
+    .then(l => l.filter(t => t.title.includes(q) || t.url.includes(q))
+                .map(t => ({
+                  id:   `${t.title}: ${t.url}`,
+                  type: 'tab',
+                  name: 'move-tab',
+                  args: [t.id, t.windowId],
+                })));
+}
+
 function historyCommands(q) {
   return browser.history.search({ text: q, startTime: 0 })
     .then(l => l.map(v => ({
@@ -45,6 +56,7 @@ function candidates(query) {
   const q = query.toLowerCase();
   return Promise.all([
     searchCommands(q),
+    tabCommands(q),
     historyCommands(q),
     bookmarkCommands(q),
     contentCommands(q),
@@ -61,9 +73,16 @@ function open(url) {
   return browser.tabs.create({ url });
 }
 
+function moveTab(tabId) {
+  browser.tabs.update(tabId, { active: true });
+}
+
 function execute(command, postCommandToContent) {
   const { id, type, args } = command;
   switch (type) {
+    case 'tab':
+      moveTab.apply(this, args);
+      break;
     case 'content': {
       postCommandToContent(id);
       break;
