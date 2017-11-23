@@ -22,7 +22,7 @@ function post(type, payload) {
   port.postMessage({ type, payload, portName });
 }
 
-function watchMessage(type) {
+function passAction(type) {
   return function* watch() {
     yield takeEvery(type, ({ payload }) => post(type, payload));
   };
@@ -53,9 +53,8 @@ function* routerSaga() {
 
 export default function* root() {
   yield [
-    fork(watchMessage('COMMAND')),
-    fork(watchMessage('QUERY')),
-    fork(watchMessage('MESSAGE')),
+    fork(passAction('COMMAND')),
+    fork(passAction('MESSAGE')),
     fork(watchPort),
     fork(watchClose),
     fork(routerSaga),
