@@ -15,30 +15,30 @@ import {
 } from '../utils/port';
 
 const history = createHashHistory();
-const portName = 'popup';
+const portName = `popup-${Date.now()}`;
 const port = getPort(portName);
 
-function command({ payload }) {
-  port.postMessage({ type: command, portName, payload });
+function post(type, payload) {
+  port.postMessage({ type, payload, portName });
 }
 
-function* watchCommand() {
-  yield takeEvery('COMMAND', command);
+function watchMessage(type) {
+  return function* watch() {
+    yield takeEvery(type, ({ payload }) => post(type, payload));
+  };
 }
 
 function* watchPort() {
   const portChannel = yield call(createPortChannel, port);
 
   for (;;) {
-    const event = yield take(portChannel);
-    switch (event.type) {
-      case 'logged-in':
-        yield put({ type: 'FAILED_TO_SIGNUP', payload: event.payload });
-        break;
-      default:
-        break;
-    }
+    const { type, payload } = yield take(portChannel);
+    yield put({ type, payload });
   }
+}
+
+function* watchClose() {
+  yield takeEvery('CLOSE', () => window.close());
 }
 
 const routes = {
@@ -53,8 +53,11 @@ function* routerSaga() {
 
 export default function* root() {
   yield [
-    fork(watchCommand),
+    fork(watchMessage('COMMAND')),
+    fork(watchMessage('QUERY')),
+    fork(watchMessage('MESSAGE')),
     fork(watchPort),
+    fork(watchClose),
     fork(routerSaga),
   ];
 }
