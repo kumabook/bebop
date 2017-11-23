@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 import { getMessage } from '../utils/i18n';
 import Candidate from '../components/Candidate';
 import keySequence from '../key_sequences';
-import { commandOfSeq } from '../sagas/popup.js';
+import { commandOfSeq } from '../sagas/popup';
 
 class Popup extends React.Component {
   static get propTypes() {
