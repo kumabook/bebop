@@ -42,6 +42,7 @@ export const commandOfSeq = {
 function* dispatchPopupWidth() {
   const { popupWidth } = yield browser.storage.local.get('popupWidth');
   yield put({ type: 'POPUP_WIDTH', payload: popupWidth });
+  yield put({ type: 'QUERY', payload: '' });
 }
 
 function post(type, payload) {
