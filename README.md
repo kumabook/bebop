@@ -67,8 +67,8 @@ git clone https://github.com/kumabook/bebop.git
 
 ```
 export NODE_ENV=production
-export WEB_EXT_API_KEY=user:00000000:000
-export WEB_EXT_API_SECRET=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+export API_KEY=user:00000000:000
+export API_SECRET=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
 5. Build and upload package as your private addon:

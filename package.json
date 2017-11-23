@@ -8,8 +8,8 @@
   "scripts": {
     "get-unbranded-firefox": "get-firefox -ecb unbranded-release",
     "build": "webpack && web-ext build --overwrite-dest -i src/ \"**/*~\"",
-    "start": "webpack && web-ext run -i src/ \"**/*~\" --bc",
-    "sign": "webpack && web-ext sign -i src/ \"**/*~\"",
+    "start": "webpack && web-ext run -i src/ \"**/*~\" --bc -f $FIREFOX_BINARY",
+    "sign": "webpack && web-ext sign -i src/ \"**/*~\" --api-key $API_KEY --api-secret $API_SECRET",
     "pack": "git archive HEAD --output=bebop.zip",
     "watch": "webpack --watch"
   },
