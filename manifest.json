@@ -5,7 +5,8 @@
   "description": "Offer emacs key-bindings and command line interface like helm",
   "applications": {
     "gecko": {
-      "id": "bebop@kumabook"
+      "id": "bebop@kumabook",
+      "strict_min_version": "42.0"
     }
   },
   "permissions": ["tabs", "activeTab", "history"],
