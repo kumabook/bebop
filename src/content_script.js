@@ -5,7 +5,9 @@ import keySequence from './key_sequences';
 
 const portName = `content-script-${window.location.href}`;
 let port = null;
-
+if (process.env.NODE_ENV === 'production') {
+  logger.setLevel('INFO');
+}
 const commandNameOfSeq = {
   'C-f': 'forward-char',
   'C-b': 'backward-char',

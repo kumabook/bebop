@@ -19,10 +19,15 @@ import {
   Switch,
   Route,
 } from 'react-router-dom';
+import logger from 'kiroku';
 
 import Popup from './containers/Popup';
 import reducers from './reducers/popup';
 import rootSaga from './sagas/popup';
+
+if (process.env.NODE_ENV === 'production') {
+  logger.setLevel('INFO');
+}
 
 const history = createHistory();
 const sagaMiddleware = createSagaMiddleware();
