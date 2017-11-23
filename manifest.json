@@ -34,5 +34,6 @@
         "mac"    : "MacCtrl+J"
       }
     }
-  }
+  },
+  "web_accessible_resources": ["images/*.png"]
 }
