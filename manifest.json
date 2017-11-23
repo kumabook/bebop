@@ -1,0 +1,38 @@
+{
+  "name": "bebop",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "applications": {
+    "gecko": {
+      "id": "bebop@kumabook"
+    }
+  },
+  "permissions": [],
+  "background": {
+    "scripts": ["background/bundle.js"]
+  },
+  "default_locale": "en",
+  "content_scripts": [
+    {
+      "matches": ["*://*/*"],
+      "match_about_blank": true,
+      "js": [
+         "content_scripts/bundle.js"
+      ]
+    }
+  ],
+  "browser_action": {
+    "browser_style": true,
+    "default_icon": "icons/icon-32.png",
+    "default_title": "button label",
+    "default_popup": "popup/index.html"
+  },
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+O",
+        "mac"    : "MacCtrl+Shift+O"
+      }
+    }
+  }
+}
