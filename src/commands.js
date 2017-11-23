@@ -73,7 +73,7 @@ function open(url) {
   return browser.tabs.create({ url });
 }
 
-function moveTab(tabId) {
+function activateTab(tabId) {
   browser.tabs.update(tabId, { active: true });
 }
 
@@ -81,7 +81,7 @@ function execute(command, postCommandToContent) {
   const { id, type, args } = command;
   switch (type) {
     case 'tab':
-      moveTab.apply(this, args);
+      activateTab.apply(this, args);
       break;
     case 'content': {
       postCommandToContent(id);

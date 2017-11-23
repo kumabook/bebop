@@ -9,7 +9,7 @@
       "strict_min_version": "42.0"
     }
   },
-  "permissions": ["tabs", "activeTab", "history", "bookmarks", "<all_urls>"],
+  "permissions": ["tabs", "activeTab", "history", "bookmarks", "storage", "<all_urls>"],
   "background": {
     "scripts": ["background/bundle.js"]
   },
@@ -38,6 +38,9 @@
         "linux"  : "Ctrl+0"
       }
     }
+  },
+  "options_ui": {
+    "page": "options_ui/index.html"
   },
   "web_accessible_resources": ["images/*.png"]
 }

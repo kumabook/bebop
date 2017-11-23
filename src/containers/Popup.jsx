@@ -17,11 +17,13 @@ class Popup extends React.Component {
       handleCommand:     PropTypes.func.isRequired,
       handleInputChange: PropTypes.func.isRequired,
       handleKeydown:     PropTypes.func.isRequired,
+      popupWidth:        PropTypes.number,
     };
   }
   static get defaultProps() {
     return {
-      index: null,
+      index:      null,
+      popupWidth: null,
     };
   }
   componentDidMount() {
@@ -33,8 +35,10 @@ class Popup extends React.Component {
     }
   }
   render() {
+    const style = { width: this.props.popupWidth };
     return (
       <form
+        style={style}
         className="commandForm"
         onSubmit={() => this.handleSubmit(this.input.value)}
       >
@@ -61,6 +65,7 @@ function mapStateToProps(state) {
     query:      state.query,
     candidates: state.candidates.items,
     index:      state.candidates.index,
+    popupWidth: state.popupWidth,
   };
 }
 

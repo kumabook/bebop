@@ -46,6 +46,10 @@ So this extension does nothing on macOS.
 
 ## Customize
 
+### Change popup width from addon-setting page
+
+Change popup width from `Add-ons` -> `Extensions` -> `Preferences` of `bebop`.
+
 ### Change shortcut key with your own private addon
 
 You can change the shourcut key if you build and upload the addon as your own private addon.

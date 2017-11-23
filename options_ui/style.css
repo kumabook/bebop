@@ -1,0 +1,14 @@
+.options {
+    diplay: absolute;
+    height: 100px;
+    width: 100%;
+}
+.popupWidthLabel {
+    padding: 8px;
+}
+
+.popupWidthInput {
+    display: inline-block;
+    margin-left: 160px;
+    width: 60px;
+}

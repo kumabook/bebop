@@ -6,7 +6,6 @@
 .commandForm > input {
     margin: 0;
     width: 100%;
-    min-width: 500px;
     padding: 8px;
 }
 

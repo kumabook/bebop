@@ -1,3 +1,4 @@
+import browser from 'webextension-polyfill';
 import {
   fork,
   takeEvery,
@@ -37,6 +38,11 @@ export const commandOfSeq = {
   up:    dispatchAction('PREVIOUS_CANDIDATE'),
   down:  dispatchAction('NEXT_CANDIDATE'),
 };
+
+function* dispatchPopupWidth() {
+  const { popupWidth } = yield browser.storage.local.get('popupWidth');
+  yield put({ type: 'POPUP_WIDTH', payload: popupWidth });
+}
 
 function post(type, payload) {
   port.postMessage({ type, payload, portName });
@@ -93,6 +99,7 @@ function* routerSaga() {
 
 export default function* root() {
   yield [
+    fork(dispatchPopupWidth),
     fork(passAction('COMMAND')),
     fork(passAction('MESSAGE')),
     fork(watchQuery),
