@@ -30,8 +30,8 @@
   "commands": {
     "_execute_browser_action": {
       "suggested_key": {
-        "default": "Ctrl+Shift+O",
-        "mac"    : "MacCtrl+Shift+O"
+        "default": "Ctrl+J",
+        "mac"    : "MacCtrl+J"
       }
     }
   }
