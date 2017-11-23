@@ -34,6 +34,8 @@ export const commandOfSeq = {
   'C-n': dispatchAction('NEXT_CANDIDATE'),
   'C-p': dispatchAction('PREVIOUS_CANDIDATE'),
   'C-h': cursor.deleteBackwardChar,
+  up:    dispatchAction('PREVIOUS_CANDIDATE'),
+  down:  dispatchAction('NEXT_CANDIDATE'),
 };
 
 function post(type, payload) {
