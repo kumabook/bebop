@@ -50,7 +50,7 @@ function keydownListener(e) {
 
 function messageListenner(msg) {
   const { type, payload, targetUrl } = msg;
-  if (targetUrl !== window.location.href) {
+  if (targetUrl !== window.location.href && type !== 'PLATFORM_INFO') {
     logger.trace('This content script is not active.');
     return;
   }
@@ -59,22 +59,22 @@ function messageListenner(msg) {
     case 'COMMAND':
       executeCommand(payload);
       break;
+    case 'PLATFORM_INFO':
+      switch (payload.os) {
+        case 'mac':
+          break;
+        case 'android':
+          break;
+        default:
+          logger.info('Setup key-bindings');
+          window.addEventListener('keydown', keydownListener, true);
+          break;
+      }
+      break;
     default:
       break;
   }
 }
-
-browser.runtime.getPlatformInfo().then((info) => {
-  switch (info.os) {
-    case 'mac':
-      break;
-    case 'android':
-      break;
-    default:
-      window.addEventListener('keydown', keydownListener, true);
-      break;
-  }
-});
 
 setTimeout(() => {
   port = browser.runtime.connect({ name: portName });
