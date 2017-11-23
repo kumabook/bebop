@@ -17,13 +17,12 @@ class Popup extends React.Component {
       handleCommand:     PropTypes.func.isRequired,
       handleInputChange: PropTypes.func.isRequired,
       handleKeydown:     PropTypes.func.isRequired,
-      popupWidth:        PropTypes.number,
+      popupWidth:        PropTypes.number.isRequired,
     };
   }
   static get defaultProps() {
     return {
-      index:      null,
-      popupWidth: null,
+      index: null,
     };
   }
   componentDidMount() {

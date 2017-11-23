@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
 import { routerReducer }   from 'react-router-redux';
 
+const defaultPopupWidth = 700;
+
 const popupWidth = (state = null, action) => {
   switch (action.type) {
     case 'POPUP_WIDTH':
-      return action.payload;
+      return action.payload || defaultPopupWidth;
     default:
       return state;
   }
