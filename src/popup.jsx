@@ -20,6 +20,7 @@ import {
   Route,
 } from 'react-router-dom';
 
+import './content_script';
 import Popup from './containers/Popup';
 import reducers from './reducers/popup';
 import rootSaga from './sagas/popup';
