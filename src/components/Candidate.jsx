@@ -9,15 +9,16 @@ function imageURL(type) {
 const Candidate = ({ item, isSelected }) => (
   <div className={isSelected ? 'candidate selected' : 'candidate'}>
     <img className="candidate-icon" src={imageURL(item.type)} alt={item.type} />
-    <span>{item.id}</span>
+    <span>{item.label}</span>
   </div>
 );
 
 Candidate.propTypes = {
   item: PropTypes.shape({
-    id:   PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
+    id:    PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+    type:  PropTypes.string.isRequired,
+    name:  PropTypes.string.isRequired,
   }).isRequired,
   isSelected: PropTypes.bool.isRequired,
 };
