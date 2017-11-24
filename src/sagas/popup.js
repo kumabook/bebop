@@ -102,7 +102,6 @@ export default function* root() {
   yield [
     fork(dispatchPopupWidth),
     fork(passAction('COMMAND')),
-    fork(passAction('MESSAGE')),
     fork(watchQuery),
     fork(watchKeySequence),
     fork(watchPort),
