@@ -1,6 +1,6 @@
 {
   "name": "bebop",
-  "version": "0.0.4.1",
+  "version": "0.0.5",
   "manifest_version": 2,
   "description": "Offer emacs key-bindings and command line interface like helm",
   "applications": {
