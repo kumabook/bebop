@@ -26,7 +26,20 @@ class Popup extends React.Component {
     };
   }
   componentDidMount() {
-    setTimeout(() => this.input.focus(), 100);
+    setTimeout(() => {
+      this.input.focus();
+      document.scrollingElement.scrollTo(0, 0);
+    }, 100);
+  }
+  componentDidUpdate() {
+    if (this.selectedCandidate) {
+      const container       = document.scrollingElement;
+      const height          = container.clientHeight;
+      const { bottom, top } = this.selectedCandidate.getBoundingClientRect();
+      if (bottom > height || top < 0) {
+        this.selectedCandidate.scrollIntoView({ block: 'end' });
+      }
+    }
   }
   handleSubmit() {
     if (this.props.index !== null) {
@@ -42,6 +55,7 @@ class Popup extends React.Component {
         onSubmit={() => this.handleSubmit(this.input.value)}
       >
         <input
+          className="commandInput"
           ref={(input) => { this.input = input; }}
           type="text"
           value={this.props.query}
@@ -51,8 +65,20 @@ class Popup extends React.Component {
         />
         <ul className="candidatesList">
           {this.props.candidates.map((c, i) =>
-            <Candidate key={c.id} item={c} isSelected={i === this.props.index} />)
-          }
+            <li
+              key={c.id}
+              ref={(node) => {
+                  if (i === this.props.index) {
+                    this.selectedCandidate = node;
+                  }
+                }}
+            >
+              <Candidate
+                item={c}
+                isSelected={i === this.props.index}
+              />
+            </li>
+           )}
         </ul>
       </form>
     );
