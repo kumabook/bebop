@@ -1,6 +1,7 @@
 import browser from 'webextension-polyfill';
 
 const commands = [];
+const maxResults = 20;
 
 function contentCommands(q) {
   return commands
@@ -8,7 +9,7 @@ function contentCommands(q) {
     .map(name => ({
       id:    name,
       label: name,
-      type:  'content',
+      type: 'content',
       name,
     }));
 }
@@ -26,7 +27,8 @@ function tabCommands(q) {
 }
 
 function historyCommands(q) {
-  return browser.history.search({ text: q, startTime: 0 })
+  const startTime = 0;
+  return browser.history.search({ text: q, startTime, maxResults })
     .then(l => l.map(v => ({
       id:    `${v.id}`,
       label: `${v.title}:${v.url}`,
@@ -37,8 +39,11 @@ function historyCommands(q) {
 }
 
 function bookmarkCommands(q) {
+  if (q.length === 0) {
+    return Promise.resolve([]);
+  }
   return browser.bookmarks.search({ query: q })
-    .then(l => l.map(v => ({
+    .then(l => l.slice(0, maxResults).map(v => ({
       id:    `${v.id}`,
       label: `${v.title}:${v.url}`,
       type:  'bookmark',
