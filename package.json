@@ -18,7 +18,8 @@
     "stylelint": "stylelint \"./{popup,options_ui}/*.css\" --ignore-pattern normalize.css --fix",
     "pretest": "npm run lint",
     "test": "cross-env NODE_ENV=test nyc ava \"test/**/*.test.{js,jsx}\"",
-    "test:watch": "npm test -- --watch"
+    "test:watch": "npm test -- --watch",
+    "coverage": "cross-env NODE_ENV=test nyc report --reporter=text-lcov | coveralls"
   },
   "devDependencies": {
     "ava": "^0.23.0",
