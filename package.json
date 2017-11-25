@@ -9,13 +9,16 @@
     "get-unbranded-firefox": "get-firefox -ecb unbranded-release",
     "build": "webpack && web-ext build --overwrite-dest -i web-ext-artifacts/ src/ \"**/*~\"",
     "start": "webpack && web-ext run -i web-ext-artifacts/ src/ \"**/*~\" --bc -f $FIREFOX_BINARY",
-    "sign": "NODE_ENV=production webpack && web-ext sign -i web-ext-artifacts/ src/ \"**/*~\" --api-key $API_KEY --api-secret $API_SECRET",
-    "release": "NODE_ENV=production npm run build",
+    "sign": "cross-env NODE_ENV=production webpack && web-ext sign -i web-ext-artifacts/ src/ \"**/*~\" --api-key $API_KEY --api-secret $API_SECRET",
+    "release": "cross-env NODE_ENV=production npm run build",
     "pack": "git archive HEAD --output=bebop.zip",
     "watch": "webpack --watch",
     "lint": "npm run eslint && npm run stylelint",
-    "eslint": "eslint \"src/**/*.js?(x)\" \"test/**/*.spec.{js,jsx}\"",
-    "stylelint": "stylelint \"./{popup,options_ui}/*.css\" --ignore-pattern normalize.css --fix"
+    "eslint": "eslint \"src/**/*.js?(x)\" \"test/**/*.{js,jsx}\"",
+    "stylelint": "stylelint \"./{popup,options_ui}/*.css\" --ignore-pattern normalize.css --fix",
+    "pretest": "npm run lint",
+    "test": "cross-env NODE_ENV=test nyc ava \"test/**/*.test.{js,jsx}\"",
+    "test:watch": "npm test -- --watch"
   },
   "devDependencies": {
     "ava": "^0.23.0",
