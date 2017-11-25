@@ -1,0 +1,15 @@
+{
+  "require": [
+    "./test/setup.js",
+    "babel-register",
+    "babel-polyfill"
+  ],
+  "include": ["src/**/*.{js,jsx}"],
+  "exclude": ["test/**/*.test.js"],
+  "reporter": [
+    "text-summary",
+    "clover"
+  ],
+  "sourceMap": false,
+  "instrument": false
+}
