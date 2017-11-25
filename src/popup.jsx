@@ -31,11 +31,10 @@ if (process.env.NODE_ENV === 'production') {
 
 const history = createHistory();
 const sagaMiddleware = createSagaMiddleware();
-const store = createStore(reducers, applyMiddleware(sagaMiddleware,
-                                                    routerMiddleware(history)));
+const store = createStore(reducers, applyMiddleware(sagaMiddleware, routerMiddleware(history)));
 sagaMiddleware.run(rootSaga);
 
-ReactDOM.render(
+const element = (
   <Provider store={store}>
     <ConnectedRouter history={history}>
       <HashRouter>
@@ -44,4 +43,7 @@ ReactDOM.render(
         </Switch>
       </HashRouter>
     </ConnectedRouter>
-  </Provider>, document.getElementById('container'));
+  </Provider>
+);
+
+ReactDOM.render(element, document.getElementById('container'));

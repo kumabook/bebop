@@ -65,7 +65,7 @@ function handlePopupMessage(msg) {
 }
 
 browser.runtime.onConnect.addListener((port) => {
-  const name = port.name;
+  const { name } = port;
   logger.info(`connect channel: ${name}`);
   if (name.startsWith('content-script')) {
     contentScriptPorts[name] = port;

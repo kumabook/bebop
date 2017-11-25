@@ -24,7 +24,10 @@ const sagaMiddleware = createSagaMiddleware();
 const store = createStore(reducers, applyMiddleware(sagaMiddleware));
 sagaMiddleware.run(rootSaga);
 
-ReactDOM.render(
+const element = (
   <Provider store={store}>
     <Options />
-  </Provider>, document.getElementById('container'));
+  </Provider>
+);
+
+ReactDOM.render(element, document.getElementById('container'));

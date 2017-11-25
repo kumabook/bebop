@@ -31,11 +31,11 @@ const candidates = (state = { index: null, items: [] }, action) => {
       return normalize({ index: state.index, items: action.payload });
     case 'NEXT_CANDIDATE': {
       const i = state.index;
-      return normalize({ index: (isNaN(i) ? -1 : i) + 1, items: state.items });
+      return normalize({ index: (Number.isNaN(i) ? -1 : i) + 1, items: state.items });
     }
     case 'PREVIOUS_CANDIDATE': {
       const i = state.index;
-      return normalize({ index: (isNaN(i) ? 0 : i) - 1, items: state.items });
+      return normalize({ index: (Number.isNaN(i) ? 0 : i) - 1, items: state.items });
     }
     default:
       return state;

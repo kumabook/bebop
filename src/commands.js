@@ -9,21 +9,20 @@ function contentCommands(q) {
     .map(name => ({
       id:    name,
       label: name,
-      type: 'content',
+      type:  'content',
       name,
     }));
 }
 
 function tabCommands(q) {
   return browser.tabs.query({})
-    .then(l => l.filter(t => t.title.includes(q) || t.url.includes(q))
-                .map(t => ({
-                  id:    `${t.id}`,
-                  label: `${t.title}: ${t.url}`,
-                  type:  'tab',
-                  name:  'move-tab',
-                  args:  [t.id, t.windowId],
-                })));
+    .then(l => l.filter(t => t.title.includes(q) || t.url.includes(q)).map(t => ({
+      id:    `${t.id}`,
+      label: `${t.title}: ${t.url}`,
+      type:  'tab',
+      name:  'move-tab',
+      args:  [t.id, t.windowId],
+    })));
 }
 
 function historyCommands(q) {

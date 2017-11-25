@@ -1,6 +1,6 @@
 import browser from 'webextension-polyfill';
 
-export function getMessage(key) {
+export default function getMessage(key) {
   if (typeof browser === 'undefined') {
     return key;
   }

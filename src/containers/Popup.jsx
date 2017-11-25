@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { getMessage } from '../utils/i18n';
+import getMessage from '../utils/i18n';
 import Candidate from '../components/Candidate';
 import keySequence from '../key_sequences';
 import { commandOfSeq } from '../sagas/popup';
@@ -64,21 +64,21 @@ class Popup extends React.Component {
           placeholder={getMessage('commandInput_placeholder')}
         />
         <ul className="candidatesList">
-          {this.props.candidates.map((c, i) =>
+          {this.props.candidates.map((c, i) => (
             <li
               key={c.id}
               ref={(node) => {
-                  if (i === this.props.index) {
-                    this.selectedCandidate = node;
-                  }
-                }}
+                if (i === this.props.index) {
+                  this.selectedCandidate = node;
+                }
+              }}
             >
               <Candidate
                 item={c}
                 isSelected={i === this.props.index}
               />
-            </li>
-           )}
+            </li>))
+          }
         </ul>
       </form>
     );

@@ -2,12 +2,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getMessage } from '../utils/i18n';
+import getMessage from '../utils/i18n';
 
 class Options extends React.Component {
   static get propTypes() {
     return {
-      popupWidth:        PropTypes.number.isRequired,
+      popupWidth:             PropTypes.number.isRequired,
       handlePopupWidthChange: PropTypes.func.isRequired,
     };
   }
@@ -16,7 +16,7 @@ class Options extends React.Component {
     };
   }
   handlePopupWidthChange(e) {
-    if (!isNaN(e.target.valueAsNumber)) {
+    if (!Number.isNaN(e.target.valueAsNumber)) {
       this.props.handlePopupWidthChange(e.target.valueAsNumber);
     }
   }
