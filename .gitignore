@@ -44,3 +44,9 @@ bundle.js.map
 
 # web-ext
 web-ext-artifacts/
+
+# nyc
+.nyc_output/
+
+# env
+.envrc
