@@ -32,7 +32,7 @@ export function getPort(name) {
   if (ports[name]) {
     return ports[name];
   }
-  if (typeof browser === 'undefined') {
+  if (typeof browser === 'undefined' || browser.runtime === undefined) {
     const port = createDummyPort();
     ports[name] = port;
     return port;
