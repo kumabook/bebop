@@ -10,6 +10,7 @@
     "build": "webpack && web-ext build --overwrite-dest -i web-ext-artifacts/ src/ \"**/*~\"",
     "start": "webpack && web-ext run -i web-ext-artifacts/ src/ \"**/*~\" --bc -f $FIREFOX_BINARY",
     "sign": "NODE_ENV=production webpack && web-ext sign -i web-ext-artifacts/ src/ \"**/*~\" --api-key $API_KEY --api-secret $API_SECRET",
+    "release": "NODE_ENV=production npm run build",
     "pack": "git archive HEAD --output=bebop.zip",
     "watch": "webpack --watch"
   },
