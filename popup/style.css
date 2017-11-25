@@ -1,39 +1,39 @@
 .commandForm {
-    margin: 0;
-    width: 100%;
+  margin: 0;
+  width: 100%;
 }
 
 .commandInput {
-    position: fixed;
-    margin: 0;
-    width: 100%;
-    padding: 8px;
-    top: 0px;
-    height: 36px;
+  position: fixed;
+  margin: 0;
+  width: 100%;
+  padding: 8px;
+  top: 0;
+  height: 36px;
 }
 
 .candidatesList {
-    list-style-type: none;
-    margin: 0;
-    padding: 36px 0 0 0;
+  list-style-type: none;
+  margin: 0;
+  padding: 36px 0 0;
 }
 
 .candidate {
-    display: block;
-    padding: 8px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
+  display: block;
+  padding: 8px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .candidate.selected {
-    background-color: #87CEFA;
+  background-color: #87cefa;
 }
 
 .candidate-icon {
-    vertical-align: middle;
-    width: 12px;
-    height: 12px;
-    margin: 0 8px 0 0;
-    padding: 0;
+  vertical-align: middle;
+  width: 12px;
+  height: 12px;
+  margin: 0 8px 0 0;
+  padding: 0;
 }
