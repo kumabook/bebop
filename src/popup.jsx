@@ -4,7 +4,7 @@ import ReactDOM      from 'react-dom';
 import createHistory from 'history/createHashHistory';
 import {
   Provider,
-}  from 'react-redux';
+} from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
 import {
   applyMiddleware,
