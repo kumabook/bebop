@@ -32,7 +32,7 @@ class Popup extends React.Component {
     }, 100);
   }
   componentDidUpdate() {
-    if (this.selectedCandidate) {
+    if (this.selectedCandidate && document.scrollingElement) {
       const container       = document.scrollingElement;
       const height          = container.clientHeight;
       const { bottom, top } = this.selectedCandidate.getBoundingClientRect();
