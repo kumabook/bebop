@@ -1,6 +1,7 @@
 const { JSDOM } = require('jsdom');
 const enzyme    = require('enzyme');
 const Adapter   = require('enzyme-adapter-react-16');
+const logger    = require('kiroku');
 const browser   = require('./browser_mock');
 
 const jsdom = new JSDOM('<!doctype html><html><body></body></html>');
@@ -25,3 +26,4 @@ global.chrome = null;
 copyProps(window, global);
 
 enzyme.configure({ adapter: new Adapter() });
+logger.setLevel('FATAL');
