@@ -1,0 +1,11 @@
+export NODE_ENV=development
+export IGNORE_FILES="web-ext-artifacts/ src/ test/"
+export FIREFOX_BINARY=/Applications/FirefoxDeveloperEdition.app/
+export FIREFOX_PROFILE=~/Library/Application\ Support/Firefox/Profiles/xxxxxx.default
+export API_KEY=user:00000000
+export API_SECRET=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+export EXTENSION_ID=xxxxxxxxxxx
+export CLIENT_ID=xxxxxxxxxxxxxxx
+export CLIENT_SECRET=xxxxxxxx
+export REFRESH_TOKEN=xxxxxxxxx
+export VERSION=x.x.x

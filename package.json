@@ -7,10 +7,10 @@
   "license": "MIT",
   "scripts": {
     "get-unbranded-firefox": "get-firefox -ecb unbranded-release",
-    "build": "webpack && web-ext build --overwrite-dest -i web-ext-artifacts/ src/ \"**/*~\"",
+    "build": "webpack && web-ext build --overwrite-dest -i $IGNORE_FILES -i \"**/*~\"",
     "build:release": "cross-env NODE_ENV=production npm run build",
-    "start": "webpack && web-ext run -i web-ext-artifacts/ src/ \"**/*~\" --bc -f $FIREFOX_BINARY",
-    "sign": "web-ext sign -i web-ext-artifacts/ src/ \"**/*~\" --api-key $API_KEY --api-secret $API_SECRET",
+    "start": "webpack && web-ext run -i $IGNORE_FILES -i \"**/*~\" --bc -f $FIREFOX_BINARY",
+    "sign": "web-ext sign -i $IGNORE_FILES -i \"**/*~\" --api-key $API_KEY --api-secret $API_SECRET",
     "webstore": "webstore upload --source web-ext-artifacts/bebop-$VERSION.zip --extension-id $EXTENSION_ID --client-id $CLIENT_ID --client-secret $CLIENT_SECRET --refresh-token $REFRESH_TOKEN --auto-publish",
     "release:firefox": "npm run build:release && npm run sign",
     "release:chrome": "npm run build:release && npm run webstore",
