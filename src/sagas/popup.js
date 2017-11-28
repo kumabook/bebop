@@ -1,4 +1,3 @@
-import browser from 'webextension-polyfill';
 import {
   fork,
   takeEvery,
@@ -39,9 +38,7 @@ export const commandOfSeq = {
   down:  dispatchAction('NEXT_CANDIDATE'),
 };
 
-function* dispatchPopupWidth() {
-  const { popupWidth } = yield browser.storage.local.get('popupWidth');
-  yield put({ type: 'POPUP_WIDTH', payload: popupWidth });
+function* dispatchEmptyQuery() {
   yield put({ type: 'QUERY', payload: '' });
 }
 
@@ -100,12 +97,12 @@ function* routerSaga() {
 
 export default function* root() {
   yield [
-    fork(dispatchPopupWidth),
     fork(passAction('COMMAND')),
     fork(watchQuery),
     fork(watchKeySequence),
     fork(watchPort),
     fork(watchClose),
     fork(routerSaga),
+    fork(dispatchEmptyQuery),
   ];
 }

@@ -1,4 +1,5 @@
 import 'regenerator-runtime/runtime';
+import browser       from 'webextension-polyfill';
 import React         from 'react';
 import ReactDOM      from 'react-dom';
 import createHistory from 'history/createHashHistory';
@@ -46,4 +47,13 @@ const element = (
   </Provider>
 );
 
-ReactDOM.render(element, document.getElementById('container'));
+
+window.onload = () => {
+  const container = document.getElementById('container');
+  ReactDOM.render(element, container);
+};
+
+browser.storage.local.get('popupWidth').then(({ popupWidth }) => {
+  const width = popupWidth || 700;
+  document.body.style.width = `${width}px`;
+});

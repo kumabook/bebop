@@ -1,17 +1,6 @@
 import { combineReducers } from 'redux';
 import { routerReducer }   from 'react-router-redux';
 
-const defaultPopupWidth = 700;
-
-const popupWidth = (state = defaultPopupWidth, action) => {
-  switch (action.type) {
-    case 'POPUP_WIDTH':
-      return action.payload || defaultPopupWidth;
-    default:
-      return state;
-  }
-};
-
 const query = (state = '', action) => {
   switch (action.type) {
     case 'QUERY':
@@ -46,7 +35,6 @@ const rootReducer = combineReducers({
   router: routerReducer,
   query,
   candidates,
-  popupWidth,
 });
 
 export default rootReducer;
