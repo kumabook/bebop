@@ -1,6 +1,6 @@
 {
   "name": "bebop",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "main": "index.js",
   "repository": "https://github.com/kumabook/bebop",
   "author": "Hiroki Kumamoto <kumabook@live.jp>",
