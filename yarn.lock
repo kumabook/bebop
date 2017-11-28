@@ -1389,7 +1389,7 @@ boxen@^1.0.0, boxen@^1.2.1:
     term-size "^1.2.0"
     widest-line "^1.0.0"
 
-brace-expansion@^1.1.7:
+brace-expansion@^1.0.0, brace-expansion@^1.1.7:
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-1.1.8.tgz#c07b211c7c952ec1f8efd51a77ef0d1d3990a292"
   dependencies:
@@ -1685,6 +1685,25 @@ chokidar@^1.4.2, chokidar@^1.4.3, chokidar@^1.7.0:
   optionalDependencies:
     fsevents "^1.0.0"
 
+chrome-webstore-upload-cli@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/chrome-webstore-upload-cli/-/chrome-webstore-upload-cli-1.1.1.tgz#3f8a3211c4d6f474ba3ca597e2bcb9aab227d44b"
+  dependencies:
+    chalk "^1.1.3"
+    chrome-webstore-upload "^0.2.0"
+    junk "^1.0.2"
+    meow "^3.7.0"
+    ora "^0.2.3"
+    pify "^2.3.0"
+    recursive-readdir "^2.0.0"
+    yazl "^2.3.1"
+
+chrome-webstore-upload@^0.2.0:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/chrome-webstore-upload/-/chrome-webstore-upload-0.2.1.tgz#eb3442edd89eb553c8b90ab85e4c43c454d67d57"
+  dependencies:
+    got "^6.3.0"
+
 ci-info@^1.0.0:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/ci-info/-/ci-info-1.1.2.tgz#03561259db48d0474c8bdc90f5b47b068b6bbfb4"
@@ -1712,7 +1731,7 @@ cli-boxes@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/cli-boxes/-/cli-boxes-1.0.0.tgz#4fa917c3e59c94a004cd61f8ee509da651687143"
 
-cli-cursor@^1.0.1:
+cli-cursor@^1.0.1, cli-cursor@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/cli-cursor/-/cli-cursor-1.0.2.tgz#64da3f7d56a54412e59794bd62dc35295e8f2987"
   dependencies:
@@ -1723,6 +1742,10 @@ cli-cursor@^2.1.0:
   resolved "https://registry.yarnpkg.com/cli-cursor/-/cli-cursor-2.1.0.tgz#b35dac376479facc3e94747d41d0d0f5238ffcb5"
   dependencies:
     restore-cursor "^2.0.0"
+
+cli-spinners@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/cli-spinners/-/cli-spinners-0.1.2.tgz#bb764d88e185fb9e1e6a2a1f19772318f605e31c"
 
 cli-spinners@^1.0.0:
   version "1.1.0"
@@ -3443,7 +3466,7 @@ globjoin@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/globjoin/-/globjoin-0.1.4.tgz#2f4494ac8919e3767c5cbb691e9f463324285d43"
 
-got@^6.7.1:
+got@^6.3.0, got@^6.7.1:
   version "6.7.1"
   resolved "https://registry.yarnpkg.com/got/-/got-6.7.1.tgz#240cd05785a9a18e561dc1b44b41c763ef1e8db0"
   dependencies:
@@ -4335,6 +4358,10 @@ jszip@^2.4.0:
   dependencies:
     pako "~1.0.2"
 
+junk@^1.0.2:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/junk/-/junk-1.0.3.tgz#87be63488649cbdca6f53ab39bec9ccd2347f592"
+
 jwa@^1.1.4:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/jwa/-/jwa-1.1.5.tgz#a0552ce0220742cd52e153774a32905c30e756e5"
@@ -4707,6 +4734,12 @@ minimalistic-crypto-utils@^1.0.0, minimalistic-crypto-utils@^1.0.1:
   resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.0.4.tgz#5166e286457f03306064be5497e8dbb0c3d32083"
   dependencies:
     brace-expansion "^1.1.7"
+
+minimatch@3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.0.3.tgz#2a4e4090b96b2db06a9d7df01055a62a77c9b774"
+  dependencies:
+    brace-expansion "^1.0.0"
 
 minimist@0.0.8:
   version "0.0.8"
@@ -5083,6 +5116,15 @@ optionator@^0.8.1, optionator@^0.8.2:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
     wordwrap "~1.0.0"
+
+ora@^0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/ora/-/ora-0.2.3.tgz#37527d220adcd53c39b73571d754156d5db657a4"
+  dependencies:
+    chalk "^1.1.1"
+    cli-cursor "^1.0.2"
+    cli-spinners "^0.1.2"
+    object-assign "^4.0.1"
 
 original@>=0.0.5:
   version "1.0.0"
@@ -5792,6 +5834,12 @@ rechoir@^0.6.2:
   resolved "https://registry.yarnpkg.com/rechoir/-/rechoir-0.6.2.tgz#85204b54dba82d5742e28c96756ef43af50e3384"
   dependencies:
     resolve "^1.1.6"
+
+recursive-readdir@^2.0.0:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/recursive-readdir/-/recursive-readdir-2.2.1.tgz#90ef231d0778c5ce093c9a48d74e5c5422d13a99"
+  dependencies:
+    minimatch "3.0.3"
 
 redent@^1.0.0:
   version "1.0.0"
@@ -7589,6 +7637,12 @@ yauzl@^2.4.2:
   dependencies:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.0.1"
+
+yazl@^2.3.1:
+  version "2.4.3"
+  resolved "https://registry.yarnpkg.com/yazl/-/yazl-2.4.3.tgz#ec26e5cc87d5601b9df8432dbdd3cd2e5173a071"
+  dependencies:
+    buffer-crc32 "~0.2.3"
 
 zip-dir@1.0.2:
   version "1.0.2"

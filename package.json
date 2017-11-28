@@ -8,9 +8,12 @@
   "scripts": {
     "get-unbranded-firefox": "get-firefox -ecb unbranded-release",
     "build": "webpack && web-ext build --overwrite-dest -i web-ext-artifacts/ src/ \"**/*~\"",
+    "build:release": "cross-env NODE_ENV=production npm run build",
     "start": "webpack && web-ext run -i web-ext-artifacts/ src/ \"**/*~\" --bc -f $FIREFOX_BINARY",
-    "sign": "cross-env NODE_ENV=production webpack && web-ext sign -i web-ext-artifacts/ src/ \"**/*~\" --api-key $API_KEY --api-secret $API_SECRET",
-    "release": "cross-env NODE_ENV=production npm run build",
+    "sign": "web-ext sign -i web-ext-artifacts/ src/ \"**/*~\" --api-key $API_KEY --api-secret $API_SECRET",
+    "webstore": "webstore upload --source web-ext-artifacts/bebop-$VERSION.zip --extension-id $EXTENSION_ID --client-id $CLIENT_ID --client-secret $CLIENT_SECRET --refresh-token $REFRESH_TOKEN --auto-publish",
+    "release:firefox": "npm run build:release && npm run sign",
+    "release:chrome": "npm run build:release && npm run webstore",
     "pack": "git archive HEAD --output=bebop.zip",
     "watch": "webpack --watch",
     "lint": "npm run eslint && npm run stylelint",
@@ -23,6 +26,7 @@
   },
   "devDependencies": {
     "ava": "^0.23.0",
+    "chrome-webstore-upload-cli": "^1.1.1",
     "coveralls": "^3.0.0",
     "get-firefox": "^1.5.0"
   },
