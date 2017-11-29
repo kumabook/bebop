@@ -40,9 +40,20 @@ class Popup extends React.Component {
       }
     }
   }
+  getSelectedCommand() {
+    if (this.props.index === null) {
+      return null;
+    }
+    const candidate = this.props.candidates[this.props.index];
+    if (candidate.type === 'search') {
+      candidate.args = [this.input.value];
+    }
+    return candidate;
+  }
   handleSubmit() {
-    if (this.props.index !== null) {
-      this.props.handleCommand(this.props.candidates[this.props.index]);
+    const command = this.getSelectedCommand();
+    if (command !== null) {
+      this.props.handleCommand(command);
     }
   }
   render() {
