@@ -1,4 +1,6 @@
+/* global URL: false */
 import browser from 'webextension-polyfill';
+import { getFaviconUrl } from './utils/url';
 
 const commands = [];
 const maxResults = 20;
@@ -17,11 +19,12 @@ function contentCommands(q) {
 function tabCommands(q) {
   return browser.tabs.query({})
     .then(l => l.filter(t => t.title.includes(q) || t.url.includes(q)).map(t => ({
-      id:    `${t.id}`,
-      label: `${t.title}: ${t.url}`,
-      type:  'tab',
-      name:  'move-tab',
-      args:  [t.id, t.windowId],
+      id:         `${t.id}`,
+      label:      `${t.title}: ${t.url}`,
+      type:       'tab',
+      name:       'move-tab',
+      args:       [t.id, t.windowId],
+      faviconUrl: t.favIconUrl,
     })));
 }
 
@@ -29,11 +32,12 @@ function historyCommands(q) {
   const startTime = 0;
   return browser.history.search({ text: q, startTime, maxResults })
     .then(l => l.map(v => ({
-      id:    `${v.id}`,
-      label: `${v.title}:${v.url}`,
-      type:  'history',
-      name:  'open-history',
-      args:  [v.url],
+      id:         `${v.id}`,
+      label:      `${v.title}:${v.url}`,
+      type:       'history',
+      name:       'open-history',
+      args:       [v.url],
+      faviconUrl: getFaviconUrl(v.url),
     })));
 }
 
@@ -43,21 +47,23 @@ function bookmarkCommands(q) {
   }
   return browser.bookmarks.search({ query: q })
     .then(l => l.slice(0, maxResults).map(v => ({
-      id:    `${v.id}`,
-      label: `${v.title}:${v.url}`,
-      type:  'bookmark',
-      name:  'open-bookmark',
-      args:  [v.url],
+      id:         `${v.id}`,
+      label:      `${v.title}:${v.url}`,
+      type:       'bookmark',
+      name:       'open-bookmark',
+      args:       [v.url],
+      faviconUrl: getFaviconUrl(v.url),
     })));
 }
 
 function searchCommands(q) {
   return Promise.resolve([{
-    id:    `google-seach-${q}`,
-    label: `${q} － Search with Google`,
-    type:  'search',
-    name:  'google-search',
-    args:  [q],
+    id:         `google-seach-${q}`,
+    label:      `${q} － Search with Google`,
+    type:       'search',
+    name:       'google-search',
+    args:       [q],
+    faviconUrl: browser.extension.getURL('images/search.png'),
   }]);
 }
 
