@@ -18,6 +18,7 @@ browser.runtime.onConnect = {
   addListener:    () => {},
   removeListener: () => {},
 };
+browser.runtime.browserInfo = () => Promise.resolve({ name: 'Firefox' });
 
 browser.storage = {
   local: {
