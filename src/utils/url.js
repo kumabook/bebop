@@ -15,7 +15,7 @@ export function init() {
 }
 
 export function extractDomain(url) {
-  if (url.startsWith('moz-extension:') || url.startsWith('file:')) {
+  if (!url || url.startsWith('moz-extension:') || url.startsWith('file:')) {
     return null;
   }
   try {

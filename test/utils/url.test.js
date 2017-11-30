@@ -31,6 +31,7 @@ test('getFaviconUrl returns favison url from web page url', async (t) => {
   t.is(getFaviconUrl(fileUrl), null);
   t.is(getFaviconUrl(extensionUrl), null);
   t.is(getFaviconUrl(invalidUrl), null);
+  t.is(getFaviconUrl(null), null);
 
   setupBrowserInfo('chrome');
   await init();
