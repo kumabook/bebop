@@ -27,15 +27,17 @@ function dispatchAction(type) {
 }
 
 export const commandOfSeq = {
-  'C-f': cursor.forwardChar,
-  'C-b': cursor.backwardChar,
-  'C-a': cursor.beginningOfLine,
-  'C-e': cursor.endOfLine,
-  'C-n': dispatchAction('NEXT_CANDIDATE'),
-  'C-p': dispatchAction('PREVIOUS_CANDIDATE'),
-  'C-h': cursor.deleteBackwardChar,
-  up:    dispatchAction('PREVIOUS_CANDIDATE'),
-  down:  dispatchAction('NEXT_CANDIDATE'),
+  'C-f':   cursor.forwardChar,
+  'C-b':   cursor.backwardChar,
+  'C-a':   cursor.beginningOfLine,
+  'C-e':   cursor.endOfLine,
+  'C-n':   dispatchAction('NEXT_CANDIDATE'),
+  'C-p':   dispatchAction('PREVIOUS_CANDIDATE'),
+  'C-h':   cursor.deleteBackwardChar,
+  up:      dispatchAction('PREVIOUS_CANDIDATE'),
+  down:    dispatchAction('NEXT_CANDIDATE'),
+  tab:     dispatchAction('NEXT_CANDIDATE'),
+  'S-tab': dispatchAction('PREVIOUS_CANDIDATE'),
 };
 
 function* dispatchEmptyQuery() {

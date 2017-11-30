@@ -23,6 +23,7 @@ characterMap[191] = '?';
 characterMap[32]  = ' ';
 characterMap[38]  = 'up';
 characterMap[40]  = 'down';
+characterMap[9]   = 'tab';
 
 export default function keySequence(keyEvent) {
   let code = String.fromCharCode(keyEvent.keyCode).toLowerCase();
@@ -35,10 +36,15 @@ export default function keySequence(keyEvent) {
   } else if (characterMap[keyEvent.keyCode]) {
     code = characterMap[keyEvent.keyCode];
   }
+  let prefix = '';
   if (keyEvent.ctrlKey) {
-    return `C-${code}`;
-  } else if (keyEvent.metaKey) {
-    return `M-${code}`;
+    prefix += 'C-';
   }
-  return code;
+  if (keyEvent.metaKey) {
+    prefix += 'M-';
+  }
+  if (keyEvent.shiftKey) {
+    prefix += 'S-';
+  }
+  return `${prefix}${code}`;
 }
