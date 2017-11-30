@@ -44,14 +44,26 @@ class Popup extends React.Component {
     if (this.props.index === null) {
       return null;
     }
-    const candidate = this.props.candidates[this.props.index];
-    if (candidate.type === 'search') {
-      candidate.args = [this.input.value];
+    return this.normalizeCommand(this.props.candidates[this.props.index]);
+  }
+  normalizeCommand(command) {
+    if (!command) {
+      return null;
     }
-    return candidate;
+    if (command.type === 'search') {
+      // eslint-disable-next-line no-param-reassign
+      command.args = [this.input.value];
+    }
+    return command;
   }
   handleSubmit() {
     const command = this.getSelectedCommand();
+    if (command !== null) {
+      this.props.handleCommand(command);
+    }
+  }
+  handleCandidateClick(index) {
+    const command = this.normalizeCommand(this.props.candidates[index]);
     if (command !== null) {
       this.props.handleCommand(command);
     }
@@ -84,6 +96,7 @@ class Popup extends React.Component {
               <Candidate
                 item={c}
                 isSelected={i === this.props.index}
+                onClick={() => this.handleCandidateClick(i)}
               />
             </li>))
           }

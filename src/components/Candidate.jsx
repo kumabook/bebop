@@ -2,6 +2,8 @@ import browser from 'webextension-polyfill';
 import React     from 'react';
 import PropTypes from 'prop-types';
 
+function noop() {}
+
 function imageURL(type) {
   return browser.extension.getURL(`images/${type}.png`);
 }
@@ -23,8 +25,14 @@ function faviconImg(url) {
   return <img className="candidate-icon" src={src} alt="favicon" />;
 }
 
-const Candidate = ({ item, isSelected }) => (
-  <div className={isSelected ? 'candidate selected' : 'candidate'}>
+const Candidate = ({ item, isSelected, onClick }) => (
+  <div
+    className={isSelected ? 'candidate selected' : 'candidate'}
+    role="button"
+    onClick={onClick}
+    onKeyUp={noop}
+    tabIndex={0}
+  >
     {commandTypeImg(item.type)}
     {faviconImg(item.faviconUrl)}
     <span className="candidate-label">{item.label}</span>
@@ -40,6 +48,7 @@ Candidate.propTypes = {
     faviconUrl: PropTypes.string,
   }).isRequired,
   isSelected: PropTypes.bool.isRequired,
+  onClick:    PropTypes.func.isRequired,
 };
 
 export default Candidate;
