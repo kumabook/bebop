@@ -1,8 +1,10 @@
+import { delay } from 'redux-saga';
 import {
   fork,
-  takeEvery,
-  call,
   take,
+  takeEvery,
+  takeLatest,
+  call,
   put,
 } from 'redux-saga/effects';
 import {
@@ -25,6 +27,8 @@ function dispatchAction(type) {
     yield put({ type });
   };
 }
+
+const debounceDelayMs = 100;
 
 export const commandOfSeq = {
   'C-f':   cursor.forwardChar,
@@ -55,7 +59,8 @@ function passAction(type) {
 }
 
 function* watchQuery() {
-  yield takeEvery('QUERY', function* searchCandidates({ payload }) {
+  yield takeLatest('QUERY', function* searchCandidates({ payload }) {
+    yield call(delay, debounceDelayMs);
     const candidates = yield commands.candidates(payload);
     yield put({ type: 'CANDIDATES', payload: candidates });
   });
