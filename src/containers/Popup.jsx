@@ -27,7 +27,9 @@ class Popup extends React.Component {
   componentDidMount() {
     setTimeout(() => {
       this.input.focus();
-      document.scrollingElement.scrollTo(0, 0);
+      if (document.scrollingElement) {
+        document.scrollingElement.scrollTo(0, 0);
+      }
     }, 100);
   }
   componentDidUpdate() {
