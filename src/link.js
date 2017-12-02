@@ -29,6 +29,18 @@ export function search({ query = '', maxResults = 20 }) {
   }).slice(0, maxResults);
 }
 
+export function click({ index, url } = {}) {
+  const elements = getTargetElements();
+  for (let i = 0, len = elements.length; i < len; i += 1) {
+    const l = elements[i];
+    const selected = i === index && l.href === url;
+    if (selected) {
+      l.click();
+      return;
+    }
+  }
+}
+
 export function createHighlighter(rect) {
   const {
     left,

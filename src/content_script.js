@@ -2,7 +2,7 @@ import browser from 'webextension-polyfill';
 import logger from 'kiroku';
 import * as cursor from './cursor';
 import keySequence from './key_sequences';
-import { search, highlight, dehighlight } from './link';
+import { search, click, highlight, dehighlight } from './link';
 
 const portName = `content-script-${window.location.href}`;
 let port = null;
@@ -31,11 +31,12 @@ const commands = {
   'end-of-buffer':        cursor.endOfBuffer,
   'beginning-of-buffer':  cursor.beginningOfBuffer,
   'delete-backward-char': cursor.deleteBackwardChar,
+  'open-link':            click,
 };
 
-function executeCommand(name) {
+function executeCommand({ name, args }) {
   if (commands[name]) {
-    return commands[name]();
+    return commands[name].apply(this, args);
   }
   return null;
 }
@@ -102,6 +103,9 @@ function messageListener(request, sender, sendResponse) {
       break;
     case 'CHANGE_CANDIDATE':
       handleCandidateChange(request.payload);
+      break;
+    case 'COMMAND':
+      executeCommand(request.payload);
       break;
     default:
       break;

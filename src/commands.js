@@ -115,17 +115,20 @@ function activateTab(tabId) {
 }
 
 function execute(command, postCommandToContent) {
-  const { id, type, args } = command;
+  const { type, args } = command;
   switch (type) {
     case 'tab':
       activateTab.apply(this, args);
       break;
     case 'content': {
-      postCommandToContent(id);
+      postCommandToContent(command);
       break;
     }
     case 'search':
       googleSearch.apply(this, args);
+      break;
+    case 'link':
+      sendMessageToActiveTab({ type: 'COMMAND', payload: command });
       break;
     case 'history':
       open.apply(this, args);
