@@ -60,9 +60,13 @@ function handleCandidateChange(candidate) {
   }
 }
 
+function handleClose() {
+  dehighlight();
+}
+
 function portMessageListener(msg) {
   const { type, payload, targetUrl } = msg;
-  if (targetUrl !== window.location.href && type !== 'PLATFORM_INFO') {
+  if (targetUrl !== window.location.href && type === 'COMMAND') {
     logger.trace('This content script is not active.');
     return;
   }
@@ -70,6 +74,9 @@ function portMessageListener(msg) {
   switch (type) {
     case 'COMMAND':
       executeCommand(payload);
+      break;
+    case 'POPUP_CLOSE':
+      handleClose();
       break;
     case 'PLATFORM_INFO':
       switch (payload.os) {

@@ -87,6 +87,7 @@ browser.runtime.onConnect.addListener((port) => {
     port.onDisconnect.addListener(() => {
       delete popupPorts[name];
       port.onMessage.removeListener(handlePopupMessage);
+      postMessageToContentScript('POPUP_CLOSE');
     });
     port.onMessage.addListener(handlePopupMessage);
   }
