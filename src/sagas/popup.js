@@ -18,6 +18,7 @@ import {
 } from '../utils/port';
 import commands from '../commands';
 import * as cursor from '../cursor';
+import { sendMessageToActiveTab } from '../utils/tabs';
 
 const history = createHashHistory();
 const portName = `popup-${Date.now()}`;
@@ -89,6 +90,17 @@ function* watchPort() {
   }
 }
 
+
+function* watchSelectedCandidate() {
+  const actions = ['QUERY', 'NEXT_CANDIDATE', 'PREVIOUS_CANDIDATE'];
+  yield takeEvery(actions, function* handleSelectedCandidate() {
+    const { index, items } = yield select(state => state.candidates);
+    const candidate = items[index];
+    sendMessageToActiveTab({ type: 'CHANGE_CANDIDATE', payload: candidate })
+      .catch(() => {});
+  });
+}
+
 /**
  * Currently, we can't focus to an input form after tab changed.
  * So, we just close window.
@@ -130,6 +142,7 @@ export default function* root() {
     fork(watchTabChange),
     fork(watchQuery),
     fork(watchKeySequence),
+    fork(watchSelectedCandidate),
     fork(watchPort),
     fork(watchClose),
     fork(routerSaga),

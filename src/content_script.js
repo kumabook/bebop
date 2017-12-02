@@ -2,7 +2,7 @@ import browser from 'webextension-polyfill';
 import logger from 'kiroku';
 import * as cursor from './cursor';
 import keySequence from './key_sequences';
-import getLinks    from './link';
+import { search, highlight, dehighlight } from './link';
 
 const portName = `content-script-${window.location.href}`;
 let port = null;
@@ -51,6 +51,15 @@ function keydownListener(e) {
   }
 }
 
+function handleCandidateChange(candidate) {
+  dehighlight();
+  if (!candidate || candidate.type !== 'link') {
+    highlight();
+  } else {
+    highlight(candidate.args[0]);
+  }
+}
+
 function portMessageListener(msg) {
   const { type, payload, targetUrl } = msg;
   if (targetUrl !== window.location.href && type !== 'PLATFORM_INFO') {
@@ -82,7 +91,10 @@ function portMessageListener(msg) {
 function messageListener(request, sender, sendResponse) {
   switch (request.type) {
     case 'FETCH_LINKS':
-      sendResponse(getLinks(request.payload));
+      sendResponse(search(request.payload));
+      break;
+    case 'CHANGE_CANDIDATE':
+      handleCandidateChange(request.payload);
       break;
     default:
       break;
