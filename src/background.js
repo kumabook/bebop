@@ -25,6 +25,10 @@ function getContentScriptPorts() {
   return Object.values(contentScriptPorts);
 }
 
+function getPopupPorts() {
+  return Object.values(popupPorts);
+}
+
 browser.commands.onCommand.addListener((command) => {
   switch (command) {
     default:
@@ -87,6 +91,13 @@ browser.runtime.onConnect.addListener((port) => {
     port.onMessage.addListener(handlePopupMessage);
   }
   logger.info(`There are ${Object.values(contentScriptPorts).length} channel`);
+});
+
+browser.tabs.onActivated.addListener((payload) => {
+  getPopupPorts().forEach(p => p.postMessage({
+    type: 'TAB_CHANGED',
+    payload,
+  }));
 });
 
 logger.info('bebop is initialized.');

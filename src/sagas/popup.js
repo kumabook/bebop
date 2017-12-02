@@ -6,6 +6,7 @@ import {
   takeLatest,
   call,
   put,
+  select,
 } from 'redux-saga/effects';
 import {
   router,
@@ -88,6 +89,27 @@ function* watchPort() {
   }
 }
 
+/**
+ * Currently, we can't focus to an input form after tab changed.
+ * So, we just close window.
+ * If this restriction is change, we need to flag on.
+ */
+const canFocusToPopup = false;
+
+function* watchTabChange() {
+  yield takeLatest('TAB_CHANGED', function* searchCandidates() {
+    if (!canFocusToPopup) {
+      window.close();
+    } else {
+      yield call(delay, debounceDelayMs);
+      document.querySelector('.commandInput').focus();
+      const query = yield select(state => state.query);
+      const candidates = yield commands.candidates(query);
+      yield put({ type: 'CANDIDATES', payload: candidates });
+    }
+  });
+}
+
 function* watchClose() {
   yield takeEvery('CLOSE', () => window.close());
 }
@@ -105,6 +127,7 @@ function* routerSaga() {
 export default function* root() {
   yield [
     fork(passAction('COMMAND')),
+    fork(watchTabChange),
     fork(watchQuery),
     fork(watchKeySequence),
     fork(watchPort),
