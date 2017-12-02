@@ -2,6 +2,7 @@ import browser from 'webextension-polyfill';
 import logger from 'kiroku';
 import * as cursor from './cursor';
 import keySequence from './key_sequences';
+import getLinks    from './link';
 
 const portName = `content-script-${window.location.href}`;
 let port = null;
@@ -50,7 +51,7 @@ function keydownListener(e) {
   }
 }
 
-function messageListenner(msg) {
+function portMessageListener(msg) {
   const { type, payload, targetUrl } = msg;
   if (targetUrl !== window.location.href && type !== 'PLATFORM_INFO') {
     logger.trace('This content script is not active.');
@@ -78,8 +79,24 @@ function messageListenner(msg) {
   }
 }
 
+function messageListener(request, sender, sendResponse) {
+  switch (request.type) {
+    case 'FETCH_LINKS':
+      sendResponse(getLinks(request.payload));
+      break;
+    default:
+      break;
+  }
+}
+
 setTimeout(() => {
   port = browser.runtime.connect({ name: portName });
-  port.onMessage.addListener(messageListenner);
+  port.onMessage.addListener(portMessageListener);
+  const disconnectListener = () => {
+    port.onMessage.removeListener(messageListener);
+    port.onDisconnect.removeListener(disconnectListener);
+  };
+  port.onDisconnect.addListener(disconnectListener);
+  browser.runtime.onMessage.addListener(messageListener);
   logger.info('bebop content_script is loaded');
 }, 500);

@@ -67,10 +67,34 @@ function searchCommands(q) {
   }]);
 }
 
+function linkCommands(query) {
+  const options = { currentWindow: true, active: true };
+  return browser.tabs.query(options).then((tabs) => {
+    if (tabs.length > 0) {
+      return browser.tabs.sendMessage(tabs[0].id, {
+        type: 'FETCH_LINKS',
+        payload: {
+          query,
+          maxResults,
+        }
+      });
+    }
+    return Promise.resolve([]);
+  }).then((links) => links.map((l, index) => ({
+    id:         `content-link-${l.url}-${index}`,
+    label:      `${l.label}: ${l.url}`,
+    type:       'link',
+    name:       'open-link',
+    args:       [l],
+    faviconUrl: getFaviconUrl(l.url),
+  }))).catch(() => []);
+}
+
 function candidates(query) {
   const q = query.toLowerCase();
   return Promise.all([
     searchCommands(q),
+    linkCommands(q),
     tabCommands(q),
     historyCommands(q),
     bookmarkCommands(q),
