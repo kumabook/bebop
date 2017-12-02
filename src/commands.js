@@ -5,6 +5,8 @@ import { sendMessageToActiveTab } from './utils/tabs';
 
 const commands = [];
 const maxResults = 20;
+const defaultLinkMaxResults = 5;
+const linkMaxResults = 100;
 
 function contentCommands(q) {
   return commands
@@ -69,15 +71,15 @@ function searchCommands(q) {
 }
 
 function linkCommands(query) {
-  const options = { currentWindow: true, active: true };
+  const max = query.length === 0 ? defaultLinkMaxResults : maxResults;
   return sendMessageToActiveTab({
-    type: 'FETCH_LINKS',
+    type:    'FETCH_LINKS',
     payload: {
       query,
-      maxResults,
-    }
-  }).then((links) => links.map((l, index) => ({
-    id:         `content-link-${l.url}-${index}`,
+      maxResults: linkMaxResults,
+    },
+  }).then(links => links.slice(0, max).map(l => ({
+    id:         `content-link-${l.id}`,
     label:      `${l.label}: ${l.url}`,
     type:       'link',
     name:       'open-link',
