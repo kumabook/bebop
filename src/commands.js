@@ -1,6 +1,7 @@
 /* global URL: false */
 import browser from 'webextension-polyfill';
 import { getFaviconUrl } from './utils/url';
+import { sendMessageToActiveTab } from './utils/tabs';
 
 const commands = [];
 const maxResults = 20;
@@ -69,17 +70,12 @@ function searchCommands(q) {
 
 function linkCommands(query) {
   const options = { currentWindow: true, active: true };
-  return browser.tabs.query(options).then((tabs) => {
-    if (tabs.length > 0) {
-      return browser.tabs.sendMessage(tabs[0].id, {
-        type: 'FETCH_LINKS',
-        payload: {
-          query,
-          maxResults,
-        }
-      });
+  return sendMessageToActiveTab({
+    type: 'FETCH_LINKS',
+    payload: {
+      query,
+      maxResults,
     }
-    return Promise.resolve([]);
   }).then((links) => links.map((l, index) => ({
     id:         `content-link-${l.url}-${index}`,
     label:      `${l.label}: ${l.url}`,
