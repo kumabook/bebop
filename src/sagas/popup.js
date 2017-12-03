@@ -30,7 +30,7 @@ function dispatchAction(type) {
   };
 }
 
-const debounceDelayMs = 100;
+export const debounceDelayMs = 100;
 
 export const commandOfSeq = {
   'C-f':   cursor.forwardChar,
@@ -60,12 +60,14 @@ function passAction(type) {
   };
 }
 
+export function* searchCandidates({ payload }) {
+  yield call(delay, debounceDelayMs);
+  const candidates = yield call(commands.candidates, payload);
+  yield put({ type: 'CANDIDATES', payload: candidates });
+}
+
 function* watchQuery() {
-  yield takeLatest('QUERY', function* searchCandidates({ payload }) {
-    yield call(delay, debounceDelayMs);
-    const candidates = yield commands.candidates(payload);
-    yield put({ type: 'CANDIDATES', payload: candidates });
-  });
+  yield takeLatest('QUERY', searchCandidates);
 }
 
 function* watchKeySequence() {
@@ -109,7 +111,7 @@ function* watchSelectedCandidate() {
 const canFocusToPopup = false;
 
 function* watchTabChange() {
-  yield takeLatest('TAB_CHANGED', function* searchCandidates() {
+  yield takeLatest('TAB_CHANGED', function* handleTabChange() {
     if (!canFocusToPopup) {
       window.close();
     } else {
