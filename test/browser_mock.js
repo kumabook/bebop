@@ -36,9 +36,10 @@ browser.bookmarks = {
 };
 
 browser.tabs = {
-  create: () => Promise.resolve(),
-  update: () => Promise.resolve(),
-  query:  () => Promise.resolve([]),
+  create:      () => Promise.resolve(),
+  update:      () => Promise.resolve(),
+  query:       () => Promise.resolve([]),
+  sendMessage: () => Promise.resolve(),
 };
 
 browser.commands = {
