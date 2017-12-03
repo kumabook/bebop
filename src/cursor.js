@@ -98,7 +98,8 @@ export function beginningOfLine() {
 export function endOfBuffer() {
   const elem = document.activeElement;
   if (elem && elem.value) {
-    elem.setSelectionRange(0, 0);
+    const end = elem.value.length - 1;
+    elem.setSelectionRange(end, end);
   }
 }
 

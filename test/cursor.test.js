@@ -7,6 +7,8 @@ import {
   previousLine,
   endOfLine,
   beginningOfLine,
+  endOfBuffer,
+  beginningOfBuffer,
   deleteBackwardChar,
 } from '../src/cursor';
 
@@ -49,6 +51,10 @@ test('move functions change cursor', (t) => {
   endOfLine();
   t.is(elem.selectionStart, 4);
   beginningOfLine();
+  t.is(elem.selectionStart, 0);
+  endOfBuffer();
+  t.is(elem.selectionStart, 8);
+  beginningOfBuffer();
   t.is(elem.selectionStart, 0);
 });
 
