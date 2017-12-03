@@ -70,17 +70,20 @@ function* watchQuery() {
   yield takeLatest('QUERY', searchCandidates);
 }
 
+
+export function* handleKeySequece({ payload }) {
+  const command = commandOfSeq[payload];
+  if (!command) {
+    return;
+  }
+  yield command();
+  if (command === cursor.deleteBackwardChar) {
+    yield put({ type: 'QUERY', payload: cursor.activeElementValue() });
+  }
+}
+
 function* watchKeySequence() {
-  yield takeEvery('KEY_SEQUENCE', function* handleKeySequece({ payload }) {
-    const command = commandOfSeq[payload];
-    if (!command) {
-      return;
-    }
-    yield command();
-    if (command === cursor.deleteBackwardChar) {
-      yield put({ type: 'QUERY', payload: cursor.activeElementValue() });
-    }
-  });
+  yield takeEvery('KEY_SEQUENCE', handleKeySequece);
 }
 
 function* watchPort() {
