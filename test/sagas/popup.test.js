@@ -3,11 +3,17 @@ import { delay } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
 import {
   debounceDelayMs,
+  dispatchAction,
   dispatchEmptyQuery,
   searchCandidates,
   handleKeySequece,
 } from '../../src/sagas/popup';
 import commands from '../../src/commands';
+
+test('dispatchAction saga', (t) => {
+  const gen = dispatchAction('TEST')();
+  t.deepEqual(gen.next().value, put({ type: 'TEST' }));
+});
 
 test('dispatchEmptyQuery saga', (t) => {
   const gen = dispatchEmptyQuery();

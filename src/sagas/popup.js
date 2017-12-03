@@ -24,7 +24,7 @@ const history = createHashHistory();
 const portName = `popup-${Date.now()}`;
 const port = getPort(portName);
 
-function dispatchAction(type) {
+export function dispatchAction(type) {
   return function* dispatch() {
     yield put({ type });
   };
