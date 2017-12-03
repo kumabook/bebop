@@ -46,7 +46,7 @@ export const commandOfSeq = {
   'S-tab': dispatchAction('PREVIOUS_CANDIDATE'),
 };
 
-function* dispatchEmptyQuery() {
+export function* dispatchEmptyQuery() {
   yield put({ type: 'QUERY', payload: '' });
 }
 
