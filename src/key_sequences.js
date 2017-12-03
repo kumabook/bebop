@@ -27,13 +27,7 @@ characterMap[9]   = 'tab';
 
 export default function keySequence(keyEvent) {
   let code = String.fromCharCode(keyEvent.keyCode).toLowerCase();
-  if (keyEvent.shiftKey) {
-    if (keyEvent.keyCode >= 65 && keyEvent.keyCode <= 90) {
-      code = code.toUpperCase();
-    } else if (characterMap[keyEvent.keyCode]) {
-      code = characterMap[keyEvent.keyCode];
-    }
-  } else if (characterMap[keyEvent.keyCode]) {
+  if (characterMap[keyEvent.keyCode]) {
     code = characterMap[keyEvent.keyCode];
   }
   let prefix = '';
