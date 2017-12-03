@@ -1,5 +1,6 @@
 import test from 'ava';
 import {
+  cursor2position,
   activeElementValue,
   forwardChar,
   backwardChar,
@@ -32,6 +33,17 @@ test('cursor.activeElementValue returns focused input value', (t) => {
   t.is(elem.id, 'input');
   t.is(activeElementValue(), 'abcdefg');
   t.is(window.document.activeElement.selectionStart, 0);
+});
+
+test('cursor.cursor2position returns a position from cursor', (t) => {
+  const lines = '1234\n5678\nabcd'.split('\n');
+  t.deepEqual(cursor2position(lines, 0), { x: 0, y: 0 });
+  t.deepEqual(cursor2position(lines, 1), { x: 1, y: 0 });
+  t.deepEqual(cursor2position(lines, 4), { x: 4, y: 0 });
+  t.deepEqual(cursor2position(lines, 5), { x: 0, y: 1 });
+  t.deepEqual(cursor2position(lines, 6), { x: 1, y: 1 });
+
+  t.deepEqual(cursor2position([], 0), { x: 0, y: 0 });
 });
 
 test('move functions change cursor', (t) => {
