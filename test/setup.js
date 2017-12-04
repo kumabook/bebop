@@ -3,7 +3,10 @@ const logger    = require('kiroku');
 const browser   = require('./browser_mock');
 
 const body = '<div id="container" />';
-const jsdom = new JSDOM(`<!doctype html><html><body>${body}</body></html>`, { pretendToBeVisual: true });
+const jsdom = new JSDOM(`<!doctype html><html><body>${body}</body></html>`, {
+  pretendToBeVisual: true,
+  url:               'https://example.org/',
+});
 const { window } = jsdom;
 
 function copyProps(src, target) {
@@ -20,6 +23,23 @@ global.document = window.document;
 global.navigator = {
   userAgent: 'node.js',
 };
+
+Object.defineProperties(window.HTMLElement.prototype, {
+  offsetLeft: {
+    get() { return parseFloat(window.getComputedStyle(this).marginLeft) || 0; },
+  },
+  offsetTop: {
+    get() { return parseFloat(window.getComputedStyle(this).marginTop) || 0; },
+  },
+  offsetHeight: {
+    get() { return parseFloat(window.getComputedStyle(this).height) || 0; },
+  },
+  offsetWidth: {
+    get() { return parseFloat(window.getComputedStyle(this).width) || 0; },
+  },
+});
+
+window.HTMLElement.prototype.scrollIntoView = () => {};
 
 global.browser = browser;
 global.chrome = null;

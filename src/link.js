@@ -1,10 +1,10 @@
 import browser from 'webextension-polyfill';
 
-const HIGHLIGHTER_ID = 'bebop-highlighter';
-const LINK_MARKER_ID = 'bebop-link-marker';
-const MARKER_SIZE    = 12;
+export const HIGHLIGHTER_ID    = 'bebop-highlighter';
+export const LINK_MARKER_CLASS = 'bebop-link-marker';
+const MARKER_SIZE = 12;
 
-function getTargetElements() {
+export function getTargetElements() {
   const elements = document.getElementsByTagName('a');
   return Array.prototype.filter.call(elements, (e) => {
     const style = window.getComputedStyle(e);
@@ -16,7 +16,7 @@ function getTargetElements() {
 }
 
 
-export function search({ query = '', maxResults = 20 }) {
+export function search({ query = '', maxResults = 20 } = {}) {
   return getTargetElements().map((link, index) => ({
     id:    `${index}-${link.href}`,
     url:   link.href,
@@ -64,7 +64,7 @@ export function createHighlighter(rect) {
 function createLinkMarker({ left, top }, selected) {
   const e = document.createElement('img');
   e.src = browser.extension.getURL('images/link.png');
-  e.className      = LINK_MARKER_ID;
+  e.className      = LINK_MARKER_CLASS;
   e.style.position = 'absolute';
   e.style.display  = 'block';
   e.style.top      = `${top - (MARKER_SIZE * 0.5)}px`;
@@ -86,7 +86,7 @@ function removeHighlighter() {
 }
 
 function removeLinkMarkers() {
-  const elements = document.getElementsByClassName(LINK_MARKER_ID);
+  const elements = document.getElementsByClassName(LINK_MARKER_CLASS);
   for (let i = elements.length - 1; i >= 0; i -= 1) {
     elements[i].parentNode.removeChild(elements[i]);
   }
