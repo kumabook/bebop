@@ -40,6 +40,10 @@ browser.tabs = {
   update:      () => Promise.resolve(),
   query:       () => Promise.resolve([]),
   sendMessage: () => Promise.resolve(),
+  onActivated: {
+    addListener:    () => {},
+    removeListener: () => {},
+  },
 };
 
 browser.commands = {
