@@ -23,7 +23,10 @@ Usage
 | type        | description                     |
 |:------------|:------------------------------- |
 | search      | open new tab with google search |
+| link        | click a link in current page    |
+| tab         | active selected tab             |
 | history     | open a history                  |
+| bookmark    | open a bookmark                 |
 
 You can change shortcut key. See [Customize](#change-shortcut-key-with-your-own-private-addon)
 
