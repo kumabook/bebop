@@ -7,6 +7,7 @@ import {
   call,
   put,
   select,
+  all,
 } from 'redux-saga/effects';
 import {
   router,
@@ -142,7 +143,7 @@ function* routerSaga() {
 }
 
 export default function* root() {
-  yield [
+  yield all([
     fork(passAction('COMMAND')),
     fork(watchTabChange),
     fork(watchQuery),
@@ -152,5 +153,5 @@ export default function* root() {
     fork(watchClose),
     fork(routerSaga),
     fork(dispatchEmptyQuery),
-  ];
+  ]);
 }

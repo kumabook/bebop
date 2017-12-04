@@ -3,6 +3,7 @@ import {
   fork,
   takeEvery,
   put,
+  all,
 } from 'redux-saga/effects';
 
 function* dispatchPopupWidth() {
@@ -20,8 +21,8 @@ function* watchWidth() {
 
 
 export default function* root() {
-  yield [
+  yield all([
     fork(dispatchPopupWidth),
     fork(watchWidth),
-  ];
+  ]);
 }
