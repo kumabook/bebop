@@ -22,7 +22,6 @@
     "pretest": "npm run lint",
     "test": "cross-env NODE_ENV=test nyc ava \"test/**/*.test.{js,jsx}\"",
     "test:watch": "npm test -- --watch",
-    "posttest": "nyc report --reporter=html",
     "coverage": "cross-env NODE_ENV=test nyc report --reporter=text-lcov | coveralls"
   },
   "devDependencies": {
