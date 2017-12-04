@@ -92,26 +92,50 @@ function removeLinkMarkers() {
   }
 }
 
+function getContainerDisplayedRect() {
+  const { pageXOffset, pageYOffset } = window;
+  const { clientWidth, clientHeight } = document.documentElement;
+  return {
+    left:   pageXOffset,
+    right:  pageXOffset + clientWidth,
+    top:    pageYOffset,
+    bottom: pageYOffset + clientHeight,
+  };
+}
+
+function getElementRect(element) {
+  const rect = element.getBoundingClientRect();
+  const left = rect.left + window.pageXOffset;
+  const top  = rect.top + window.pageYOffset;
+  return {
+    left,
+    top,
+    width:  rect.width,
+    height: rect.height,
+  };
+}
+
+function isDisplayed(container, rect) {
+  return container.left <= rect.left && rect.left <= container.right &&
+    container.top <= rect.top && rect.top <= container.bottom;
+}
+
 export function highlight({ index, url } = {}) {
-  const elements = getTargetElements();
-  for (let i = 0, len = elements.length; i < len; i += 1) {
-    const l = elements[i];
-    const r = l.getBoundingClientRect();
-    const rect = {
-      left:   r.left + window.pageXOffset,
-      top:    r.top + window.pageYOffset,
-      width:  r.width,
-      height: r.height,
-    };
-    const selected = i === index && l.href === url;
-    const marker = createLinkMarker(rect, selected);
-    document.body.appendChild(marker);
+  const containerRect = getContainerDisplayedRect();
+  const elements      = getTargetElements();
+  elements.forEach((elem, i) => {
+    const rect        = getElementRect(elem);
+    const selected    = i === index && elem.href === url;
+    if (selected || isDisplayed(containerRect, rect)) {
+      const marker = createLinkMarker(rect, selected);
+      document.body.appendChild(marker);
+    }
     if (selected) {
       const highlighter = createHighlighter(rect);
       document.body.appendChild(highlighter);
-      l.scrollIntoView({ block: 'end' });
+      elem.scrollIntoView({ block: 'end' });
     }
-  }
+  });
 }
 
 export function dehighlight() {
