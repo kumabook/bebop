@@ -8,7 +8,7 @@ import {
   searchCandidates,
   handleKeySequece,
 } from '../../src/sagas/popup';
-import commands from '../../src/commands';
+import candidates from '../../src/candidates';
 
 test('dispatchAction saga', (t) => {
   const gen = dispatchAction('TEST')();
@@ -23,7 +23,7 @@ test('dispatchEmptyQuery saga', (t) => {
 test('searchCandidates saga', (t) => {
   const gen = searchCandidates({ payload: '' });
   t.deepEqual(gen.next().value, call(delay, debounceDelayMs));
-  t.deepEqual(gen.next().value, call(commands.candidates, ''));
+  t.deepEqual(gen.next().value, call(candidates, ''));
   t.deepEqual(gen.next().value, put({ type: 'CANDIDATES', payload: undefined }));
 });
 

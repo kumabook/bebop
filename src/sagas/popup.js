@@ -17,7 +17,7 @@ import {
   getPort,
   createPortChannel,
 } from '../utils/port';
-import commands from '../commands';
+import candidates from '../candidates';
 import * as cursor from '../cursor';
 import { sendMessageToActiveTab } from '../utils/tabs';
 
@@ -63,8 +63,8 @@ function passAction(type) {
 
 export function* searchCandidates({ payload }) {
   yield call(delay, debounceDelayMs);
-  const candidates = yield call(commands.candidates, payload);
-  yield put({ type: 'CANDIDATES', payload: candidates });
+  const items = yield call(candidates, payload);
+  yield put({ type: 'CANDIDATES', payload: items });
 }
 
 function* watchQuery() {
@@ -122,8 +122,8 @@ function* watchTabChange() {
       yield call(delay, debounceDelayMs);
       document.querySelector('.commandInput').focus();
       const query = yield select(state => state.query);
-      const candidates = yield commands.candidates(query);
-      yield put({ type: 'CANDIDATES', payload: candidates });
+      const payload = yield candidates(query);
+      yield put({ type: 'CANDIDATES', payload });
     }
   });
 }
