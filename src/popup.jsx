@@ -25,6 +25,7 @@ import logger from 'kiroku';
 import Popup from './containers/Popup';
 import reducers from './reducers/popup';
 import rootSaga from './sagas/popup';
+import { init as candidateInit } from './candidates';
 
 if (process.env.NODE_ENV === 'production') {
   logger.setLevel('INFO');
@@ -52,6 +53,8 @@ window.onload = () => {
   const container = document.getElementById('container');
   ReactDOM.render(element, container);
 };
+
+candidateInit();
 
 browser.storage.local.get('popupWidth').then(({ popupWidth }) => {
   const width = popupWidth || 700;

@@ -1,14 +1,15 @@
 import browser from 'webextension-polyfill';
 import logger from 'kiroku';
-import * as cursor from './cursor';
 import keySequence from './key_sequences';
-import { search, click, highlight, dehighlight } from './link';
+import { init as commandInit, get as getCommand } from './commands';
+import { search, highlight, dehighlight } from './link';
 
 const portName = `content-script-${window.location.href}`;
 let port = null;
 if (process.env.NODE_ENV === 'production') {
   logger.setLevel('INFO');
 }
+
 const commandNameOfSeq = {
   'C-f': 'forward-char',
   'C-b': 'backward-char',
@@ -21,24 +22,18 @@ const commandNameOfSeq = {
   'C-h': 'delete-backward-char',
 };
 
-const commands = {
-  'forward-char':         cursor.forwardChar,
-  'backward-char':        cursor.backwardChar,
-  'beginning-of-line':    cursor.beginningOfLine,
-  'end-of-line':          cursor.endOfLine,
-  'next-line':            cursor.nextLine,
-  'previous-line':        cursor.previousLine,
-  'end-of-buffer':        cursor.endOfBuffer,
-  'beginning-of-buffer':  cursor.beginningOfBuffer,
-  'delete-backward-char': cursor.deleteBackwardChar,
-  'open-link':            click,
-};
-
-function executeCommand({ name, args }) {
-  if (commands[name]) {
-    return commands[name].apply(this, args);
+function executeCommand(name, args) {
+  const command = getCommand(name);
+  if (command && command.contentHandler) {
+    const f = command.contentHandler;
+    return f.apply(this, args);
   }
-  return null;
+  return Promise.resolve();
+}
+
+function handleSelectCandidate(candidate) {
+  const { name, args } = candidate;
+  return executeCommand(name, args);
 }
 
 function keydownListener(e) {
@@ -47,7 +42,7 @@ function keydownListener(e) {
   const name = commandNameOfSeq[seq];
   if (name) {
     logger.trace(`execute command: ${name}`);
-    executeCommand(name);
+    executeCommand(name, []);
     e.preventDefault();
   }
 }
@@ -74,7 +69,7 @@ function portMessageListener(msg) {
   logger.trace(`Handle message ${type} ${JSON.stringify(payload)}`);
   switch (type) {
     case 'SELECT_CANDIDATE':
-      executeCommand(payload);
+      handleSelectCandidate(payload);
       break;
     case 'POPUP_CLOSE':
       handleClose();
@@ -120,3 +115,4 @@ setTimeout(() => {
   browser.runtime.onMessage.addListener(messageListener);
   logger.info('bebop content_script is loaded');
 }, 500);
+commandInit();

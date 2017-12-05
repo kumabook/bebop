@@ -1,6 +1,6 @@
 import browser from 'webextension-polyfill';
 import logger from 'kiroku';
-import commands from './commands';
+import { init as commandInit, get as getCommand } from './commands';
 
 const contentScriptPorts = {};
 const popupPorts         = {};
@@ -37,7 +37,9 @@ browser.commands.onCommand.addListener((command) => {
 });
 
 function postMessageToContentScript(type, payload) {
-  browser.tabs.query({ currentWindow: true, active: true }).then((tabs) => {
+  const currentWindow = true;
+  const active        = true;
+  return browser.tabs.query({ currentWindow, active }).then((tabs) => {
     if (tabs.length > 0) {
       const targetUrl = tabs[0].url;
       getContentScriptPorts().forEach(p => p.postMessage({
@@ -57,11 +59,20 @@ function handlePopupMessage(msg) {
   logger.info(`handlePopupMessage ${type} from ${portName}`);
   const port = getPort(portName);
   switch (type) {
-    case 'COMMAND':
-      commands.execute(payload, (contentCommand) => {
-        postMessageToContentScript('COMMAND', contentCommand);
-      });
+    case 'SELECT_CANDIDATE': {
+      const { name, args } = payload;
+      const command = getCommand(name);
+      port.postMessage({ type: 'CLOSE' });
+      if (command && command.backgroundHandler) {
+        const f = command.backgroundHandler;
+        f.apply(this, args).then(() => logger.trace(`executed ${name} `));
+      } else {
+        logger.trace(`${name} is not defined`);
+      }
+      postMessageToContentScript(type, payload)
+        .then(() => logger.trace(`pass ${name} to content script`));
       break;
+    }
     default:
       break;
   }
@@ -99,5 +110,7 @@ browser.tabs.onActivated.addListener((payload) => {
     payload,
   }));
 });
+
+commandInit();
 
 logger.info('bebop is initialized.');
