@@ -61,7 +61,6 @@ function handlePopupMessage(msg) {
       commands.execute(payload, (contentCommand) => {
         postMessageToContentScript('COMMAND', contentCommand);
       });
-      port.postMessage({ type: 'CLOSE' });
       break;
     default:
       break;

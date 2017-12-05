@@ -144,7 +144,7 @@ function* routerSaga() {
 
 export default function* root() {
   yield all([
-    fork(passAction('COMMAND')),
+    fork(passAction('SELECT_CANDIDATE')),
     fork(watchTabChange),
     fork(watchQuery),
     fork(watchKeySequence),

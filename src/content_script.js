@@ -67,13 +67,13 @@ function handleClose() {
 
 function portMessageListener(msg) {
   const { type, payload, targetUrl } = msg;
-  if (targetUrl !== window.location.href && type === 'COMMAND') {
+  if (targetUrl !== window.location.href && type === 'SELECT_CANDIDATE') {
     logger.trace('This content script is not active.');
     return;
   }
   logger.trace(`Handle message ${type} ${JSON.stringify(payload)}`);
   switch (type) {
-    case 'COMMAND':
+    case 'SELECT_CANDIDATE':
       executeCommand(payload);
       break;
     case 'POPUP_CLOSE':
@@ -103,9 +103,6 @@ function messageListener(request, sender, sendResponse) {
       break;
     case 'CHANGE_CANDIDATE':
       handleCandidateChange(request.payload);
-      break;
-    case 'COMMAND':
-      executeCommand(request.payload);
       break;
     default:
       break;

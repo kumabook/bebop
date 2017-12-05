@@ -11,12 +11,12 @@ import { commandOfSeq } from '../sagas/popup';
 class Popup extends React.Component {
   static get propTypes() {
     return {
-      query:             PropTypes.string.isRequired,
-      candidates:        PropTypes.arrayOf(PropTypes.object).isRequired,
-      index:             PropTypes.number,
-      handleCommand:     PropTypes.func.isRequired,
-      handleInputChange: PropTypes.func.isRequired,
-      handleKeydown:     PropTypes.func.isRequired,
+      query:                 PropTypes.string.isRequired,
+      candidates:            PropTypes.arrayOf(PropTypes.object).isRequired,
+      index:                 PropTypes.number,
+      handleSelectCandidate: PropTypes.func.isRequired,
+      handleInputChange:     PropTypes.func.isRequired,
+      handleKeydown:         PropTypes.func.isRequired,
     };
   }
   static get defaultProps() {
@@ -42,32 +42,32 @@ class Popup extends React.Component {
       }
     }
   }
-  getSelectedCommand() {
+  getSelectedCandidate() {
     if (this.props.index === null) {
       return null;
     }
-    return this.normalizeCommand(this.props.candidates[this.props.index]);
+    return this.normalizeCandidate(this.props.candidates[this.props.index]);
   }
-  normalizeCommand(command) {
-    if (!command) {
+  normalizeCandidate(candidate) {
+    if (!candidate) {
       return null;
     }
-    if (command.type === 'search') {
+    if (candidate.type === 'search') {
       // eslint-disable-next-line no-param-reassign
-      command.args = [this.input.value];
+      candidate.args = [this.input.value];
     }
-    return command;
+    return candidate;
   }
   handleSubmit() {
-    const command = this.getSelectedCommand();
-    if (command !== null) {
-      this.props.handleCommand(command);
+    const candidate = this.getSelectedCandidate();
+    if (candidate !== null) {
+      this.props.handleSelectCandidate(candidate);
     }
   }
   handleCandidateClick(index) {
-    const command = this.normalizeCommand(this.props.candidates[index]);
-    if (command !== null) {
-      this.props.handleCommand(command);
+    const candidate = this.normalizeCandidate(this.props.candidates[index]);
+    if (candidate !== null) {
+      this.props.handleSelectCandidate(candidate);
     }
   }
   render() {
@@ -118,9 +118,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    handleCommand:     payload => dispatch({ type: 'COMMAND', payload }),
-    handleInputChange: payload => dispatch({ type: 'QUERY', payload }),
-    handleKeydown:     (e) => {
+    handleSelectCandidate: payload => dispatch({ type: 'SELECT_CANDIDATE', payload }),
+    handleInputChange:     payload => dispatch({ type: 'QUERY', payload }),
+    handleKeydown:         (e) => {
       const keySeq = keySequence(e);
       if (commandOfSeq[keySeq]) {
         e.preventDefault();
