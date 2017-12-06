@@ -15,24 +15,40 @@ function getType(t) {
   return null;
 }
 
-export function parse(query) {
-  let found;
-  found = query.match(/^:(\w*)\s*(.*)/);
+function parseAsHasType(query) {
+  const found = query.match(/^:(\w*)\s*(.*)/);
   if (found) {
     const [, type, value] = found;
     return { type, value };
   }
-  found = query.match(/^(\w)\s+(.*)/);
+  return null;
+}
+
+function parseAsHasShorthand(query) {
+  const found = query.match(/^(\w)\s+(.*)/);
+  let type = null;
+  let value = '';
   if (found) {
     const [, t, v] = found;
-    const type = getType(t);
-    const value = type ? v : query;
+    type = getType(t);
+    value = v;
+  } else if (query.length === 1) {
+    type = getType(query);
+  }
+  if (type) {
     return { type, value };
   }
-  if (query.length === 1) {
-    const type = getType(query);
-    const value = type ? '' : query;
-    return { type, value };
+  return null;
+}
+
+export function parse(query) {
+  const hasType = parseAsHasType(query);
+  if (hasType) {
+    return hasType;
+  }
+  const hasShorthand = parseAsHasShorthand(query);
+  if (hasShorthand) {
+    return hasShorthand;
   }
   return { type: null, value: query };
 }
