@@ -70,3 +70,9 @@
   margin-right: 4px;
   padding: 0;
 }
+
+.separator {
+  padding: 1px 8px;
+  font-size: small;
+  background-color: #fc6;
+}

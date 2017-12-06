@@ -1,5 +1,20 @@
 {
   "commandInput_placeholder": {
-    "message": "input command"
+    "message": "Input query"
+  },
+  "search": {
+    "message": "Search"
+  },
+  "links": {
+    "message": "Links"
+  },
+  "tabs": {
+    "message": "Tabs"
+  },
+  "histories": {
+    "message": "Histroies"
+  },
+  "bookmarks": {
+    "message": "Bookmarks"
   }
 }

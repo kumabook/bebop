@@ -1,5 +1,6 @@
 import { getFaviconUrl } from '../utils/url';
 import { sendMessageToActiveTab } from '../utils/tabs';
+import getMessage from '../utils/i18n';
 
 const linkMaxResults = 100;
 
@@ -17,5 +18,10 @@ export default function candidates(query, { maxResults = 20 } = {}) {
     name:       'open-link',
     args:       [l],
     faviconUrl: getFaviconUrl(l.url),
-  }))).catch(() => []);
+  })))
+    .catch(() => [])
+    .then(items => ({
+      items,
+      label: `${getMessage('links')} (:link or l)`,
+    }));
 }

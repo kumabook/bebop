@@ -1,5 +1,6 @@
 import browser from 'webextension-polyfill';
 import { getFaviconUrl } from '../utils/url';
+import getMessage from '../utils/i18n';
 
 export default function candidates(q, { maxResults = 20 } = {}) {
   const startTime = 0;
@@ -11,5 +12,8 @@ export default function candidates(q, { maxResults = 20 } = {}) {
       name:       'open-history',
       args:       [v.url],
       faviconUrl: getFaviconUrl(v.url),
-    })));
+    }))).then(items => ({
+      items,
+      label: `${getMessage('histories')} (:history or h)`,
+    }));
 }

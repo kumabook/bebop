@@ -13,6 +13,7 @@ class Popup extends React.Component {
     return {
       query:                 PropTypes.string.isRequired,
       candidates:            PropTypes.arrayOf(PropTypes.object).isRequired,
+      separators:            PropTypes.arrayOf(PropTypes.object).isRequired,
       index:                 PropTypes.number,
       handleSelectCandidate: PropTypes.func.isRequired,
       handleInputChange:     PropTypes.func.isRequired,
@@ -70,6 +71,11 @@ class Popup extends React.Component {
       this.props.handleSelectCandidate(candidate);
     }
   }
+  renderSeparator(index) {
+    return this.props.separators.filter(s => s.index === index && s.label).map(s => ((
+      <div className="separator">{s.label}</div>
+    )));
+  }
   render() {
     return (
       <form
@@ -95,6 +101,7 @@ class Popup extends React.Component {
                 }
               }}
             >
+              {this.renderSeparator(i)}
               <Candidate
                 item={c}
                 isSelected={i === this.props.index}
@@ -113,6 +120,7 @@ function mapStateToProps(state) {
     query:      state.query,
     candidates: state.candidates.items,
     index:      state.candidates.index,
+    separators: state.separators,
   };
 }
 

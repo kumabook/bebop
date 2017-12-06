@@ -1,5 +1,20 @@
 {
   "commandInput_placeholder": {
-    "message": "コマンドを入力"
+    "message": "クエリを入力"
+  },
+  "search": {
+    "message": "検索"
+  },
+  "links": {
+    "message": "リンク"
+  },
+  "tabs": {
+    "message": "タブ"
+  },
+  "histories": {
+    "message": "履歴"
+  },
+  "bookmarks": {
+    "message": "ブックマーク"
   }
 }

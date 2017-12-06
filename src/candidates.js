@@ -65,7 +65,16 @@ export default function candidates(query) {
   const ss = getSources(type);
   const options = ss.length > 1 ? {} : { maxResults: 100 };
   return Promise.all(ss.map(s => s.f(value, options)))
-    .then(a => a.reduce((items, v) => items.concat(v), []));
+    .then(a => a.reduce((acc, v) => {
+      if (v.items.length === 0) {
+        return acc;
+      }
+      const { items, separators } = acc;
+      return {
+        items:      items.concat(v.items),
+        separators: separators.concat({ label: v.label, index: items.length }),
+      };
+    }, { items: [], separators: [] }));
 }
 
 export function init() {

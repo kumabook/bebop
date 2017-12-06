@@ -1,4 +1,5 @@
 import browser from 'webextension-polyfill';
+import getMessage from '../utils/i18n';
 
 export default function candidates(q) {
   return browser.tabs.query({ active: false })
@@ -9,5 +10,8 @@ export default function candidates(q) {
       name:       'activate-tab',
       args:       [t.id, t.windowId],
       faviconUrl: t.favIconUrl,
-    })));
+    }))).then(items => ({
+      items,
+      label: `${getMessage('tabs')} (:tab or t)`,
+    }));
 }

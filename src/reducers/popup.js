@@ -16,8 +16,10 @@ function normalize({ index, items }) {
 
 const candidates = (state = { index: null, items: [] }, action) => {
   switch (action.type) {
-    case 'CANDIDATES':
-      return normalize({ index: state.index, items: action.payload });
+    case 'CANDIDATES': {
+      const { items } = action.payload;
+      return normalize({ index: state.index, items });
+    }
     case 'NEXT_CANDIDATE': {
       const i = state.index;
       return normalize({ index: (Number.isNaN(i) ? -1 : i) + 1, items: state.items });
@@ -31,10 +33,20 @@ const candidates = (state = { index: null, items: [] }, action) => {
   }
 };
 
+const separators = (state = [], action) => {
+  switch (action.type) {
+    case 'CANDIDATES':
+      return action.payload.separators;
+    default:
+      return state;
+  }
+};
+
 const rootReducer = combineReducers({
   router: routerReducer,
   query,
   candidates,
+  separators,
 });
 
 export default rootReducer;

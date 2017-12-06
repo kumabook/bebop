@@ -63,8 +63,8 @@ function passAction(type) {
 
 export function* searchCandidates({ payload }) {
   yield call(delay, debounceDelayMs);
-  const items = yield call(candidates, payload);
-  yield put({ type: 'CANDIDATES', payload: items });
+  const result = yield call(candidates, payload);
+  yield put({ type: 'CANDIDATES', payload: result });
 }
 
 function* watchQuery() {
