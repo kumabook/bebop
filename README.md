@@ -4,10 +4,14 @@ bebop
 [![Build Status](https://travis-ci.org/kumabook/bebop.svg?branch=master)](https://travis-ci.org/kumabook/bebop)
 [![Coverage Status](https://coveralls.io/repos/github/kumabook/bebop/badge.svg?branch=master)](https://coveralls.io/github/kumabook/bebop?branch=master)
 
+bebop makes your browsing groovy.
+Swing your browsing!
+
 About
 -----
 
-bebop is a webextension that offers
+
+bebop is a WebExtensions that offers
 emacs key-bindings and command line interface like
 [emacs helm](https://github.com/emacs-helm/helm) for browsing.
 
@@ -17,18 +21,26 @@ Usage
 
 ## command
 
-1. `Click icon on toolbar` or `Ctrl+Comma` ... snow popup that has command input
-2. Input a query to narrow down the commands.
+1. `Click icon on toolbar` or `Ctrl+Comma` ... show popup that has command input
+2. Input a query to narrow down the candidates.
 
-| type        | description                     |
-|:------------|:------------------------------- |
-| search      | open new tab with google search |
-| link        | click a link in current page    |
-| tab         | active selected tab             |
-| history     | open a history                  |
-| bookmark    | open a bookmark                 |
+| type        | shorthand | description                     |
+|:------------|:---------:|:------------------------------- |
+| search      |           | open new tab with google search |
+| link        | l         | click a link in current page    |
+| tab         | t         | active selected tab             |
+| history     | h         | open a history                  |
+| bookmark    | b         | open a bookmark                 |
 
-You can change shortcut key. See [Customize](#change-shortcut-key-with-your-own-private-addon)
+- `:type` narrows down to the candidates whose type is the specified type
+- `x` also narrows down to the candidates whose shorthand is the specified type
+- ex.
+  - `阿部寛` narrows down to the all candidates searched with `阿部寛`
+  - `:link` or `l` narrow down to link candidates
+  - `:link 阿部寛` or `:l 阿部寛` narrow down to link candidates searched with `阿部寛`
+
+You can change shortcut key from `Ctrl+Comma`.
+See [Customize](#change-shortcut-key-with-your-own-private-addon)
 
 ## emacs key-bindings on textarea (except mac)
 
