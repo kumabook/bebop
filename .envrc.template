@@ -1,5 +1,5 @@
 export NODE_ENV=development
-export IGNORE_FILES="web-ext-artifacts/ src/ test/"
+export IGNORE_FILES="web-ext-artifacts/ src/ test/ coverage/"
 export FIREFOX_BINARY=/Applications/FirefoxDeveloperEdition.app/
 export FIREFOX_PROFILE=~/Library/Application\ Support/Firefox/Profiles/xxxxxx.default
 export API_KEY=user:00000000
