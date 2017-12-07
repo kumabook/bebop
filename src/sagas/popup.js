@@ -41,6 +41,8 @@ export const commandOfSeq = {
   'C-n':   dispatchAction('NEXT_CANDIDATE'),
   'C-p':   dispatchAction('PREVIOUS_CANDIDATE'),
   'C-h':   cursor.deleteBackwardChar,
+  'C-j':   dispatchAction('NEXT_CANDIDATE'),
+  'C-k':   dispatchAction('PREVIOUS_CANDIDATE'),
   up:      dispatchAction('PREVIOUS_CANDIDATE'),
   down:    dispatchAction('NEXT_CANDIDATE'),
   tab:     dispatchAction('NEXT_CANDIDATE'),
