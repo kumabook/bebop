@@ -25,6 +25,8 @@ Usage
 1. `Click icon on toolbar` or `Ctrl+Comma` ... show popup that has command input
 2. Input a query to narrow down the candidates.
 
+    NOTE: On Windows, you need to press a tab-key to focus to a query input
+
 | type        | shorthand | description                     |
 |:------------|:---------:|:------------------------------- |
 | search      |           | open new tab with google search |
