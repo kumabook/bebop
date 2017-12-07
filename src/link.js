@@ -4,8 +4,22 @@ export const HIGHLIGHTER_ID    = 'bebop-highlighter';
 export const LINK_MARKER_CLASS = 'bebop-link-marker';
 const MARKER_SIZE = 12;
 
+const SELECTOR = [
+  'a',
+  'button',
+  'input[type="button"]',
+  'input[type="submit"]',
+  '[role="button"]',
+].join(',');
+
+const dummyHrefs = [
+  '#',
+  'javascirpt:void(0);',
+  './',
+];
+
 export function getTargetElements() {
-  const elements = document.getElementsByTagName('a');
+  const elements = document.querySelectorAll(SELECTOR);
   return Array.prototype.filter.call(elements, (e) => {
     const style = window.getComputedStyle(e);
     return style.display !== 'none' &&
@@ -15,14 +29,81 @@ export function getTargetElements() {
   });
 }
 
+export function getButtonLabel(element) {
+  const ariaLabel = element.getAttribute('aria-label');
+  if (ariaLabel) {
+    return ariaLabel;
+  }
+  if (element.textContent) {
+    return element.textContent;
+  }
+  return element.title;
+}
+
+export function getAnchorUrl(element) {
+  const href = element.getAttribute('href');
+  if (dummyHrefs.includes(href)) {
+    return '';
+  }
+  return element.href;
+}
+
+export function getAnchorLabel(element) {
+  const { text, title } = element;
+  const txt = text.trim();
+  if (txt) {
+    return txt;
+  }
+  const t = title.trim();
+  return t;
+}
+
+function buttonLink(element, id, index) {
+  return {
+    id,
+    url:   element.target || '',
+    label: getButtonLabel(element),
+    role:  'button',
+    index,
+  };
+}
+
+function inputLink(element, id, index) {
+  return {
+    id,
+    url:   element.target || '',
+    label: element.value,
+    role:  'button',
+    index,
+  };
+}
+
+function anchorLink(element, id, index) {
+  const url = getAnchorUrl(element);
+  return {
+    id,
+    url,
+    label: getAnchorLabel(element),
+    role:  url ? 'link' : 'button',
+    index,
+  };
+}
+
+export function elem2Link(element, index) {
+  const id = `link-${index}`;
+  const tagName = element.tagName.toLowerCase();
+  const role = element.getAttribute('role');
+  if (role === 'button' || tagName === 'button') {
+    return buttonLink(element, id, index);
+  }
+  if (tagName === 'input') {
+    return inputLink(element, id, index);
+  }
+  return anchorLink(element, id, index);
+}
 
 export function search({ query = '', maxResults = 20 } = {}) {
-  return getTargetElements().map((link, index) => ({
-    id:    `${index}-${link.href}`,
-    url:   link.href,
-    label: link.text,
-    index,
-  })).filter((l) => {
+  return getTargetElements().map(elem2Link).filter((l) => {
     const url = l.url.toLowerCase();
     const label = l.label.toLowerCase();
     return url.includes(query) || label.includes(query);
@@ -32,10 +113,11 @@ export function search({ query = '', maxResults = 20 } = {}) {
 export function click({ index, url } = {}) {
   const elements = getTargetElements();
   for (let i = 0, len = elements.length; i < len; i += 1) {
-    const l = elements[i];
-    const selected = i === index && l.href === url;
+    const e = elements[i];
+    const l = elem2Link(e, i);
+    const selected = i === index && l.url === url;
     if (selected) {
-      l.click();
+      e.click();
       return;
     }
   }
@@ -125,7 +207,8 @@ export function highlight({ index, url } = {}) {
   const elements      = getTargetElements();
   elements.forEach((elem, i) => {
     const rect        = getElementRect(elem);
-    const selected    = i === index && elem.href === url;
+    const link        = elem2Link(elem, i);
+    const selected    = i === index && link.url === url;
     if (selected || isDisplayed(containerRect, rect)) {
       const marker = createLinkMarker(rect, selected);
       document.body.appendChild(marker);
