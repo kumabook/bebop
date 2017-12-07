@@ -73,7 +73,7 @@ class Popup extends React.Component {
   }
   renderSeparator(index) {
     return this.props.separators.filter(s => s.index === index && s.label).map(s => ((
-      <div className="separator">{s.label}</div>
+      <div key={`separator${index}`} className="separator">{s.label}</div>
     )));
   }
   render() {
