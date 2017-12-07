@@ -131,6 +131,13 @@ test('search returns visible and clickable links', (t) => {
   });
 });
 
+
+test('search with a query returns links that are matched with the query ', (t) => {
+  setup();
+  const candidates = search({ query: 'normal link' });
+  t.is(candidates.length, 1);
+});
+
 test('createHighlighter returns highter element', (t) => {
   t.truthy(createHighlighter({
     left:   10,
