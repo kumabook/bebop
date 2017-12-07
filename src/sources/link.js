@@ -5,14 +5,14 @@ import getMessage from '../utils/i18n';
 
 const linkMaxResults = 100;
 
-function faviconUrl(link) {
+export function faviconUrl(link) {
   if (link.role === 'link') {
     return getFaviconUrl(link.url);
   }
   return browser.extension.getURL('images/click.png');
 }
 
-function getLabel(link) {
+export function getLabel(link) {
   const { url, label } = link;
   const l = label.trim();
   if (l && url) {
