@@ -166,5 +166,6 @@ test('click triggers target element click', (t) => {
   setup();
   click({ index: 0, url: 'https://example.org/' });
   click({ index: 1, url: 'https://example.org/relative' });
+  click();
   t.pass();
 });
