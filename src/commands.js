@@ -1,23 +1,28 @@
 import browser from 'webextension-polyfill';
 import { click } from './link';
 import * as cursor from './cursor';
+import { getActiveTab } from './utils/tabs';
 
 const commands = {};
+const EMPTY_URLS = ['about:newtab', 'about:blank'];
 
 const noop = () => Promise.resolve();
-
-export function googleSearch(query) {
-  return browser.tabs.create({
-    url: `https://www.google.com/search?q=${query}`,
-  });
-}
 
 export function activateTab(tabId) {
   browser.tabs.update(tabId, { active: true });
 }
 
 export function open(url) {
-  return browser.tabs.create({ url });
+  return getActiveTab().then((tab) => {
+    if (tab && EMPTY_URLS.includes(tab.url)) {
+      return browser.tabs.update(tab.id, { url });
+    }
+    return browser.tabs.create({ url });
+  });
+}
+
+export function googleSearch(query) {
+  return open(`https://www.google.com/search?q=${query}`);
 }
 
 export function register(name, backgroundHandler, contentHandler) {

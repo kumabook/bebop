@@ -1,6 +1,6 @@
 import test from 'ava';
 import nisemono from 'nisemono';
-import { getActiveTabId, sendMessageToActiveTab } from '../../src/utils/tabs';
+import { getActiveTab, sendMessageToActiveTab } from '../../src/utils/tabs';
 
 const { browser } = global;
 const { query, sendMessage }   = browser.tabs;
@@ -22,11 +22,11 @@ test.afterEach(() => {
 
 test('getActiveTabId returns active tab id', (t) => {
   setup([{ id: 1 }]);
-  return getActiveTabId().then(tabId => t.is(tabId, 1));
+  return getActiveTab().then(tab => t.is(tab.id, 1));
 });
 test('getActiveTabId returns null if there is no active tab', (t) => {
   setup([]);
-  return getActiveTabId().then(tabId => t.is(tabId, null));
+  return getActiveTab().then(tab => t.is(tab, null));
 });
 
 test('sendMessageToActiveTab send message to active tab', (t) => {
