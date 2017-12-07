@@ -5,15 +5,17 @@ bebop
 [![Coverage Status](https://coveralls.io/repos/github/kumabook/bebop/badge.svg?branch=master)](https://coveralls.io/github/kumabook/bebop?branch=master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/739ecb729336efef52b8/maintainability)](https://codeclimate.com/github/kumabook/bebop/maintainability)
 
-bebop makes your browsing groovy.
-Swing your browsing!
+bebop is a WebExtensions that makes your browsing groovy.
+
+bebop is available on [Firefox Add-ons][] and [Chrome web store][]
+
+Enjoy and swing your browsing!
 
 About
 -----
 
 
-bebop is a WebExtensions that offers
-emacs key-bindings and command line interface like
+bebop is a WebExtensions that offers command line interface like
 [emacs helm](https://github.com/emacs-helm/helm) for browsing.
 
 
@@ -110,3 +112,6 @@ export API_SECRET=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 npm run sign
 ```
+
+[Firefox Add-ons]:  https://addons.mozilla.org/ja/firefox/addon/bebop/
+[Chrome web store]: https://chrome.google.com/webstore/detail/bebop/idiejicnogeolaeacihfjleoakggbdid)
