@@ -25,7 +25,12 @@ class Popup extends React.Component {
       index: null,
     };
   }
+  constructor() {
+    super();
+    this.focusInput = () => this.input.focus();
+  }
   componentDidMount() {
+    window.addEventListener('focus', this.focusInput);
     setTimeout(() => {
       this.input.focus();
       if (document.scrollingElement) {
@@ -48,6 +53,9 @@ class Popup extends React.Component {
       return null;
     }
     return this.normalizeCandidate(this.props.candidates[this.props.index]);
+  }
+  componentDidUnmount() {
+    window.removeEventListener('focus', this.focusInput);
   }
   normalizeCandidate(candidate) {
     if (!candidate) {
