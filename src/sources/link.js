@@ -12,6 +12,18 @@ function faviconUrl(link) {
   return browser.extension.getURL('images/click.png');
 }
 
+function getLabel(link) {
+  const { url, label } = link;
+  const l = label.trim();
+  if (l && url) {
+    return `${l}: ${url}`;
+  }
+  if (l) {
+    return l;
+  }
+  return url;
+}
+
 export default function candidates(query, { maxResults = 20 } = {}) {
   return sendMessageToActiveTab({
     type:    'FETCH_LINKS',
@@ -23,7 +35,7 @@ export default function candidates(query, { maxResults = 20 } = {}) {
     const { id } = l;
     return {
       id,
-      label:      `${l.label}: ${l.url}`,
+      label:      getLabel(l),
       type:       'link',
       name:       'open-link',
       args:       [l],
