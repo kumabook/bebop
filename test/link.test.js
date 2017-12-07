@@ -10,8 +10,22 @@ import {
   click,
 } from '../src/link';
 
-function a(url, text) {
-  return `<a href="${url}" style="height: 10px;">${text}</a>`;
+const style = 'style="height: 10px;"';
+
+function a(url, text, title = '') {
+  return `<a href="${url}" title="${title}" ${style}>${text}</a>`;
+}
+
+function button(text, title) {
+  return `<button title="${title}" ${style}>${text}</button>`;
+}
+
+function input(type, value) {
+  return `<input type="${type}" value="${value}" ${style}>`;
+}
+
+function div(role, ariaLabel) {
+  return `<div role="${role}" aria-label="${ariaLabel}" ${style}/>`;
 }
 
 function setup() {
@@ -21,6 +35,13 @@ function setup() {
     a('https://example.org/', 'normal link'),
     a('/relative', 'relative link'),
     a('//outside.com/', 'no protocol link'),
+    a('#', 'some action'),
+    a('https://example.org/', '', 'title'),
+    button('text', 'title'),
+    button('', 'title'),
+    input('button', 'input button'),
+    input('submit', 'input submit'),
+    div('button', 'aria-label'),
   ];
   container.innerHTML = links.join('\n');
 }
@@ -31,30 +52,82 @@ test.afterEach(dehighlight);
 test('getTargetElements returns visible and clickable links', (t) => {
   setup();
   const targets = getTargetElements();
-  t.is(targets.length, 3);
+  t.is(targets.length, 10);
 });
 
 test('search returns visible and clickable links', (t) => {
   setup();
   const candidates = search();
-  t.is(candidates.length, 3);
+  t.is(candidates.length, 10);
   t.deepEqual(candidates[0], {
-    id:    '0-https://example.org/',
+    id:    'link-0',
     index: 0,
     url:   'https://example.org/',
     label: 'normal link',
+    role:  'link',
   });
   t.deepEqual(candidates[1], {
-    id:    '1-https://example.org/relative',
+    id:    'link-1',
     index: 1,
     url:   'https://example.org/relative',
     label: 'relative link',
+    role:  'link',
   });
   t.deepEqual(candidates[2], {
-    id:    '2-https://outside.com/',
+    id:    'link-2',
     index: 2,
     url:   'https://outside.com/',
     label: 'no protocol link',
+    role:  'link',
+  });
+  t.deepEqual(candidates[3], {
+    id:    'link-3',
+    index: 3,
+    url:   '',
+    label: 'some action',
+    role:  'button',
+  });
+  t.deepEqual(candidates[4], {
+    id:    'link-4',
+    index: 4,
+    url:   'https://example.org/',
+    label: 'title',
+    role:  'link',
+  });
+  t.deepEqual(candidates[5], {
+    id:    'link-5',
+    index: 5,
+    url:   '',
+    label: 'text',
+    role:  'button',
+  });
+  t.deepEqual(candidates[6], {
+    id:    'link-6',
+    index: 6,
+    url:   '',
+    label: 'title',
+    role:  'button',
+  });
+  t.deepEqual(candidates[7], {
+    id:    'link-7',
+    index: 7,
+    url:   '',
+    label: 'input button',
+    role:  'button',
+  });
+  t.deepEqual(candidates[8], {
+    id:    'link-8',
+    index: 8,
+    url:   '',
+    label: 'input submit',
+    role:  'button',
+  });
+  t.deepEqual(candidates[9], {
+    id:    'link-9',
+    index: 9,
+    url:   '',
+    label: 'aria-label',
+    role:  'button',
   });
 });
 
@@ -71,7 +144,7 @@ test('highlight appends highlight element and link markers', (t) => {
   setup();
   highlight({ index: 0, url: 'https://example.org/' });
   t.truthy(document.getElementById(HIGHLIGHTER_ID));
-  t.true(document.getElementsByClassName(LINK_MARKER_CLASS).length === 3);
+  t.true(document.getElementsByClassName(LINK_MARKER_CLASS).length === 10);
 });
 
 test('dehighlight removes highlight element and link markers', (t) => {
