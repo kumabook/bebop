@@ -48,14 +48,14 @@ class Popup extends React.Component {
       }
     }
   }
+  componentWillUnmount() {
+    window.removeEventListener('focus', this.focusInput);
+  }
   getSelectedCandidate() {
     if (this.props.index === null) {
       return null;
     }
     return this.normalizeCandidate(this.props.candidates[this.props.index]);
-  }
-  componentDidUnmount() {
-    window.removeEventListener('focus', this.focusInput);
   }
   normalizeCandidate(candidate) {
     if (!candidate) {
