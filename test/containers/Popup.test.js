@@ -38,10 +38,10 @@ const element = (
 
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-test('<Popup />', (t) => {
+test('<Popup />', async (t) => {
   const wrapper = mount(element);
+  await delay(500);
   t.is(wrapper.find('form.commandForm').length, 1);
   t.is(wrapper.find('input.commandInput').length, 1);
   t.is(wrapper.find('ul.candidatesList').length, 1);
-  return delay(500);
 });
