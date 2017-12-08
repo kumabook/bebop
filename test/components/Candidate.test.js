@@ -5,6 +5,7 @@ import React     from 'react';
 import Candidate from '../../src/components/Candidate';
 
 const noop = () => {};
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 test('<Candidate isSelected=false />', (t) => {
   const item = {
@@ -30,4 +31,5 @@ test('<Candidate isSelected=true />', (t) => {
   const wrapper = mount(element);
   t.is(wrapper.find('div.candidate').length, 1);
   t.is(wrapper.find('div.candidate.selected').length, 1);
+  return delay(500);
 });
