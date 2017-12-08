@@ -2,6 +2,7 @@ bebop
 =====
 
 [![Build Status](https://travis-ci.org/kumabook/bebop.svg?branch=master)](https://travis-ci.org/kumabook/bebop)
+[![Greenkeeper badge](https://badges.greenkeeper.io/kumabook/bebop.svg)](https://greenkeeper.io/)
 [![Coverage Status](https://coveralls.io/repos/github/kumabook/bebop/badge.svg?branch=master)](https://coveralls.io/github/kumabook/bebop?branch=master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/739ecb729336efef52b8/maintainability)](https://codeclimate.com/github/kumabook/bebop/maintainability)
 
