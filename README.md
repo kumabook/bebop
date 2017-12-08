@@ -125,4 +125,4 @@ npm run sign
 ```
 
 [Firefox Add-ons]:  https://addons.mozilla.org/ja/firefox/addon/bebop/
-[Chrome web store]: https://chrome.google.com/webstore/detail/bebop/idiejicnogeolaeacihfjleoakggbdid)
+[Chrome web store]: https://chrome.google.com/webstore/detail/bebop/idiejicnogeolaeacihfjleoakggbdid
