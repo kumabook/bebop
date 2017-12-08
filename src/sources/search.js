@@ -3,7 +3,7 @@ import getMessage from '../utils/i18n';
 
 export default function candidates(q) {
   return Promise.resolve([{
-    id:         `google-seach-${q}`,
+    id:         `google-search-${q}`,
     label:      `${q} － Search with Google`,
     type:       'search',
     name:       'google-search',
