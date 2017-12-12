@@ -18,14 +18,23 @@ const dummyHrefs = [
   './',
 ];
 
+function reduce(method) {
+  return Array.prototype.reduce.apply(window.frames, [
+    (acc, f) => acc.concat(method(f.document)),
+    method(document),
+  ]);
+}
+
 export function getTargetElements() {
-  const elements = document.querySelectorAll(SELECTOR);
-  return Array.prototype.filter.call(elements, (e) => {
-    const style = window.getComputedStyle(e);
-    return style.display !== 'none' &&
-      style.visibility !== 'hidden' &&
-      e.type !== 'hidden' &&
-      e.offsetHeight > 0;
+  return reduce((doc) => {
+    const elements = doc.querySelectorAll(SELECTOR);
+    return Array.prototype.filter.call(elements, (e) => {
+      const style = window.getComputedStyle(e);
+      return style.display !== 'none' &&
+        style.visibility !== 'hidden' &&
+        e.type !== 'hidden' &&
+        e.offsetHeight > 0;
+    });
   });
 }
 
@@ -161,17 +170,23 @@ function createLinkMarker({ left, top }, selected) {
 }
 
 function removeHighlighter() {
-  const e = document.getElementById(HIGHLIGHTER_ID);
-  if (e) {
-    e.parentNode.removeChild(e);
-  }
+  reduce((doc) => {
+    const e = doc.getElementById(HIGHLIGHTER_ID);
+    if (e) {
+      e.parentNode.removeChild(e);
+    }
+    return [];
+  });
 }
 
 function removeLinkMarkers() {
-  const elements = document.getElementsByClassName(LINK_MARKER_CLASS);
-  for (let i = elements.length - 1; i >= 0; i -= 1) {
-    elements[i].parentNode.removeChild(elements[i]);
-  }
+  reduce((doc) => {
+    const elements = doc.getElementsByClassName(LINK_MARKER_CLASS);
+    for (let i = elements.length - 1; i >= 0; i -= 1) {
+      elements[i].parentNode.removeChild(elements[i]);
+    }
+    return [];
+  });
 }
 
 function getContainerDisplayedRect() {
@@ -210,16 +225,17 @@ export function highlight({ index, url } = {}) {
   const containerRect = getContainerDisplayedRect();
   const elements      = getTargetElements();
   elements.forEach((elem, i) => {
-    const rect        = getElementRect(elem);
-    const link        = elem2Link(elem, i);
-    const selected    = i === index && link.url === url;
+    const doc      = elem.ownerDocument;
+    const rect     = getElementRect(elem);
+    const link     = elem2Link(elem, i);
+    const selected = i === index && link.url === url;
     if (selected || isDisplayed(containerRect, rect)) {
       const marker = createLinkMarker(rect, selected);
-      document.body.appendChild(marker);
+      doc.body.appendChild(marker);
     }
     if (selected) {
       const highlighter = createHighlighter(rect);
-      document.body.appendChild(highlighter);
+      doc.body.appendChild(highlighter);
       elem.scrollIntoView({ block: 'end' });
     }
   });
