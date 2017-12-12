@@ -6,7 +6,6 @@ export default function candidates(q) {
     id:         `google-search-${q}`,
     label:      `${q} － Search with Google`,
     type:       'search',
-    name:       'google-search',
     args:       [q],
     faviconUrl: browser.extension.getURL('images/search.png'),
   }]).then(items => ({

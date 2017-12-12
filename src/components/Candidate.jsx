@@ -44,7 +44,6 @@ Candidate.propTypes = {
     id:         PropTypes.string.isRequired,
     label:      PropTypes.string.isRequired,
     type:       PropTypes.string.isRequired,
-    name:       PropTypes.string.isRequired,
     faviconUrl: PropTypes.string,
   }).isRequired,
   isSelected: PropTypes.bool.isRequired,

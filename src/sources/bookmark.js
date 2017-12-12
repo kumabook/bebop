@@ -11,8 +11,7 @@ export default function candidates(q, { maxResults = 20 } = {}) {
       id:         `${v.id}`,
       label:      `${v.title}:${v.url}`,
       type:       'bookmark',
-      name:       'open-bookmark',
-      args:       [v.url],
+      args:       [v.url, v.id],
       faviconUrl: getFaviconUrl(v.url),
     }))).then(items => ({
       items,

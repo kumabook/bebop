@@ -9,7 +9,6 @@ export default function candidates(q, { maxResults = 20 } = {}) {
       id:         `${v.id}`,
       label:      `${v.title}:${v.url}`,
       type:       'history',
-      name:       'open-history',
       args:       [v.url],
       faviconUrl: getFaviconUrl(v.url),
     }))).then(items => ({

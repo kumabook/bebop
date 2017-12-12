@@ -37,7 +37,6 @@ export default function candidates(query, { maxResults = 20 } = {}) {
       id,
       label:      getLabel(l),
       type:       'link',
-      name:       'open-link',
       args:       [l],
       faviconUrl: faviconUrl(l),
     };
