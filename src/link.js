@@ -175,13 +175,17 @@ function removeLinkMarkers() {
 }
 
 function getContainerDisplayedRect() {
-  const { pageXOffset, pageYOffset } = window;
-  const { clientWidth, clientHeight } = document.documentElement;
+  const {
+    pageXOffset,
+    pageYOffset,
+    innerHeight,
+    innerWidth,
+  } = window;
   return {
     left:   pageXOffset,
-    right:  pageXOffset + clientWidth,
+    right:  pageXOffset + innerWidth,
     top:    pageYOffset,
-    bottom: pageYOffset + clientHeight,
+    bottom: pageYOffset + innerHeight,
   };
 }
 
