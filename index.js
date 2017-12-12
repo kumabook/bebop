@@ -3,7 +3,7 @@ const webExt  = require('web-ext').default;
 const config  = require('./webpack.config');
 
 const compiler = webpack(config);
-const watching = compiler.watch({}, (err) => {
+const watching = compiler.watch({ aggregateTimeout: 1000 }, (err) => {
   /* eslint-disable no-console */
   if (err) {
     console.log('\nFailed to webpack build');
