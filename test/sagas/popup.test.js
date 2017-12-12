@@ -1,18 +1,19 @@
 import test from 'ava';
 import { delay } from 'redux-saga';
-import { put, call } from 'redux-saga/effects';
+import { put, call, select } from 'redux-saga/effects';
 import {
   debounceDelayMs,
   dispatchAction,
   dispatchEmptyQuery,
   searchCandidates,
   handleKeySequece,
+  candidateSelector,
 } from '../../src/sagas/popup';
 import candidates from '../../src/candidates';
 
 test('dispatchAction saga', (t) => {
-  const gen = dispatchAction('TEST')();
-  t.deepEqual(gen.next().value, put({ type: 'TEST' }));
+  const gen = dispatchAction('TEST', {})();
+  t.deepEqual(gen.next().value, put({ type: 'TEST', payload: {} }));
 });
 
 test('dispatchEmptyQuery saga', (t) => {
@@ -23,6 +24,7 @@ test('dispatchEmptyQuery saga', (t) => {
 test('searchCandidates saga', (t) => {
   const gen = searchCandidates({ payload: '' });
   t.deepEqual(gen.next().value, call(delay, debounceDelayMs));
+  t.deepEqual(gen.next().value, select(candidateSelector));
   t.deepEqual(gen.next().value, call(candidates, ''));
   t.deepEqual(gen.next().value, put({ type: 'CANDIDATES', payload: undefined }));
 });
