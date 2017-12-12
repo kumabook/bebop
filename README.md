@@ -45,9 +45,10 @@ Usage
   - `:link` or `l` narrow down to link candidates
   - `:link 阿部寛` or `:l 阿部寛` narrow down to link candidates searched with `阿部寛`
 
+
 3. Select the candidate. You can change the selected candidate with shortcut keys:
 
-| key-binding | command              |
+| key-binding | action               |
 |:------------|:-------------------- |
 | tab         | next-candidate       |
 | S-tab       | previous-candidate   |
@@ -55,6 +56,17 @@ Usage
 | C-p         | previous-candidate   |
 | C-j         | next-candidate       |
 | C-k         | previous-candidate   |
+
+4. Execute command. A candidate can be executed by multiple commands.
+You can execute default command by pressing `return` or click a candidate.
+You can also execute another command by these shortcuts.
+
+| key-binding | command                 |
+|:------------|:----------------------- |
+| return      | execute default command |
+| S-return    | execute second command  |
+| C-return    | show command list       |
+
 
 You can change shortcut key from `Ctrl+Comma`.
 See [Customize](#change-shortcut-key-with-your-own-private-addon)
