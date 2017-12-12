@@ -2,9 +2,13 @@ import browser from 'webextension-polyfill';
 import getMessage from '../utils/i18n';
 
 export default function candidates(q) {
+  let query = '';
+  if (q) {
+    query += `${q} ― `;
+  }
   return Promise.resolve([{
     id:         `google-search-${q}`,
-    label:      `${q} － Search with Google`,
+    label:      `${query}Search with Google`,
     type:       'search',
     args:       [q],
     faviconUrl: browser.extension.getURL('images/search.png'),
