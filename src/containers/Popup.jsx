@@ -18,7 +18,7 @@ class Popup extends React.Component {
       candidateType:         PropTypes.string.isRequired,
       handleSelectCandidate: PropTypes.func.isRequired,
       handleInputChange:     PropTypes.func.isRequired,
-      handleKeydown:         PropTypes.func.isRequired,
+      handleKeyDown:         PropTypes.func.isRequired,
     };
   }
   static get defaultProps() {
@@ -114,7 +114,7 @@ class Popup extends React.Component {
           type="text"
           value={this.props.query}
           onChange={e => this.props.handleInputChange(e.target.value)}
-          onKeyDown={this.props.handleKeydown}
+          onKeyDown={this.props.handleKeyDown}
           placeholder={getMessage('commandInput_placeholder')}
         />
         <ul className={candidateListClassName}>
@@ -156,7 +156,7 @@ function mapDispatchToProps(dispatch) {
   return {
     handleSelectCandidate: payload => dispatch({ type: 'SELECT_CANDIDATE', payload }),
     handleInputChange:     payload => dispatch({ type: 'QUERY', payload }),
-    handleKeydown:         (e) => {
+    handleKeyDown:         (e) => {
       const keySeq = keySequence(e);
       if (commandOfSeq[keySeq]) {
         e.preventDefault();
