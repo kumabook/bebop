@@ -1,7 +1,7 @@
 import browser from 'webextension-polyfill';
 import logger from 'kiroku';
 import keySequence from './key_sequences';
-import { init as commandInit, get as getCommand } from './commands';
+import { init as commandInit, find as findCommand } from './commands';
 import { search, highlight, dehighlight } from './link';
 
 const portName = `content-script-${window.location.href}`;
@@ -22,8 +22,9 @@ const commandNameOfSeq = {
   'C-h': 'delete-backward-char',
 };
 
-function executeCommand(name, args) {
-  const command = getCommand(name);
+function executeCommand(commandName, candidate) {
+  const { type, args } = candidate;
+  const command = findCommand(type, commandName);
   if (command && command.contentHandler) {
     const f = command.contentHandler;
     return f.apply(this, args);
@@ -31,9 +32,9 @@ function executeCommand(name, args) {
   return Promise.resolve();
 }
 
-function handleSelectCandidate(candidate) {
-  const { name, args } = candidate;
-  return executeCommand(name, args);
+function handleExecuteCommand(payload) {
+  const { commandName, candidate } = payload;
+  return executeCommand(commandName, candidate);
 }
 
 function keydownListener(e) {
@@ -68,9 +69,6 @@ function portMessageListener(msg) {
   }
   logger.trace(`Handle message ${type} ${JSON.stringify(payload)}`);
   switch (type) {
-    case 'SELECT_CANDIDATE':
-      handleSelectCandidate(payload);
-      break;
     case 'POPUP_CLOSE':
       handleClose();
       break;
@@ -98,6 +96,9 @@ function messageListener(request, sender, sendResponse) {
       break;
     case 'CHANGE_CANDIDATE':
       handleCandidateChange(request.payload);
+      break;
+    case 'EXECUTE_COMMAND':
+      sendResponse(handleExecuteCommand(request.payload));
       break;
     default:
       break;
