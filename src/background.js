@@ -1,6 +1,5 @@
 import browser from 'webextension-polyfill';
 import logger from 'kiroku';
-import { init as commandInit, get as getCommand } from './commands';
 
 const contentScriptPorts = {};
 const popupPorts         = {};
@@ -9,17 +8,6 @@ if (process.env.NODE_ENV === 'production') {
   logger.setLevel('INFO');
 }
 logger.info(`bebop starts initialization. log level ${logger.getLevel()}`);
-function getPort(name) {
-  if (!name) {
-    return null;
-  }
-  if (name.startsWith('content-script')) {
-    return contentScriptPorts[name];
-  } else if (name.startsWith('popup')) {
-    return popupPorts[name];
-  }
-  return null;
-}
 
 function getContentScriptPorts() {
   return Object.values(contentScriptPorts);
@@ -54,30 +42,6 @@ function postMessageToContentScript(type, payload) {
 function handleContentScriptMessage() {
 }
 
-function handlePopupMessage(msg) {
-  const { portName, type, payload } = msg;
-  logger.info(`handlePopupMessage ${type} from ${portName}`);
-  const port = getPort(portName);
-  switch (type) {
-    case 'SELECT_CANDIDATE': {
-      const { name, args } = payload;
-      const command = getCommand(name);
-      port.postMessage({ type: 'CLOSE' });
-      if (command && command.backgroundHandler) {
-        const f = command.backgroundHandler;
-        f.apply(this, args).then(() => logger.trace(`executed ${name} `));
-      } else {
-        logger.trace(`${name} is not defined`);
-      }
-      postMessageToContentScript(type, payload)
-        .then(() => logger.trace(`pass ${name} to content script`));
-      break;
-    }
-    default:
-      break;
-  }
-}
-
 browser.runtime.onConnect.addListener((port) => {
   const { name } = port;
   logger.info(`connect channel: ${name}`);
@@ -96,10 +60,8 @@ browser.runtime.onConnect.addListener((port) => {
     popupPorts[name] = port;
     port.onDisconnect.addListener(() => {
       delete popupPorts[name];
-      port.onMessage.removeListener(handlePopupMessage);
       postMessageToContentScript('POPUP_CLOSE');
     });
-    port.onMessage.addListener(handlePopupMessage);
   }
   logger.info(`There are ${Object.values(contentScriptPorts).length} channel`);
 });
@@ -110,7 +72,5 @@ browser.tabs.onActivated.addListener((payload) => {
     payload,
   }));
 });
-
-commandInit();
 
 logger.info('bebop is initialized.');

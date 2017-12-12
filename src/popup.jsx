@@ -26,6 +26,7 @@ import Popup from './containers/Popup';
 import reducers from './reducers/popup';
 import rootSaga from './sagas/popup';
 import { init as candidateInit } from './candidates';
+import { init as commandInit } from './commands';
 
 if (process.env.NODE_ENV === 'production') {
   logger.setLevel('INFO');
@@ -55,6 +56,7 @@ window.onload = () => {
 };
 
 candidateInit();
+commandInit();
 
 browser.storage.local.get('popupWidth').then(({ popupWidth }) => {
   const width = popupWidth || 700;
