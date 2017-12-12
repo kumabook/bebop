@@ -8,7 +8,7 @@ function imageURL(type) {
   return browser.extension.getURL(`images/${type}.png`);
 }
 
-function commandTypeImg(type) {
+function typeImg(type) {
   switch (type) {
     case 'search':
       return <span className="candidate-icon-dummy" />;
@@ -33,7 +33,7 @@ const Candidate = ({ item, isSelected, onClick }) => (
     onKeyUp={noop}
     tabIndex={0}
   >
-    {commandTypeImg(item.type)}
+    {typeImg(item.type)}
     {faviconImg(item.faviconUrl)}
     <span className="candidate-label">{item.label}</span>
   </div>
