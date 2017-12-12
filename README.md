@@ -20,6 +20,8 @@ bebop is a WebExtensions that offers command line interface like
 [emacs helm](https://github.com/emacs-helm/helm) for browsing.
 
 
+![Demo](./demo.gif)
+
 Usage
 -----
 
