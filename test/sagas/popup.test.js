@@ -8,6 +8,7 @@ import {
   searchCandidates,
   handleKeySequece,
   candidateSelector,
+  executeCommand,
 } from '../../src/sagas/popup';
 import candidates from '../../src/candidates';
 
@@ -41,4 +42,17 @@ test('handleKeySequece saga', (t) => {
   deleteGen.next();
   t.deepEqual(deleteGen.next().value, put({ type: 'QUERY', payload: '' }));
   t.deepEqual(deleteGen.next(), { done: true, value: undefined });
+});
+
+test('executeCommand', (t) => {
+  const command = { handler: () => Promise.resolve() };
+  const candidate = { name: 'name', args: [] };
+  const gen = executeCommand(command, candidate);
+  gen.next();
+  gen.next();
+  t.pass();
+
+  const noCommandGen = executeCommand({}, candidate);
+  noCommandGen.next();
+  t.pass();
 });

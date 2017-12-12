@@ -11,9 +11,9 @@ export function getActiveTab() {
 }
 
 export function sendMessageToActiveTab(msg) {
-  return getActiveTab().then(({ id }) => {
-    if (id) {
-      return browser.tabs.sendMessage(id, msg);
+  return getActiveTab().then((tab) => {
+    if (tab && tab.id) {
+      return browser.tabs.sendMessage(tab.id, msg);
     }
     return Promise.reject(new Error('No active tab'));
   });

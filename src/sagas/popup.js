@@ -57,15 +57,22 @@ export const commandOfSeq = {
 
 export function* executeCommand(command, candidate) {
   const { name, args } = candidate;
-  if (command && command.handler) {
-    const f = command.handler;
-    yield f.apply(this, args).then(() => logger.trace(`executed ${name} `));
-  } else {
+  if (!command) {
     logger.trace(`${name} is not defined`);
+    return;
   }
-  const payload = { commandName: command.label, candidate };
-  yield sendMessageToActiveTab({ type: 'EXECUTE_COMMAND', payload });
-  window.close();
+  try {
+    if (command.handler) {
+      const f = command.handler;
+      yield f.apply(this, args).then(() => logger.trace(`executed ${name} `));
+    }
+    const payload = { commandName: command.label, candidate };
+    yield call(sendMessageToActiveTab, { type: 'EXECUTE_COMMAND', payload });
+  } catch (e) {
+    logger.error(e);
+  } finally {
+    window.close();
+  }
 }
 
 export function* dispatchEmptyQuery() {
