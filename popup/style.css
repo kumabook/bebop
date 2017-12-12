@@ -21,7 +21,27 @@
   height: 36px;
 }
 
+.footer {
+  position: fixed;
+  padding: 0 8px;
+  bottom: 0;
+  height: 18px;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: small;
+  background-color: #dda0dd;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
 .candidatesList {
+  list-style-type: none;
+  margin: 0;
+  padding: 36px 0 18px 0;
+}
+
+.candidatesList-no-footer {
   list-style-type: none;
   margin: 0;
   padding: 36px 0 0;

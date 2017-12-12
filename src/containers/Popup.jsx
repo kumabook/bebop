@@ -15,6 +15,7 @@ class Popup extends React.Component {
       candidates:            PropTypes.arrayOf(PropTypes.object).isRequired,
       separators:            PropTypes.arrayOf(PropTypes.object).isRequired,
       index:                 PropTypes.number,
+      candidateType:         PropTypes.string.isRequired,
       handleSelectCandidate: PropTypes.func.isRequired,
       handleInputChange:     PropTypes.func.isRequired,
       handleKeydown:         PropTypes.func.isRequired,
@@ -40,11 +41,12 @@ class Popup extends React.Component {
   }
   componentDidUpdate() {
     if (this.selectedCandidate && document.scrollingElement) {
-      const container       = document.scrollingElement;
-      const height          = container.clientHeight;
-      const { bottom, top } = this.selectedCandidate.getBoundingClientRect();
+      const container               = document.scrollingElement;
+      const containerHeight         = container.clientHeight;
+      const { bottom, top, height } = this.selectedCandidate.getBoundingClientRect();
+      const b = containerHeight - height - 18 - container.scrollTop;
       if (bottom > height || top < 0) {
-        this.selectedCandidate.scrollIntoView({ block: 'end' });
+        container.scrollTop = top - b;
       }
     }
   }
@@ -79,12 +81,28 @@ class Popup extends React.Component {
       this.props.handleSelectCandidate(candidate);
     }
   }
+  hasFooter() {
+    return this.props.candidateType !== 'command';
+  }
+  renderFooter() {
+    switch (this.props.candidateType) {
+      case 'command':
+        return null;
+      default:
+        return (
+          <div className="footer">
+            {getMessage('key_info')}
+          </div>
+        );
+    }
+  }
   renderSeparator(index) {
     return this.props.separators.filter(s => s.index === index && s.label).map(s => ((
       <div key={`separator${index}`} className="separator">{s.label}</div>
     )));
   }
   render() {
+    const candidateListClassName = this.hasFooter() ? 'candidatesList' : 'candidatesList-no-footer';
     return (
       <form
         className="commandForm"
@@ -99,7 +117,7 @@ class Popup extends React.Component {
           onKeyDown={this.props.handleKeydown}
           placeholder={getMessage('commandInput_placeholder')}
         />
-        <ul className="candidatesList">
+        <ul className={candidateListClassName}>
           {this.props.candidates.map((c, i) => (
             <li
               key={c.id}
@@ -118,6 +136,7 @@ class Popup extends React.Component {
             </li>))
           }
         </ul>
+        {this.renderFooter()}
       </form>
     );
   }
@@ -125,10 +144,11 @@ class Popup extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    query:      state.query,
-    candidates: state.candidates.items,
-    index:      state.candidates.index,
-    separators: state.separators,
+    query:         state.query,
+    candidates:    state.candidates.items,
+    index:         state.candidates.index,
+    separators:    state.separators,
+    candidateType: state.candidateType,
   };
 }
 

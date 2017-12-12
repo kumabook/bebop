@@ -2,6 +2,9 @@
   "commandInput_placeholder": {
     "message": "クエリを入力"
   },
+  "key_info": {
+    "message": "[return] ... exec default command, [S-return] ... exec 2nd command, [C-return] ... command list"
+  },
   "search": {
     "message": "検索"
   },

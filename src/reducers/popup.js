@@ -53,12 +53,22 @@ const candidate = (state = null, action) => {
   }
 };
 
+const candidateType = (state = 'candidate', action) => {
+  switch (action.type) {
+    case 'CANDIDATE':
+      return 'command';
+    default:
+      return state;
+  }
+};
+
 const rootReducer = combineReducers({
   router: routerReducer,
   query,
   candidates,
   separators,
   candidate,
+  candidateType,
 });
 
 export default rootReducer;
