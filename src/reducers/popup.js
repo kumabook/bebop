@@ -28,6 +28,8 @@ const candidates = (state = { index: null, items: [] }, action) => {
       const i = state.index;
       return normalize({ index: (Number.isNaN(i) ? 0 : i) - 1, items: state.items });
     }
+    case 'CANDIDATE':
+      return { index: null, items: state.items };
     default:
       return state;
   }
@@ -42,11 +44,21 @@ const separators = (state = [], action) => {
   }
 };
 
+const candidate = (state = null, action) => {
+  switch (action.type) {
+    case 'CANDIDATE':
+      return action.payload;
+    default:
+      return state;
+  }
+};
+
 const rootReducer = combineReducers({
   router: routerReducer,
   query,
   candidates,
   separators,
+  candidate,
 });
 
 export default rootReducer;
