@@ -30,13 +30,13 @@ Usage
 
     NOTE: On Windows, you need to press a tab-key to focus to a query input
 
-| type        | shorthand | description                     |
-|:------------|:---------:|:------------------------------- |
-| search      |           | open new tab with google search |
-| link        | l         | click a link in current page    |
-| tab         | t         | active selected tab             |
-| history     | h         | open a history                  |
-| bookmark    | b         | open a bookmark                 |
+    | type        | shorthand | description                     |
+    |:------------|:---------:|:------------------------------- |
+    | search      |           | open new tab with google search |
+    | link        | l         | click a link in current page    |
+    | tab         | t         | active selected tab             |
+    | history     | h         | open a history                  |
+    | bookmark    | b         | open a bookmark                 |
 
 - `:type` narrows down to the candidates whose type is the specified type
 - `x` also narrows down to the candidates whose shorthand is the specified type
@@ -48,24 +48,24 @@ Usage
 
 3. Select the candidate. You can change the selected candidate with shortcut keys:
 
-| key-binding | action               |
-|:------------|:-------------------- |
-| tab         | next-candidate       |
-| S-tab       | previous-candidate   |
-| C-n         | next-candidate       |
-| C-p         | previous-candidate   |
-| C-j         | next-candidate       |
-| C-k         | previous-candidate   |
+    | key-binding | action               |
+    |:------------|:-------------------- |
+    | tab         | next-candidate       |
+    | S-tab       | previous-candidate   |
+    | C-n         | next-candidate       |
+    | C-p         | previous-candidate   |
+    | C-j         | next-candidate       |
+    | C-k         | previous-candidate   |
 
 4. Execute command. A candidate can be executed by multiple commands.
 You can execute default command by pressing `return` or click a candidate.
 You can also execute another command by these shortcuts.
 
-| key-binding | command                 |
-|:------------|:----------------------- |
-| return      | execute default command |
-| S-return    | execute second command  |
-| C-return    | show command list       |
+    | key-binding | command                 |
+    |:------------|:----------------------- |
+    | return      | execute default command |
+    | S-return    | execute second command  |
+    | C-return    | show command list       |
 
 
 You can change shortcut key from `Ctrl+Comma`.
