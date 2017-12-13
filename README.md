@@ -63,11 +63,11 @@ Usage
 You can execute default command by pressing `return` or click a candidate.
 You can also execute another command by these shortcuts.
 
-    | key-binding | command                 |
-    |:------------|:----------------------- |
-    | return      | execute default command |
-    | S-return    | execute second command  |
-    | C-return    | show command list       |
+    | key-binding | command                  |
+    |:------------|:------------------------ |
+    | return      | runs the first command   |
+    | S-return    | runs the second command  |
+    | C-i         | lists avaidable commands |
 
 
 You can change shortcut key from `Ctrl+Comma`.
