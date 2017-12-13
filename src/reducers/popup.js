@@ -5,6 +5,10 @@ const query = (state = '', action) => {
   switch (action.type) {
     case 'QUERY':
       return action.payload;
+    case 'SAVE_CANDIDATES':
+      return '';
+    case 'RESTORE_CANDIDATES':
+      return action.payload.query;
     default:
       return state;
   }
@@ -30,6 +34,12 @@ const candidates = (state = { index: null, items: [] }, action) => {
     }
     case 'CANDIDATE':
       return { index: null, items: state.items };
+    case 'SAVE_CANDIDATES':
+      return { index: null, items: state.items };
+    case 'RESTORE_CANDIDATES': {
+      const { index, items } = action.payload;
+      return normalize({ index, items });
+    }
     default:
       return state;
   }
@@ -39,15 +49,19 @@ const separators = (state = [], action) => {
   switch (action.type) {
     case 'CANDIDATES':
       return action.payload.separators;
+    case 'RESTORE_CANDIDATES':
+      return action.payload.separators;
     default:
       return state;
   }
 };
 
-const candidate = (state = null, action) => {
+const prev = (state = null, action) => {
   switch (action.type) {
-    case 'CANDIDATE':
+    case 'SAVE_CANDIDATES':
       return action.payload;
+    case 'RESTORE_CANDIDATES':
+      return null;
     default:
       return state;
   }
@@ -55,8 +69,10 @@ const candidate = (state = null, action) => {
 
 const candidateType = (state = 'candidate', action) => {
   switch (action.type) {
-    case 'CANDIDATE':
+    case 'SAVE_CANDIDATES':
       return 'command';
+    case 'RESTORE_CANDIDATES':
+      return 'candidate';
     default:
       return state;
   }
@@ -67,7 +83,7 @@ const rootReducer = combineReducers({
   query,
   candidates,
   separators,
-  candidate,
+  prev,
   candidateType,
 });
 

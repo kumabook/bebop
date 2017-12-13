@@ -52,7 +52,7 @@ export const commandOfSeq = {
   'S-tab':    dispatchAction('PREVIOUS_CANDIDATE'),
   'return':   dispatchAction('RETURN', { commandIndex: 0 }),
   'S-return': dispatchAction('RETURN', { commandIndex: 1 }),
-  'C-return': dispatchAction('RETURN', { commandIndex: -1 }),
+  'C-return': dispatchAction('LIST_COMMANDS'),
 };
 
 export function* executeCommand(command, candidate) {
@@ -80,7 +80,7 @@ export function* dispatchEmptyQuery() {
 }
 
 export function candidateSelector(state) {
-  return state.candidate;
+  return state.prev && state.prev.candidate;
 }
 
 export function* searchCandidates({ payload: query }) {
@@ -153,7 +153,10 @@ function* watchSelectCandidate() {
 
 function* watchReturn() {
   yield takeEvery('RETURN', function* handleReturn({ payload: { commandIndex } }) {
-    const { candidates: { index, items }, candidate } = yield select(state => state);
+    const {
+      candidates: { index, items },
+      prev:       { candidate },
+    } = yield select(state => state);
     if (candidate) {
       const command = items[index];
       yield executeCommand(command, candidate);
@@ -164,14 +167,40 @@ function* watchReturn() {
       const query = yield select(state => state.query);
       c.args = [query];
     }
-    if (commandIndex >= 0) {
-      const commands = queryCommands(c.type);
-      const command = commands[Math.min(commandIndex, commands.length - 1)];
-      yield executeCommand(command, c);
-      return;
+    const commands = queryCommands(c.type);
+    const command = commands[Math.min(commandIndex, commands.length - 1)];
+    yield executeCommand(command, c);
+  });
+}
+
+function* watchListCommands() {
+  /* eslint-disable object-curly-newline */
+  yield takeEvery('LIST_COMMANDS', function* handleListCommands() {
+    const {
+      candidates: { index, items },
+      query, separators, candidateType, prev,
+    } = yield select(state => state);
+    switch (candidateType) {
+      case 'command':
+        yield put({ type: 'RESTORE_CANDIDATES', payload: prev });
+        break;
+      default: {
+        const candidate = items[index];
+        if (!candidate) {
+          return;
+        }
+        if (candidate.type === 'search') {
+          const q = yield select(state => state.query);
+          candidate.args = [q];
+        }
+        yield put({
+          type:    'SAVE_CANDIDATES',
+          payload: { candidate, query, index, items, separators },
+        });
+        yield call(searchCandidates, { payload: '' });
+        break;
+      }
     }
-    yield put({ type: 'CANDIDATE', payload: c });
-    yield call(dispatchEmptyQuery);
   });
 }
 
@@ -218,6 +247,7 @@ export default function* root() {
     fork(watchChangeCandidate),
     fork(watchSelectCandidate),
     fork(watchReturn),
+    fork(watchListCommands),
     fork(watchPort),
     fork(watchClose),
     fork(routerSaga),
