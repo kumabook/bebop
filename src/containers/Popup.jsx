@@ -45,7 +45,7 @@ class Popup extends React.Component {
       const containerHeight         = container.clientHeight;
       const { bottom, top, height } = this.selectedCandidate.getBoundingClientRect();
       const b = containerHeight - height - 18 - container.scrollTop;
-      if (bottom > height || top < 0) {
+      if (bottom > containerHeight || top < 0) {
         container.scrollTop = top - b;
       }
     }
