@@ -3,7 +3,7 @@
     "message": "Input query"
   },
   "key_info": {
-    "message": "[return] ... exec default command, [S-return] ... exec 2nd command, [C-return] ... command list"
+    "message": "[return] ... runs the 1st command, [S-return] ... runs the 2nd command, [C-i] ... lists commands"
   },
   "search": {
     "message": "Search"
