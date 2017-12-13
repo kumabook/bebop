@@ -67,7 +67,7 @@ const prev = (state = null, action) => {
   }
 };
 
-const candidateType = (state = 'candidate', action) => {
+const mode = (state = 'candidate', action) => {
   switch (action.type) {
     case 'SAVE_CANDIDATES':
       return 'command';
@@ -84,7 +84,7 @@ const rootReducer = combineReducers({
   candidates,
   separators,
   prev,
-  candidateType,
+  mode,
 });
 
 export default rootReducer;

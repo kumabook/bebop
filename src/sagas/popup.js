@@ -189,9 +189,9 @@ function* watchListCommands() {
   yield takeEvery('LIST_COMMANDS', function* handleListCommands() {
     const {
       candidates: { index, items },
-      query, separators, candidateType, prev,
+      query, separators, mode, prev,
     } = yield select(state => state);
-    switch (candidateType) {
+    switch (mode) {
       case 'command':
         yield put({ type: 'RESTORE_CANDIDATES', payload: prev });
         break;

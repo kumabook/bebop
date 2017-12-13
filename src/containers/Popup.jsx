@@ -15,7 +15,7 @@ class Popup extends React.Component {
       candidates:            PropTypes.arrayOf(PropTypes.object).isRequired,
       separators:            PropTypes.arrayOf(PropTypes.object).isRequired,
       index:                 PropTypes.number,
-      candidateType:         PropTypes.string.isRequired,
+      mode:                  PropTypes.string.isRequired,
       handleSelectCandidate: PropTypes.func.isRequired,
       handleInputChange:     PropTypes.func.isRequired,
       handleKeyDown:         PropTypes.func.isRequired,
@@ -82,10 +82,10 @@ class Popup extends React.Component {
     }
   }
   hasFooter() {
-    return this.props.candidateType !== 'command';
+    return this.props.mode !== 'command';
   }
   renderFooter() {
-    switch (this.props.candidateType) {
+    switch (this.props.mode) {
       case 'command':
         return null;
       default:
@@ -144,11 +144,11 @@ class Popup extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    query:         state.query,
-    candidates:    state.candidates.items,
-    index:         state.candidates.index,
-    separators:    state.separators,
-    candidateType: state.candidateType,
+    query:      state.query,
+    candidates: state.candidates.items,
+    index:      state.candidates.index,
+    separators: state.separators,
+    mode:       state.mode,
   };
 }
 
