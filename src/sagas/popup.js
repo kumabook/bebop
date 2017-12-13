@@ -173,6 +173,17 @@ function* watchReturn() {
   });
 }
 
+function* normalizeCandidate(candidate) {
+  if (!candidate) {
+    return null;
+  }
+  if (candidate.type === 'search') {
+    const q = yield select(state => state.query);
+    return Object.assign({}, candidate, { args: [q] });
+  }
+  return Object.assign({}, candidate);
+}
+
 function* watchListCommands() {
   /* eslint-disable object-curly-newline */
   yield takeEvery('LIST_COMMANDS', function* handleListCommands() {
@@ -185,13 +196,9 @@ function* watchListCommands() {
         yield put({ type: 'RESTORE_CANDIDATES', payload: prev });
         break;
       default: {
-        const candidate = items[index];
+        const candidate = yield normalizeCandidate(items[index]);
         if (!candidate) {
           return;
-        }
-        if (candidate.type === 'search') {
-          const q = yield select(state => state.query);
-          candidate.args = [q];
         }
         yield put({
           type:    'SAVE_CANDIDATES',
