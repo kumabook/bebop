@@ -52,7 +52,7 @@ export const commandOfSeq = {
   'S-tab':    dispatchAction('PREVIOUS_CANDIDATE'),
   'return':   dispatchAction('RETURN', { commandIndex: 0 }),
   'S-return': dispatchAction('RETURN', { commandIndex: 1 }),
-  'C-return': dispatchAction('LIST_COMMANDS'),
+  'C-i':      dispatchAction('LIST_COMMANDS'),
 };
 
 export function* executeCommand(command, candidate) {
