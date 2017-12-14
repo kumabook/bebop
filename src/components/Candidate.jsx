@@ -25,9 +25,21 @@ function faviconImg(url) {
   return <img className="candidate-icon" src={src} alt="favicon" />;
 }
 
-const Candidate = ({ item, isSelected, onClick }) => (
+function className(isSelected, isMarked) {
+  const classes = ['candidate'];
+  if (isMarked) {
+    classes.push('marked');
+  }
+  if (isSelected) {
+    classes.push('selected');
+  }
+  return classes.join(' ');
+}
+
+/* eslint-disable object-curly-newline */
+const Candidate = ({ item, isSelected, isMarked, onClick }) => (
   <div
-    className={isSelected ? 'candidate selected' : 'candidate'}
+    className={className(isSelected, isMarked)}
     role="button"
     onClick={onClick}
     onKeyUp={noop}
@@ -47,6 +59,7 @@ Candidate.propTypes = {
     faviconUrl: PropTypes.string,
   }).isRequired,
   isSelected: PropTypes.bool.isRequired,
+  isMarked:   PropTypes.bool.isRequired,
   onClick:    PropTypes.func.isRequired,
 };
 

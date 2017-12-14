@@ -15,6 +15,7 @@ class Popup extends React.Component {
       candidates:            PropTypes.arrayOf(PropTypes.object).isRequired,
       separators:            PropTypes.arrayOf(PropTypes.object).isRequired,
       index:                 PropTypes.number,
+      markedCandidateIds:    PropTypes.shape({ id: PropTypes.bool }).isRequired,
       mode:                  PropTypes.string.isRequired,
       handleSelectCandidate: PropTypes.func.isRequired,
       handleInputChange:     PropTypes.func.isRequired,
@@ -131,6 +132,7 @@ class Popup extends React.Component {
               <Candidate
                 item={c}
                 isSelected={i === this.props.index}
+                isMarked={!!this.props.markedCandidateIds[c.id]}
                 onClick={() => this.handleCandidateClick(i)}
               />
             </li>))
@@ -144,11 +146,12 @@ class Popup extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    query:      state.query,
-    candidates: state.candidates.items,
-    index:      state.candidates.index,
-    separators: state.separators,
-    mode:       state.mode,
+    query:              state.query,
+    candidates:         state.candidates.items,
+    index:              state.candidates.index,
+    separators:         state.separators,
+    markedCandidateIds: state.markedCandidateIds,
+    mode:               state.mode,
   };
 }
 

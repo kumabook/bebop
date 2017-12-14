@@ -63,6 +63,26 @@
   background-color: #87cefa;
 }
 
+.candidate.selected:hover {
+  background-color: #6ca5c8;
+}
+
+.candidate.marked {
+  background-color: #00bfff;
+}
+
+.candidate.marked:hover {
+  background-color: #09c;
+}
+
+.candidate.selected.marked {
+  background-color: #00a2d9;
+}
+
+.candidate.selected.marked:hover {
+  background-color: #007ca6;
+}
+
 .candidate-label {
   display: inline;
   margin: 8px;

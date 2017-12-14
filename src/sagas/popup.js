@@ -53,6 +53,7 @@ export const commandOfSeq = {
   'return':   dispatchAction('RETURN', { commandIndex: 0 }),
   'S-return': dispatchAction('RETURN', { commandIndex: 1 }),
   'C-i':      dispatchAction('LIST_COMMANDS'),
+  'C-SPC':    dispatchAction('MARK_CANDIDATE'),
 };
 
 export function* executeCommand(command, candidate) {
@@ -175,7 +176,7 @@ function* watchReturn() {
     }
     const c        = yield normalizeCandidate(items[index]);
     const commands = queryCommands(c.type);
-    const command = commands[Math.min(commandIndex, commands.length - 1)];
+    const command  = commands[Math.min(commandIndex, commands.length - 1)];
     yield executeCommand(command, c);
   });
 }
@@ -185,7 +186,7 @@ function* watchListCommands() {
   yield takeEvery('LIST_COMMANDS', function* handleListCommands() {
     const {
       candidates: { index, items },
-      query, separators, mode, prev,
+      query, separators, markedCandidateIds, mode, prev,
     } = yield select(state => state);
     switch (mode) {
       case 'command':
@@ -198,12 +199,23 @@ function* watchListCommands() {
         }
         yield put({
           type:    'SAVE_CANDIDATES',
-          payload: { candidate, query, index, items, separators },
+          payload: { candidate, query, index, items, separators, markedCandidateIds },
         });
         yield call(searchCandidates, { payload: '' });
         break;
       }
     }
+  });
+}
+
+function* watchMarkCandidate() {
+  yield takeEvery('MARK_CANDIDATE', function* handleMarkCandidate() {
+    const { mode, candidates: { index, items } } = yield select(state => state);
+    if (mode === 'command') {
+      return;
+    }
+    const candidate = yield normalizeCandidate(items[index]);
+    yield put({ type: 'CANDIDATE_MARKED', payload: candidate });
   });
 }
 
@@ -251,6 +263,7 @@ export default function* root() {
     fork(watchSelectCandidate),
     fork(watchReturn),
     fork(watchListCommands),
+    fork(watchMarkCandidate),
     fork(watchPort),
     fork(watchClose),
     fork(routerSaga),

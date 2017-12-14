@@ -40,6 +40,8 @@ const candidates = (state = { index: null, items: [] }, action) => {
       const { index, items } = action.payload;
       return normalize({ index, items });
     }
+    case 'CANDIDATE_MARKED':
+      return normalize({ index: state.index + 1, items: state.items });
     default:
       return state;
   }
@@ -51,6 +53,21 @@ const separators = (state = [], action) => {
       return action.payload.separators;
     case 'RESTORE_CANDIDATES':
       return action.payload.separators;
+    default:
+      return state;
+  }
+};
+
+const markedCandidateIds = (state = {}, action) => {
+  switch (action.type) {
+    case 'CANDIDATE_MARKED': {
+      const { id } = action.payload;
+      return Object.assign({}, state, { [id]: !state[id] });
+    }
+    case 'SAVE_CANDIDATES':
+      return {};
+    case 'RESTORE_CANDIDATES':
+      return action.payload.markedCandidateIds;
     default:
       return state;
   }
@@ -83,6 +100,7 @@ const rootReducer = combineReducers({
   query,
   candidates,
   separators,
+  markedCandidateIds,
   prev,
   mode,
 });
