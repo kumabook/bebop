@@ -56,18 +56,17 @@ export const commandOfSeq = {
   'C-SPC':    dispatchAction('MARK_CANDIDATE'),
 };
 
-export function* executeCommand(command, candidate) {
-  const { name, args } = candidate;
-  if (!command) {
-    logger.trace(`${name} is not defined`);
+export function* executeCommand(command, candidates) {
+  if (!command || candidates.length === 0) {
     return;
   }
   try {
     if (command.handler) {
       const f = command.handler;
-      yield f.apply(this, args).then(() => logger.trace(`executed ${name} `));
+      yield f.call(this, candidates);
+      logger.trace(`executed ${command.label}`);
     }
-    const payload = { commandName: command.label, candidate };
+    const payload = { commandName: command.label, candidates };
     yield call(sendMessageToActiveTab, { type: 'EXECUTE_COMMAND', payload });
   } catch (e) {
     logger.error(e);
@@ -148,7 +147,7 @@ function* watchSelectCandidate() {
       c         = payload;
       [command] = queryCommands(c.type);
     }
-    yield executeCommand(command, c);
+    yield executeCommand(command, [c]);
   });
 }
 
@@ -163,21 +162,53 @@ function* normalizeCandidate(candidate) {
   return Object.assign({}, candidate);
 }
 
+function getMarkedCandidates({ markedCandidateIds, items }) {
+  return Object.entries(markedCandidateIds)
+    .map(([k, v]) => v && items.find(i => i.id === k))
+    .filter(item => item);
+}
+
+function* getTargetCandidates({ markedCandidateIds, items, index }, needNormalize = false) {
+  const marked = getMarkedCandidates({ markedCandidateIds, items });
+  if (marked.length > 0) {
+    return marked;
+  }
+  if (needNormalize) {
+    return [yield normalizeCandidate(items[index])];
+  }
+  return [items[index]];
+}
+
 function* watchReturn() {
   yield takeEvery('RETURN', function* handleReturn({ payload: { commandIndex } }) {
     const {
+      mode,
       candidates: { index, items },
-      prev:       { candidate },
+      markedCandidateIds,
+      prev,
     } = yield select(state => state);
-    if (candidate) {
-      const command = items[index];
-      yield executeCommand(command, candidate);
-      return;
+    switch (mode) {
+      case 'command': {
+        const command = items[index];
+        const candidates = yield getTargetCandidates(prev);
+        yield executeCommand(command, candidates);
+        break;
+      }
+      default: {
+        const candidates = yield getTargetCandidates({
+          index,
+          items,
+          markedCandidateIds,
+        }, true);
+        if (candidates.length === 0) {
+          return;
+        }
+        const commands = queryCommands(candidates[0].type);
+        const command  = commands[Math.min(commandIndex, commands.length - 1)];
+        yield executeCommand(command, candidates);
+        break;
+      }
     }
-    const c        = yield normalizeCandidate(items[index]);
-    const commands = queryCommands(c.type);
-    const command  = commands[Math.min(commandIndex, commands.length - 1)];
-    yield executeCommand(command, c);
   });
 }
 

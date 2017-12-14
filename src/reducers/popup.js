@@ -73,12 +73,12 @@ const markedCandidateIds = (state = {}, action) => {
   }
 };
 
-const prev = (state = null, action) => {
+const prev = (state = {}, action) => {
   switch (action.type) {
     case 'SAVE_CANDIDATES':
       return action.payload;
     case 'RESTORE_CANDIDATES':
-      return null;
+      return {};
     default:
       return state;
   }

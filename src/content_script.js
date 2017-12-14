@@ -22,19 +22,18 @@ const commandNameOfSeq = {
   'C-h': 'delete-backward-char',
 };
 
-function executeCommand(commandName, candidate) {
-  const { type, args } = candidate;
-  const command = findCommand(type, commandName);
+function executeCommand(commandName, candidates) {
+  const command = findCommand(commandName);
   if (command && command.contentHandler) {
     const f = command.contentHandler;
-    return f.apply(this, args);
+    return f.call(this, candidates);
   }
   return Promise.resolve();
 }
 
 function handleExecuteCommand(payload) {
-  const { commandName, candidate } = payload;
-  return executeCommand(commandName, candidate);
+  const { commandName, candidates } = payload;
+  return executeCommand(commandName, candidates);
 }
 
 function keydownListener(e) {
