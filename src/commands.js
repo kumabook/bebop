@@ -5,6 +5,7 @@ import * as cursor from './cursor';
 import { getActiveTab } from './utils/tabs';
 
 const commandsOfType = {};
+const commandList = [];
 const EMPTY_URLS = ['about:newtab', 'about:blank'];
 
 const noop = () => Promise.resolve();
@@ -105,6 +106,11 @@ export function command2Candidate(c) {
 
 export function register(name, commands) {
   commandsOfType[name] = commands;
+  commands.forEach((c) => {
+    if (!commandList.includes(c)) {
+      commandList.push(c);
+    }
+  });
 }
 
 export function query(type = '', q = '') {
@@ -112,9 +118,8 @@ export function query(type = '', q = '') {
   return commands.filter(c => c.label.includes(q)).map(command2Candidate);
 }
 
-export function find(type = '', name = '') {
-  const commands = commandsOfType[type] ? commandsOfType[type] : [];
-  return command2Candidate(commands.find(c => c.label === name));
+export function find(name = '') {
+  return command2Candidate(commandList.find(c => c.label === name));
 }
 
 export function defaulOf(type) {
