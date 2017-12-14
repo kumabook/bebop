@@ -151,6 +151,17 @@ function* watchSelectCandidate() {
   });
 }
 
+function* normalizeCandidate(candidate) {
+  if (!candidate) {
+    return null;
+  }
+  if (candidate.type === 'search') {
+    const q = yield select(state => state.query);
+    return Object.assign({}, candidate, { args: [q] });
+  }
+  return Object.assign({}, candidate);
+}
+
 function* watchReturn() {
   yield takeEvery('RETURN', function* handleReturn({ payload: { commandIndex } }) {
     const {
@@ -162,26 +173,11 @@ function* watchReturn() {
       yield executeCommand(command, candidate);
       return;
     }
-    const c = items[index];
-    if (c.type === 'search') {
-      const query = yield select(state => state.query);
-      c.args = [query];
-    }
+    const c        = yield normalizeCandidate(items[index]);
     const commands = queryCommands(c.type);
     const command = commands[Math.min(commandIndex, commands.length - 1)];
     yield executeCommand(command, c);
   });
-}
-
-function* normalizeCandidate(candidate) {
-  if (!candidate) {
-    return null;
-  }
-  if (candidate.type === 'search') {
-    const q = yield select(state => state.query);
-    return Object.assign({}, candidate, { args: [q] });
-  }
-  return Object.assign({}, candidate);
 }
 
 function* watchListCommands() {
