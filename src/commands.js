@@ -124,8 +124,8 @@ export function deleteBookmark(candidates) {
 }
 
 const googleSearchCommands = [
-  { label: 'tab open', icon: 'tab' , handler: openGoogleSearch, contentHandler: noop },
   { label: 'open'    , icon: 'open', handler: goGoogleSearch  , contentHandler: noop },
+  { label: 'tab open', icon: 'tab' , handler: openGoogleSearch, contentHandler: noop },
 ];
 
 const linkCommands = [
