@@ -58,8 +58,14 @@ Usage
     | C-p         | previous-candidate   |
     | C-j         | next-candidate       |
     | C-k         | previous-candidate   |
+    | C-SPC       | mark-candidate       |
 
-4. Execute command. A candidate can be executed by multiple commands.
+ You can mark multiple candidates with `C-SPC`.
+ Some command can handle multiple candidates.
+ For example, `close-tab` command closes multiple tabs.
+
+
+4. Execute command. A candidate can be executed by various commands.
 You can execute default command by pressing `return` or click a candidate.
 You can also execute another command by these shortcuts.
 
@@ -67,7 +73,7 @@ You can also execute another command by these shortcuts.
     |:------------|:------------------------ |
     | return      | runs the first command   |
     | S-return    | runs the second command  |
-    | C-i         | lists avaidable commands |
+    | C-i         | lists available commands |
 
 
 You can change shortcut key from `Ctrl+Comma`.
