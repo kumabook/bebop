@@ -60,7 +60,7 @@ function getSources(type) {
   return sources.filter(s => s.type === type);
 }
 
-export default function candidates(query) {
+export default function search(query) {
   const { type, value } = parse(query.toLowerCase());
   const ss = getSources(type);
   const options = ss.length > 1 ? {} : { maxResults: 100 };
