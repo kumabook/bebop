@@ -80,6 +80,18 @@ const bookmarkCommands = [
   { label: 'delete'  , icon: 'delete', handler: deleteBookmark, contentHandler: noop },
 ];
 
+const cursorCommands = [
+  { label: 'forward-char'        , icon: null, handler: noop, contentHandler: cursor.forwardChar },
+  { label: 'backward-char'       , icon: null, handler: noop, contentHandler: cursor.backwardChar },
+  { label: 'beginning-of-line'   , icon: null, handler: noop, contentHandler: cursor.beginningOfLine },
+  { label: 'end-of-line'         , icon: null, handler: noop, contentHandler: cursor.endOfLine },
+  { label: 'next-line'           , icon: null, handler: noop, contentHandler: cursor.nextLine },
+  { label: 'previous-line'       , icon: null, handler: noop, contentHandler: cursor.previousLine },
+  { label: 'end-of-buffer'       , icon: null, handler: noop, contentHandler: cursor.endOfBuffer },
+  { label: 'beginning-of-buffer' , icon: null, handler: noop, contentHandler: cursor.beginningOfBuffer },
+  { label: 'delete-backward-char', icon: null, handler: noop, contentHandler: cursor.deleteBackwardChar },
+];
+
 export function command2Candidate(c) {
   if (!c) {
     return null;
@@ -115,14 +127,5 @@ export function init() {
   register('tab'     , tabCommands);
   register('history' , historyCommands);
   register('bookmark', bookmarkCommands);
-
-  register('forward-char'        , noop, cursor.forwardChar);
-  register('backward-char'       , noop, cursor.backwardChar);
-  register('beginning-of-line'   , noop, cursor.beginningOfLine);
-  register('end-of-line'         , noop, cursor.endOfLine);
-  register('next-line'           , noop, cursor.nextLine);
-  register('previous-line'       , noop, cursor.previousLine);
-  register('end-of-buffer'       , noop, cursor.endOfBuffer);
-  register('beginning-of-buffer' , noop, cursor.beginningOfBuffer);
-  register('delete-backward-char', noop, cursor.deleteBackwardChar);
+  register('cursor'  , cursorCommands);
 }
