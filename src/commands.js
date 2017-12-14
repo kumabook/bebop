@@ -1,5 +1,6 @@
 /* eslint-disable no-multi-spaces, comma-spacing, object-curly-newline */
 import browser from 'webextension-polyfill';
+import isUrl from 'is-url';
 import { click } from './link';
 import * as cursor from './cursor';
 import { getActiveTab } from './utils/tabs';
@@ -10,16 +11,30 @@ const EMPTY_URLS = ['about:newtab', 'about:blank'];
 
 const noop = () => Promise.resolve();
 
-export function activateTab(tabId) {
-  browser.tabs.update(tabId, { active: true });
+export function activateTab(candidates) {
+  const candidate = candidates.find(c => c.type === 'tab');
+  if (candidate) {
+    return browser.tabs.update(candidate.args[0], { active: true });
+  }
+  return Promise.resolve();
 }
 
-export function closeTab(tabId) {
-  browser.tabs.remove(tabId);
+export function closeTab(candidates) {
+  return Promise.all(candidates.map(({ type, args }) => {
+    switch (type) {
+      case 'tab':
+        return browser.tabs.remove(args[0]);
+      default:
+        return Promise.resolve();
+    }
+  }));
 }
 
 export function open(url) {
   return getActiveTab().then((tab) => {
+    if (!url) {
+      return Promise.resolve();
+    }
     if (tab && EMPTY_URLS.includes(tab.url)) {
       return browser.tabs.update(tab.id, { url });
     }
@@ -27,31 +42,85 @@ export function open(url) {
   });
 }
 
-export function openLink(link) {
-  if (link.url) {
-    return open(link.url);
-  }
-  return click(link);
-}
-
 export function go(url) {
   return getActiveTab().then(tab => browser.tabs.update(tab.id, { url }));
 }
 
-export function openGoogleSearch(q) {
-  return open(`https://www.google.com/search?q=${q}`);
+export function openUrls(candidates) {
+  return Promise.all(candidates.map(({ args }) => {
+    if (isUrl(args[0])) {
+      return open(args[0]);
+    }
+    return Promise.resolve();
+  }));
 }
 
-export function goGoogleSearch(q) {
-  return go(`https://www.google.com/search?q=${q}`);
+export function goUrl(candidates) {
+  const candidate = candidates.find(c => isUrl(c.args[0]));
+  if (candidate) {
+    return go(candidate.args[0]);
+  }
+  return Promise.resolve();
 }
 
-export function deleteHistory(url) {
-  return browser.history.deleteUrl({ url });
+export function clickLink(candidates) {
+  return Promise.all(candidates.map(({ type, args }) => {
+    switch (type) {
+      case 'link':
+        return click(args[0]);
+      default:
+        return Promise.resolve();
+    }
+  }));
 }
 
-export function deleteBookmark(url, id) {
-  return browser.bookmarks.remove(id);
+export function openLink(candidates) {
+  return Promise.all(candidates.map(({ args }) => {
+    if (args[0] && isUrl(args[0].url)) {
+      return open(args[0].url);
+    }
+    return Promise.resolve();
+  }));
+}
+
+export function openGoogleSearch(candidates) {
+  const candidate = candidates.find(c => c.type === 'search');
+  if (candidate) {
+    const { args } = candidate;
+    return open(`https://www.google.com/search?q=${args[0]}`);
+  }
+  return Promise.resolve();
+}
+
+export function goGoogleSearch(candidates) {
+  const candidate = candidates.find(c => c.type === 'search');
+  if (candidate) {
+    const { args } = candidate;
+    return go(`https://www.google.com/search?q=${args[0]}`);
+  }
+  return Promise.resolve();
+}
+
+export function deleteHistory(candidates) {
+  return Promise.all(candidates.map(({ type, args }) => {
+    switch (type) {
+      case 'history':
+        return browser.history.deleteUrl({ url: args[0] });
+      default:
+        return Promise.resolve();
+    }
+  }));
+}
+
+export function deleteBookmark(candidates) {
+  return Promise.all(candidates.map(({ type, args }) => {
+    switch (type) {
+      case 'bookmark':
+        return browser.bookmarks.remove(args[1]);
+      default:
+        return Promise.resolve();
+    }
+  }));
 }
 
 const googleSearchCommands = [
@@ -60,7 +129,7 @@ const googleSearchCommands = [
 ];
 
 const linkCommands = [
-  { label: 'click'     , icon: 'click', handler: noop    , contentHandler: click },
+  { label: 'click'     , icon: 'click', handler: noop    , contentHandler: clickLink },
   { label: 'tab open'  , icon: 'tab'  , handler: openLink, contentHandler: noop },
 ];
 
@@ -70,14 +139,14 @@ const tabCommands = [
 ];
 
 const historyCommands = [
-  { label: 'open'    , icon: 'open'  , handler: go           , contentHandler: noop },
-  { label: 'tab open', icon: 'tab'   , handler: open         , contentHandler: noop },
+  { label: 'open'    , icon: 'open'  , handler: goUrl        , contentHandler: noop },
+  { label: 'tab open', icon: 'tab'   , handler: openUrls     , contentHandler: noop },
   { label: 'delete'  , icon: 'delete', handler: deleteHistory, contentHandler: noop },
 ];
 
 const bookmarkCommands = [
-  { label: 'open'    , icon: 'open'  , handler: go            , contentHandler: noop },
-  { label: 'tab open', icon: 'tab'   , handler: open          , contentHandler: noop },
+  { label: 'open'    , icon: 'open'  , handler: goUrl         , contentHandler: noop },
+  { label: 'tab open', icon: 'tab'   , handler: openUrls      , contentHandler: noop },
   { label: 'delete'  , icon: 'delete', handler: deleteBookmark, contentHandler: noop },
 ];
 
