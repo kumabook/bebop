@@ -135,22 +135,6 @@ function* watchChangeCandidate() {
   });
 }
 
-function* watchSelectCandidate() {
-  yield takeEvery('SELECT_CANDIDATE', function* handleSelectCandidate({ payload }) {
-    const { candidate } = yield select(state => state);
-    let c;
-    let command;
-    if (candidate) {
-      c       = candidate;
-      command = payload;
-    } else {
-      c         = payload;
-      [command] = queryCommands(c.type);
-    }
-    yield executeCommand(command, [c]);
-  });
-}
-
 function* normalizeCandidate(candidate) {
   if (!candidate) {
     return null;
@@ -177,6 +161,27 @@ function* getTargetCandidates({ markedCandidateIds, items, index }, needNormaliz
     return [yield normalizeCandidate(items[index])];
   }
   return [items[index]];
+}
+
+function* watchSelectCandidate() {
+  yield takeEvery('SELECT_CANDIDATE', function* handleSelectCandidate({ payload }) {
+    const { mode, prev } = yield select(state => state);
+    let c;
+    let command;
+    switch (mode) {
+      case 'command': {
+        command = payload;
+        const candidates = yield getTargetCandidates(prev);
+        yield executeCommand(command, candidates);
+        break;
+      }
+      default: {
+        c         = yield normalizeCandidate(payload);
+        [command] = queryCommands(c.type);
+      }
+    }
+    yield executeCommand(command, [c]);
+  });
 }
 
 function* watchReturn() {

@@ -54,30 +54,8 @@ class Popup extends React.Component {
   componentWillUnmount() {
     window.removeEventListener('focus', this.focusInput);
   }
-  getSelectedCandidate() {
-    if (this.props.index === null) {
-      return null;
-    }
-    return this.normalizeCandidate(this.props.candidates[this.props.index]);
-  }
-  normalizeCandidate(candidate) {
-    if (!candidate) {
-      return null;
-    }
-    if (candidate.type === 'search') {
-      // eslint-disable-next-line no-param-reassign
-      candidate.args = [this.input.value];
-    }
-    return candidate;
-  }
-  handleSubmit() {
-    const candidate = this.getSelectedCandidate();
-    if (candidate !== null) {
-      this.props.handleSelectCandidate(candidate);
-    }
-  }
   handleCandidateClick(index) {
-    const candidate = this.normalizeCandidate(this.props.candidates[index]);
+    const candidate = this.props.candidates[index];
     if (candidate !== null) {
       this.props.handleSelectCandidate(candidate);
     }
@@ -107,7 +85,6 @@ class Popup extends React.Component {
     return (
       <form
         className="commandForm"
-        onSubmit={() => this.handleSubmit(this.input.value)}
       >
         <input
           className="commandInput"
