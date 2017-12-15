@@ -4,8 +4,9 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { start, stop } from '../src/popup';
 
 const WAIT_MS = 250;
-const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+const delay  = ms => new Promise(resolve => setTimeout(resolve, ms));
 const ENTER = 13;
+const SPC   = 32;
 
 window.onload = null; // remove app onload listener;
 
@@ -108,5 +109,29 @@ test.serial('popup selects a command and `click`', async (t) => {
   const candidate = document.querySelector('.candidate');
   ReactTestUtils.Simulate.click(candidate);
   t.pass();
+  await delay(WAIT_MS);
+});
+
+test.serial('popup marks candidates', async (t) => {
+  await delay(WAIT_MS);
+  const { document } = window;
+  const input = document.querySelector('.commandInput');
+  keyDown(input, SPC, { c: true });
+  await delay(WAIT_MS);
+  const candidate = document.querySelector('.candidate.marked');
+  t.truthy(candidate !== null);
+  await delay(WAIT_MS);
+});
+
+test.serial('popup cannot marks commands', async (t) => {
+  await delay(WAIT_MS);
+  const { document } = window;
+  const input = document.querySelector('.commandInput');
+  keyDown(input, code('i'), { c: true });
+  await delay(WAIT_MS);
+  keyDown(input, SPC, { c: true });
+  await delay(WAIT_MS);
+  const markedCandidate = document.querySelector('.candidate.marked');
+  t.truthy(markedCandidate === null);
   await delay(WAIT_MS);
 });
