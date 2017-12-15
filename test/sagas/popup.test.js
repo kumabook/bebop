@@ -3,19 +3,12 @@ import { delay } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
 import {
   debounceDelayMs,
-  dispatchAction,
   dispatchEmptyQuery,
   searchCandidates,
-  handleKeySequece,
   candidateSelector,
   executeCommand,
 } from '../../src/sagas/popup';
 import candidates from '../../src/candidates';
-
-test('dispatchAction saga', (t) => {
-  const gen = dispatchAction('TEST', {})();
-  t.deepEqual(gen.next().value, put({ type: 'TEST', payload: {} }));
-});
 
 test('dispatchEmptyQuery saga', (t) => {
   const gen = dispatchEmptyQuery();
@@ -28,20 +21,6 @@ test('searchCandidates saga', (t) => {
   t.deepEqual(gen.next().value, select(candidateSelector));
   t.deepEqual(gen.next().value, call(candidates, ''));
   t.deepEqual(gen.next().value, put({ type: 'CANDIDATES', payload: undefined }));
-});
-
-test('handleKeySequece saga', (t) => {
-  const noCommandGen = handleKeySequece({ payload: 'a' });
-  t.deepEqual(noCommandGen.next(), { done: true, value: undefined });
-
-  const nextGen = handleKeySequece({ payload: 'C-n' });
-  nextGen.next();
-  t.deepEqual(nextGen.next(), { done: true, value: undefined });
-
-  const deleteGen = handleKeySequece({ payload: 'C-h' });
-  deleteGen.next();
-  t.deepEqual(deleteGen.next().value, put({ type: 'QUERY', payload: '' }));
-  t.deepEqual(deleteGen.next(), { done: true, value: undefined });
 });
 
 test('executeCommand', (t) => {

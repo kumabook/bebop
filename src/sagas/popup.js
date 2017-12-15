@@ -19,42 +19,15 @@ import {
   createPortChannel,
 } from '../utils/port';
 import search from '../candidates';
-import * as cursor from '../cursor';
 import { sendMessageToActiveTab } from '../utils/tabs';
 import { query as queryCommands } from '../commands';
+import { watchKeySequence } from './key_sequence';
 
 const history = createHashHistory();
 const portName = `popup-${Date.now()}`;
 const port = getPort(portName);
 
-export function dispatchAction(type, payload) {
-  return function* dispatch() {
-    yield put({ type, payload });
-  };
-}
-
 export const debounceDelayMs = 100;
-
-/* eslint-disable quote-props */
-export const commandOfSeq = {
-  'C-f':      cursor.forwardChar,
-  'C-b':      cursor.backwardChar,
-  'C-a':      cursor.beginningOfLine,
-  'C-e':      cursor.endOfLine,
-  'C-n':      dispatchAction('NEXT_CANDIDATE'),
-  'C-p':      dispatchAction('PREVIOUS_CANDIDATE'),
-  'C-h':      cursor.deleteBackwardChar,
-  'C-j':      dispatchAction('NEXT_CANDIDATE'),
-  'C-k':      dispatchAction('PREVIOUS_CANDIDATE'),
-  up:         dispatchAction('PREVIOUS_CANDIDATE'),
-  down:       dispatchAction('NEXT_CANDIDATE'),
-  tab:        dispatchAction('NEXT_CANDIDATE'),
-  'S-tab':    dispatchAction('PREVIOUS_CANDIDATE'),
-  'return':   dispatchAction('RETURN', { commandIndex: 0 }),
-  'S-return': dispatchAction('RETURN', { commandIndex: 1 }),
-  'C-i':      dispatchAction('LIST_COMMANDS'),
-  'C-SPC':    dispatchAction('MARK_CANDIDATE'),
-};
 
 export function* executeCommand(command, candidates) {
   if (!command || candidates.length === 0) {
@@ -98,22 +71,6 @@ export function* searchCandidates({ payload: query }) {
 
 function* watchQuery() {
   yield takeLatest('QUERY', searchCandidates);
-}
-
-
-export function* handleKeySequece({ payload }) {
-  const command = commandOfSeq[payload];
-  if (!command) {
-    return;
-  }
-  yield command();
-  if (command === cursor.deleteBackwardChar) {
-    yield put({ type: 'QUERY', payload: cursor.activeElementValue() });
-  }
-}
-
-function* watchKeySequence() {
-  yield takeEvery('KEY_SEQUENCE', handleKeySequece);
 }
 
 function* watchPort() {
