@@ -11,6 +11,10 @@ const EMPTY_URLS = ['about:newtab', 'about:blank'];
 
 const noop = () => Promise.resolve();
 
+function filter(candidates, candidateType) {
+  return candidates.filter(({ type }) => type === candidateType);
+}
+
 export function activateTab(candidates) {
   const candidate = candidates.find(c => c.type === 'tab');
   if (candidate) {
@@ -19,15 +23,8 @@ export function activateTab(candidates) {
   return Promise.resolve();
 }
 
-export function closeTab(candidates) {
-  return Promise.all(candidates.map(({ type, args }) => {
-    switch (type) {
-      case 'tab':
-        return browser.tabs.remove(args[0]);
-      default:
-        return Promise.resolve();
-    }
-  }));
+export function closeTab(cs) {
+  return Promise.all(filter(cs, 'tab').map(({ args }) => browser.tabs.remove(args[0])));
 }
 
 export function open(url) {
@@ -63,15 +60,8 @@ export function goUrl(candidates) {
   return Promise.resolve();
 }
 
-export function clickLink(candidates) {
-  return Promise.all(candidates.map(({ type, args }) => {
-    switch (type) {
-      case 'link':
-        return click(args[0]);
-      default:
-        return Promise.resolve();
-    }
-  }));
+export function clickLink(cs) {
+  return Promise.all(filter(cs, 'link').map(({ args }) => click(args[0])));
 }
 
 export function openLink(candidates) {
@@ -101,26 +91,12 @@ export function goGoogleSearch(candidates) {
   return Promise.resolve();
 }
 
-export function deleteHistory(candidates) {
-  return Promise.all(candidates.map(({ type, args }) => {
-    switch (type) {
-      case 'history':
-        return browser.history.deleteUrl({ url: args[0] });
-      default:
-        return Promise.resolve();
-    }
-  }));
+export function deleteHistory(cs) {
+  return Promise.all(filter(cs, 'history').map(({ args }) => browser.history.deleteUrl({ url: args[0] })));
 }
 
-export function deleteBookmark(candidates) {
-  return Promise.all(candidates.map(({ type, args }) => {
-    switch (type) {
-      case 'bookmark':
-        return browser.bookmarks.remove(args[1]);
-      default:
-        return Promise.resolve();
-    }
-  }));
+export function deleteBookmark(cs) {
+  return Promise.all(filter(cs, 'bookmark').map(({ args }) => browser.bookmarks.remove(args[1])));
 }
 
 const googleSearchCommands = [
