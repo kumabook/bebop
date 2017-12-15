@@ -32,33 +32,44 @@ if (process.env.NODE_ENV === 'production') {
   logger.setLevel('INFO');
 }
 
-const history = createHistory();
-const sagaMiddleware = createSagaMiddleware();
-const store = createStore(reducers, applyMiddleware(sagaMiddleware, routerMiddleware(history)));
-sagaMiddleware.run(rootSaga);
+export function start() {
+  const history = createHistory();
+  const sagaMiddleware = createSagaMiddleware();
+  const middleware = applyMiddleware(sagaMiddleware, routerMiddleware(history));
+  const store = createStore(reducers, middleware);
+  const task = sagaMiddleware.run(rootSaga);
 
-const element = (
-  <Provider store={store}>
-    <ConnectedRouter history={history}>
-      <HashRouter>
-        <Switch>
-          <Route default component={Popup} />
-        </Switch>
-      </HashRouter>
-    </ConnectedRouter>
-  </Provider>
-);
+  const element = (
+    <Provider store={store}>
+      <ConnectedRouter history={history}>
+        <HashRouter>
+          <Switch>
+            <Route default component={Popup} />
+          </Switch>
+        </HashRouter>
+      </ConnectedRouter>
+    </Provider>
+  );
 
-
-window.onload = () => {
   const container = document.getElementById('container');
   ReactDOM.render(element, container);
-};
+  return { container, task };
+}
 
-candidateInit();
-commandInit();
+export function stop({ container, task }) {
+  ReactDOM.unmountComponentAtNode(container);
+  task.cancel();
+}
 
-browser.storage.local.get('popupWidth').then(({ popupWidth }) => {
-  const width = popupWidth || 700;
-  document.body.style.width = `${width}px`;
-});
+export function init() {
+  candidateInit();
+  commandInit();
+
+  browser.storage.local.get('popupWidth').then(({ popupWidth }) => {
+    const width = popupWidth || 700;
+    document.body.style.width = `${width}px`;
+  });
+}
+
+init();
+window.onload = start;
