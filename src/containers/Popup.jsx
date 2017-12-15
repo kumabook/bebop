@@ -75,13 +75,37 @@ class Popup extends React.Component {
         );
     }
   }
+  renderCandidateList() {
+    const className = this.hasFooter() ? 'candidatesList' : 'candidatesList-no-footer';
+    return (
+      <ul className={className}>
+        {this.props.candidates.map((c, i) => (
+          <li
+            key={c.id}
+            ref={(node) => {
+                if (i === this.props.index) {
+                  this.selectedCandidate = node;
+                }
+              }}
+          >
+            {this.renderSeparator(i)}
+            <Candidate
+              item={c}
+              isSelected={i === this.props.index}
+              isMarked={!!this.props.markedCandidateIds[c.id]}
+              onClick={() => this.handleCandidateClick(i)}
+            />
+          </li>))
+       }
+      </ul>
+    );
+  }
   renderSeparator(index) {
     return this.props.separators.filter(s => s.index === index && s.label).map(s => ((
       <div key={`separator${index}`} className="separator">{s.label}</div>
     )));
   }
   render() {
-    const candidateListClassName = this.hasFooter() ? 'candidatesList' : 'candidatesList-no-footer';
     return (
       <form
         className="commandForm"
@@ -95,26 +119,7 @@ class Popup extends React.Component {
           onKeyDown={this.props.handleKeyDown}
           placeholder={getMessage('commandInput_placeholder')}
         />
-        <ul className={candidateListClassName}>
-          {this.props.candidates.map((c, i) => (
-            <li
-              key={c.id}
-              ref={(node) => {
-                if (i === this.props.index) {
-                  this.selectedCandidate = node;
-                }
-              }}
-            >
-              {this.renderSeparator(i)}
-              <Candidate
-                item={c}
-                isSelected={i === this.props.index}
-                isMarked={!!this.props.markedCandidateIds[c.id]}
-                onClick={() => this.handleCandidateClick(i)}
-              />
-            </li>))
-          }
-        </ul>
+        {this.renderCandidateList()}
         {this.renderFooter()}
       </form>
     );
