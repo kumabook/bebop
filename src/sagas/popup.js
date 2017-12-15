@@ -182,10 +182,8 @@ function* getTargetCandidates({ markedCandidateIds, items, index }, needNormaliz
 function* watchReturn() {
   yield takeEvery('RETURN', function* handleReturn({ payload: { commandIndex } }) {
     const {
-      mode,
       candidates: { index, items },
-      markedCandidateIds,
-      prev,
+      mode, markedCandidateIds, prev,
     } = yield select(state => state);
     switch (mode) {
       case 'command': {
@@ -195,14 +193,7 @@ function* watchReturn() {
         break;
       }
       default: {
-        const candidates = yield getTargetCandidates({
-          index,
-          items,
-          markedCandidateIds,
-        }, true);
-        if (candidates.length === 0) {
-          return;
-        }
+        const candidates = yield getTargetCandidates({ index, items, markedCandidateIds }, true);
         const commands = queryCommands(candidates[0].type);
         const command  = commands[Math.min(commandIndex, commands.length - 1)];
         yield executeCommand(command, candidates);
