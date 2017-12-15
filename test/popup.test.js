@@ -1,22 +1,43 @@
 import test from 'ava';
 import nisemono from 'nisemono';
 import ReactTestUtils from 'react-dom/test-utils';
-import '../src/popup';
+import { start, stop } from '../src/popup';
 
-const WAIT_MS = 100;
+const WAIT_MS = 250;
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+const ENTER = 13;
+
+window.onload = null; // remove app onload listener;
 
 const { close } = window;
+let popup = null;
+
+function code(c) {
+  return c.toUpperCase().charCodeAt(0);
+}
+
+function keyDown(node, keyCode, { s = false, c = false, m = false } = {}) {
+  ReactTestUtils.Simulate.keyDown(node, {
+    keyCode,
+    key:      keyCode,
+    which:    keyCode,
+    shiftKey: s,
+    ctrlKey:  c,
+    metaKey:  m,
+  });
+}
 
 function setup() {
   document.scrollingElement = { scrollTo: nisemono.func() };
   nisemono.expects(document.scrollingElement.scrollTo).returns();
   window.close = nisemono.func();
+  popup = start();
 }
 
 function restore() {
   document.scrollingElement = null;
   window.close = close;
+  stop(popup);
 }
 
 test.beforeEach(setup);
@@ -38,7 +59,7 @@ test.serial('popup selects a candidate by `return`', async (t) => {
   const input = document.querySelector('.commandInput');
   input.value = 'aa';
   ReactTestUtils.Simulate.change(input);
-  ReactTestUtils.Simulate.keyDown(input, { key: 'Enter', keyCode: 13, which: 13 });
+  keyDown(input, ENTER);
   t.pass();
   await delay(WAIT_MS);
 });
@@ -46,6 +67,44 @@ test.serial('popup selects a candidate by `return`', async (t) => {
 test.serial('popup selects a candidate by `click`', async (t) => {
   await delay(WAIT_MS);
   const { document } = window;
+  const candidate = document.querySelector('.candidate');
+  ReactTestUtils.Simulate.click(candidate);
+  t.pass();
+  await delay(WAIT_MS);
+});
+
+test.serial('popup selects command lists', async (t) => {
+  await delay(WAIT_MS);
+  const { document } = window;
+  const input = document.querySelector('.commandInput');
+  ReactTestUtils.Simulate.change(input);
+  keyDown(input, code('i'), { c: true });
+  await delay(WAIT_MS);
+  keyDown(input, code('i'), { c: true });
+  t.pass();
+  await delay(WAIT_MS);
+});
+
+
+test.serial('popup selects a command and `return`', async (t) => {
+  await delay(WAIT_MS);
+  const { document } = window;
+  const input = document.querySelector('.commandInput');
+  ReactTestUtils.Simulate.change(input);
+  keyDown(input, code('i'), { c: true });
+  await delay(WAIT_MS);
+  keyDown(input, ENTER);
+  t.pass();
+  await delay(WAIT_MS);
+});
+
+test.serial('popup selects a command and `click`', async (t) => {
+  await delay(WAIT_MS);
+  const { document } = window;
+  const input = document.querySelector('.commandInput');
+  ReactTestUtils.Simulate.change(input);
+  keyDown(input, code('i'), { c: true });
+  await delay(WAIT_MS);
   const candidate = document.querySelector('.candidate');
   ReactTestUtils.Simulate.click(candidate);
   t.pass();
