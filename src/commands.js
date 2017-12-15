@@ -15,12 +15,16 @@ function filter(candidates, candidateType) {
   return candidates.filter(({ type }) => type === candidateType);
 }
 
-export function activateTab(candidates) {
-  const candidate = candidates.find(c => c.type === 'tab');
+function first(candidates, candidateType) {
+  const candidate = candidates.find(c => c.type === candidateType);
   if (candidate) {
-    return browser.tabs.update(candidate.args[0], { active: true });
+    return [candidate];
   }
-  return Promise.resolve();
+  return [];
+}
+
+export function activateTab(cs) {
+  return Promise.all(first(cs, 'tab').map(({ args }) => browser.tabs.update(args[0], { active: true })));
 }
 
 export function closeTab(cs) {
@@ -73,22 +77,16 @@ export function openLink(candidates) {
   }));
 }
 
-export function openGoogleSearch(candidates) {
-  const candidate = candidates.find(c => c.type === 'search');
-  if (candidate) {
-    const { args } = candidate;
-    return open(`https://www.google.com/search?q=${args[0]}`);
-  }
-  return Promise.resolve();
+function googleUrl(q) {
+  return `https://www.google.com/search?q=${q}`;
 }
 
-export function goGoogleSearch(candidates) {
-  const candidate = candidates.find(c => c.type === 'search');
-  if (candidate) {
-    const { args } = candidate;
-    return go(`https://www.google.com/search?q=${args[0]}`);
-  }
-  return Promise.resolve();
+export function openGoogleSearch(cs) {
+  return Promise.all(first(cs, 'search').map(({ args }) => open(googleUrl(args[0]))));
+}
+
+export function goGoogleSearch(cs) {
+  return Promise.all(first(cs, 'search').map(({ args }) => go(googleUrl(args[0]))));
 }
 
 export function deleteHistory(cs) {
