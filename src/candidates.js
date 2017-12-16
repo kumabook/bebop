@@ -78,14 +78,19 @@ export default function search(query) {
     }, { items: [], separators: [] }));
 }
 
-export function init() {
+export function init(order) {
+  sources = [{ type: 'search', shorthand: 's', f: searchCandidates }];
   /* eslint-disable no-multi-spaces, comma-spacing */
-  sources = [
-    { type: 'search'  , shorthand: 's', f: searchCandidates },
+  const items = [
     { type: 'link'    , shorthand: 'l', f: linkCandidates },
     { type: 'tab'     , shorthand: 't', f: tabCandidates },
     { type: 'history' , shorthand: 'h', f: historyCandidates },
     { type: 'bookmark', shorthand: 'b', f: bookmarkCandidates },
     { type: 'command' , shorthand: 'c', f: commandCandidates },
   ];
+  if (order) {
+    sources = sources.concat(order.map(n => items.find(i => i.type === n)));
+  } else {
+    sources = sources.concat(items);
+  }
 }
