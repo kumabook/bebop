@@ -18,5 +18,5 @@ const element = (
 test('<Popup />', (t) => {
   const wrapper = mount(element);
   t.is(wrapper.find('div.options').length, 1);
-  t.is(wrapper.find('input.popupWidthInput').length, 1);
+  t.is(wrapper.find('input.optionsValueInput').length, 1);
 });
