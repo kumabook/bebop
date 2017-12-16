@@ -40,7 +40,7 @@ function updateWidth({ popupWidth }) {
 export function start() {
   return browser.storage.local.get().then((state) => {
     updateWidth(state);
-    candidateInit(state.orderOfCandidates);
+    candidateInit(state);
     commandInit();
     const history        = createHistory();
     const sagaMiddleware = createSagaMiddleware();

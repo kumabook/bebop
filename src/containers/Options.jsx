@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import getMessage from '../utils/i18n';
+import { defaultOrder } from '../reducers/options';
 
 const dragIcon = browser.extension.getURL('images/drag.png');
 
@@ -26,20 +27,39 @@ const SortableList = SortableContainer(({ items }) => ((
 class Options extends React.Component {
   static get propTypes() {
     return {
-      popupWidth:             PropTypes.number.isRequired,
-      orderOfCandidates:      PropTypes.arrayOf(PropTypes.string).isRequired,
-      handlePopupWidthChange: PropTypes.func.isRequired,
-      handleSortEnd:          PropTypes.func.isRequired,
-    };
-  }
-  static get defaultProps() {
-    return {
+      popupWidth:                     PropTypes.number.isRequired,
+      orderOfCandidates:              PropTypes.arrayOf(PropTypes.string).isRequired,
+      maxResultsForEmpty:             PropTypes.objectOf(PropTypes.number).isRequired,
+      handlePopupWidthChange:         PropTypes.func.isRequired,
+      handleMaxResultsForEmptyChange: PropTypes.func.isRequired,
+      handleSortEnd:                  PropTypes.func.isRequired,
     };
   }
   handlePopupWidthChange(e) {
     if (!Number.isNaN(e.target.valueAsNumber)) {
       this.props.handlePopupWidthChange(e.target.valueAsNumber);
     }
+  }
+  renderInputsOfCandidates() {
+    return defaultOrder.map((type) => {
+      const n = this.props.maxResultsForEmpty[type];
+      return (
+        <div key={`maxResultsFor-${type}`}>
+          <span className="maxResultsInputLabel">{type}</span>
+          <input
+            className="maxResultsInput"
+            type="number"
+            min="1"
+            max="20"
+            step="1"
+            value={n}
+            onChange={e => this.props.handleMaxResultsForEmptyChange({
+                [type]: parseInt(e.target.value, 10),
+              })}
+          />
+        </div>
+      );
+    });
   }
   render() {
     return (
@@ -59,6 +79,10 @@ class Options extends React.Component {
         <h4 className="optionsLabel">Order of candidates</h4>
         <p className="optionsDescription">You can change order by drag</p>
         <SortableList items={this.props.orderOfCandidates} onSortEnd={this.props.handleSortEnd} />
+        <h4 className="optionsLabel">Max results of candidates for empty query</h4>
+        <div className="optionsValue">
+          {this.renderInputsOfCandidates()}
+        </div>
       </div>
     );
   }
@@ -66,16 +90,20 @@ class Options extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    popupWidth:                state.popupWidth,
-    orderOfCandidates:         state.orderOfCandidates,
-    defaultNumberOfCandidates: state.defaultNumberOfCandidates,
+    popupWidth:         state.popupWidth,
+    orderOfCandidates:  state.orderOfCandidates,
+    maxResultsForEmpty: state.maxResultsForEmpty,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    handlePopupWidthChange: payload => dispatch({ type: 'POPUP_WIDTH', payload }),
-    handleSortEnd:          payload => dispatch({ type: 'CHANGE_ORDER', payload }),
+    handlePopupWidthChange:         payload => dispatch({ type: 'POPUP_WIDTH', payload }),
+    handleSortEnd:                  payload => dispatch({ type: 'CHANGE_ORDER', payload }),
+    handleMaxResultsForEmptyChange: payload => dispatch({
+      type: 'UPDATE_MAX_RESULTS_FOR_EMPTY',
+      payload,
+    }),
   };
 }
 

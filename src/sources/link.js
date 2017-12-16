@@ -24,7 +24,7 @@ export function getLabel(link) {
   return url;
 }
 
-export default function candidates(query, { maxResults = 20 } = {}) {
+export default function candidates(query, { maxResults } = {}) {
   return sendMessageToActiveTab({
     type:    'FETCH_LINKS',
     payload: {

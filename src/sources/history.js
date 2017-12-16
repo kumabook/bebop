@@ -2,7 +2,7 @@ import browser from 'webextension-polyfill';
 import { getFaviconUrl } from '../utils/url';
 import getMessage from '../utils/i18n';
 
-export default function candidates(q, { maxResults = 20 } = {}) {
+export default function candidates(q, { maxResults } = {}) {
   const startTime = 0;
   return browser.history.search({ text: q, startTime, maxResults })
     .then(l => l.map(v => ({

@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { arrayMove } from 'react-sortable-hoc';
+import { MAX_RESULTS_FOR_EMPTY } from '../candidates';
 
 const defaultPopupWidth = 700;
 export const defaultOrder = [
@@ -9,6 +10,10 @@ export const defaultOrder = [
   'history',
   'command',
 ];
+const numbers = defaultOrder.reduce(
+  (acc, t) => Object.assign(acc, { [t]: MAX_RESULTS_FOR_EMPTY }),
+  {},
+);
 
 const popupWidth = (state = defaultPopupWidth, action) => {
   switch (action.type) {
@@ -30,9 +35,19 @@ const orderOfCandidates = (state = defaultOrder, action) => {
   }
 };
 
+const maxResultsForEmpty = (state = numbers, action) => {
+  switch (action.type) {
+    case 'UPDATE_MAX_RESULTS_FOR_EMPTY':
+      return Object.assign({}, state, action.payload);
+    default:
+      return state;
+  }
+};
+
 const rootReducer = combineReducers({
   popupWidth,
   orderOfCandidates,
+  maxResultsForEmpty,
 });
 
 export default rootReducer;

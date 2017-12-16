@@ -21,7 +21,7 @@ function restore() {
 test.beforeEach(setup);
 test.afterEach(restore);
 
-test('candidates() searches tabs ', t => candidates('').then(({ items, label }) => {
+test('candidates() searches tabs ', t => candidates('', { maxResults: 5 }).then(({ items, label }) => {
   t.true(label !== null);
   t.is(items.length, 1);
   t.is(items[0].id, 'tab-0');

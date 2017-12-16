@@ -5,8 +5,9 @@ const commands = [
   { name: 'open-options' },
 ];
 
-export default function candidates(q) {
-  return Promise.resolve(commands.filter(c => c.name.includes(q)).map(c => ({
+export default function candidates(q, { maxResults }) {
+  const cs = commands.filter(c => c.name.includes(q)).slice(0, maxResults);
+  return Promise.resolve(cs.map(c => ({
     id:         c.name,
     label:      c.name,
     type:       'command',

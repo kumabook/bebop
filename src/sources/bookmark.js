@@ -2,7 +2,7 @@ import browser from 'webextension-polyfill';
 import { getFaviconUrl } from '../utils/url';
 import getMessage from '../utils/i18n';
 
-export default function candidates(q, { maxResults = 20 } = {}) {
+export default function candidates(q, { maxResults } = {}) {
   if (q.length === 0) {
     return Promise.resolve({ items: [], label: 'Bookmarks' });
   }

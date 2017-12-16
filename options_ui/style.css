@@ -47,3 +47,13 @@
   margin-right: 4px;
   pointer-events: none;
 }
+
+.maxResultsInputLabel {
+  display: inline-block;
+  margin-left: 40px;
+  width: 200px;
+}
+
+.maxResultsInput {
+  width: 40px;
+}

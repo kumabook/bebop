@@ -71,3 +71,13 @@ test.serial('options_ui changes order of candidates', async (t) => {
   t.pass();
   await delay(WAIT_MS);
 });
+
+test.serial('options_ui changes max results for empty query', async (t) => {
+  await delay(WAIT_MS);
+  const { document } = window;
+  const input = document.querySelector('.maxResultsInput');
+  input.value = 10;
+  ReactTestUtils.Simulate.change(input);
+  t.pass();
+  await delay(WAIT_MS);
+});

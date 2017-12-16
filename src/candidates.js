@@ -6,7 +6,11 @@ import historyCandidates from './sources/history';
 import bookmarkCandidates from './sources/bookmark';
 import commandCandidates from './sources/command';
 
+export const MAX_RESULTS = 20;
+export const MAX_RESULTS_FOR_SOLO = 100;
+export const MAX_RESULTS_FOR_EMPTY = 5;
 let sources = [];
+let maxResultsForEmpty = {};
 
 function getType(t) {
   const items = sources.filter(s => s.shorthand === t);
@@ -61,11 +65,22 @@ function getSources(type) {
   return sources.filter(s => s.type === type);
 }
 
+function options({ type }, isEmpty, isSolo) {
+  if (isSolo) {
+    return { maxResults: MAX_RESULTS_FOR_SOLO };
+  }
+  if (isEmpty) {
+    return { maxResults: MAX_RESULTS };
+  }
+  return { maxResults: maxResultsForEmpty[type] || MAX_RESULTS_FOR_EMPTY };
+}
+
 export default function search(query) {
   const { type, value } = parse(query.toLowerCase());
   const ss = getSources(type);
-  const options = ss.length > 1 ? {} : { maxResults: 100 };
-  return Promise.all(ss.map(s => s.f(value, options)))
+  const isEmpty = query.length > 0;
+  const isSolo = ss.length === 1;
+  return Promise.all(ss.map(s => s.f(value, options(s, isEmpty, isSolo))))
     .then(a => a.reduce((acc, v) => {
       if (v.items.length === 0) {
         return acc;
@@ -78,7 +93,7 @@ export default function search(query) {
     }, { items: [], separators: [] }));
 }
 
-export function init(order) {
+export function init({ orderOfCandidates: order, maxResultsForEmpty: nums } = {}) {
   sources = [{ type: 'search', shorthand: 's', f: searchCandidates }];
   /* eslint-disable no-multi-spaces, comma-spacing */
   const items = [
@@ -92,5 +107,8 @@ export function init(order) {
     sources = sources.concat(order.map(n => items.find(i => i.type === n)));
   } else {
     sources = sources.concat(items);
+  }
+  if (nums) {
+    maxResultsForEmpty = nums;
   }
 }

@@ -27,11 +27,18 @@ function* watchOrderOfCandidates() {
   });
 }
 
+function* watchDefaultNumberOfCandidates() {
+  yield takeEvery('UPDATE_MAX_RESULTS_FOR_EMPTY', function* h() {
+    const { maxResultsForEmpty } = yield select(state => state);
+    yield browser.storage.local.set({ maxResultsForEmpty });
+  });
+}
 
 export default function* root() {
   yield all([
     fork(dispatchPopupWidth),
     fork(watchWidth),
     fork(watchOrderOfCandidates),
+    fork(watchDefaultNumberOfCandidates),
   ]);
 }

@@ -1,7 +1,7 @@
 import browser from 'webextension-polyfill';
 import getMessage from '../utils/i18n';
 
-export default function candidates(q) {
+export default function candidates(q, { maxResults }) {
   let query = '';
   if (q) {
     query += `${q} ― `;
@@ -13,7 +13,7 @@ export default function candidates(q) {
     args:       [q],
     faviconUrl: browser.extension.getURL('images/search.png'),
   }]).then(items => ({
-    items,
+    items: items.slice(0, maxResults),
     label: `${getMessage('search')} (:search or s)`,
   }));
 }
