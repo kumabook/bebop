@@ -4,6 +4,7 @@ import linkCandidates from './sources/link';
 import tabCandidates from './sources/tab';
 import historyCandidates from './sources/history';
 import bookmarkCandidates from './sources/bookmark';
+import commandCandidates from './sources/command';
 
 let sources = [];
 
@@ -85,5 +86,6 @@ export function init() {
     { type: 'tab'     , shorthand: 't', f: tabCandidates },
     { type: 'history' , shorthand: 'h', f: historyCandidates },
     { type: 'bookmark', shorthand: 'b', f: bookmarkCandidates },
+    { type: 'command' , shorthand: 'c', f: commandCandidates },
   ];
 }

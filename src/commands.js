@@ -97,6 +97,18 @@ export function deleteBookmark(cs) {
   return Promise.all(filter(cs, 'bookmark').map(({ args }) => browser.bookmarks.remove(args[1])));
 }
 
+export function runCommand(cs) {
+  return Promise.all(filter(cs, 'command').map(({ args }) => {
+    const [name] = args;
+    switch (name) {
+      case 'open-options':
+        return browser.runtime.openOptionsPage();
+      default:
+        return Promise.resolve();
+    }
+  }));
+}
+
 const googleSearchCommands = [
   { label: 'open'    , icon: 'open', handler: goGoogleSearch  , contentHandler: noop },
   { label: 'tab open', icon: 'tab' , handler: openGoogleSearch, contentHandler: noop },
@@ -134,6 +146,10 @@ const cursorCommands = [
   { label: 'end-of-buffer'       , icon: null, handler: noop, contentHandler: cursor.endOfBuffer },
   { label: 'beginning-of-buffer' , icon: null, handler: noop, contentHandler: cursor.beginningOfBuffer },
   { label: 'delete-backward-char', icon: null, handler: noop, contentHandler: cursor.deleteBackwardChar },
+];
+
+const runCommands = [
+  { label: 'run command', icon: null, handler: runCommand, contentHandler: noop },
 ];
 
 export function command2Candidate(c) {
@@ -176,4 +192,5 @@ export function init() {
   register('history' , historyCommands);
   register('bookmark', bookmarkCommands);
   register('cursor'  , cursorCommands);
+  register('command' , runCommands);
 }

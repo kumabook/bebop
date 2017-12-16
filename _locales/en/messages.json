@@ -19,5 +19,8 @@
   },
   "bookmarks": {
     "message": "Bookmarks"
+  },
+  "commands": {
+    "message": "Commands"
   }
 }
