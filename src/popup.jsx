@@ -1,7 +1,6 @@
 import 'regenerator-runtime/runtime';
 import browser       from 'webextension-polyfill';
 import React         from 'react';
-import ReactDOM      from 'react-dom';
 import createHistory from 'history/createHashHistory';
 import {
   Provider,
@@ -27,6 +26,7 @@ import reducers from './reducers/popup';
 import rootSaga from './sagas/popup';
 import { init as candidateInit } from './candidates';
 import { init as commandInit } from './commands';
+import { start as appStart, stop } from './utils/app';
 
 if (process.env.NODE_ENV === 'production') {
   logger.setLevel('INFO');
@@ -46,7 +46,6 @@ export function start() {
     const sagaMiddleware = createSagaMiddleware();
     const middleware     = applyMiddleware(sagaMiddleware, routerMiddleware(history));
     const store          = createStore(reducers, state, middleware);
-    const task           = sagaMiddleware.run(rootSaga);
     const container      = document.getElementById('container');
     const element = (
       <Provider store={store}>
@@ -59,14 +58,10 @@ export function start() {
         </ConnectedRouter>
       </Provider>
     );
-    ReactDOM.render(element, container);
-    return { container, task };
+    return appStart(container, element, sagaMiddleware, rootSaga);
   });
 }
 
-export function stop({ container, task }) {
-  ReactDOM.unmountComponentAtNode(container);
-  task.cancel();
-}
+export { stop };
 
 window.onload = start;
