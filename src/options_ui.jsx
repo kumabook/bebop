@@ -1,4 +1,5 @@
 import 'regenerator-runtime/runtime';
+import browser       from 'webextension-polyfill';
 import React         from 'react';
 import ReactDOM      from 'react-dom';
 import {
@@ -19,15 +20,25 @@ if (process.env.NODE_ENV === 'production') {
   logger.setLevel('INFO');
 }
 
-const sagaMiddleware = createSagaMiddleware();
+export function start() {
+  return browser.storage.local.get().then((state) => {
+    const container = document.getElementById('container');
+    const sagaMiddleware = createSagaMiddleware();
+    const store = createStore(reducers, state, applyMiddleware(sagaMiddleware));
+    const task = sagaMiddleware.run(rootSaga);
+    const element = (
+      <Provider store={store}>
+        <Options />
+      </Provider>
+    );
+    ReactDOM.render(element, document.getElementById('container'));
+    return { container, task };
+  });
+}
 
-const store = createStore(reducers, applyMiddleware(sagaMiddleware));
-sagaMiddleware.run(rootSaga);
+export function stop({ container, task }) {
+  ReactDOM.unmountComponentAtNode(container);
+  task.cancel();
+}
 
-const element = (
-  <Provider store={store}>
-    <Options />
-  </Provider>
-);
-
-ReactDOM.render(element, document.getElementById('container'));
+window.onload = () => start();
