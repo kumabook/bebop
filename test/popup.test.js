@@ -28,11 +28,11 @@ function keyDown(node, keyCode, { s = false, c = false, m = false } = {}) {
   });
 }
 
-function setup() {
+function* setup() {
   document.scrollingElement = { scrollTo: nisemono.func() };
   nisemono.expects(document.scrollingElement.scrollTo).returns();
   window.close = nisemono.func();
-  popup = start();
+  popup = yield start();
 }
 
 function restore() {

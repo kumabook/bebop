@@ -32,28 +32,36 @@ if (process.env.NODE_ENV === 'production') {
   logger.setLevel('INFO');
 }
 
+function updateWidth({ popupWidth }) {
+  const width = popupWidth || 700;
+  document.body.style.width = `${width}px`;
+}
+
 export function start() {
-  const history = createHistory();
-  const sagaMiddleware = createSagaMiddleware();
-  const middleware = applyMiddleware(sagaMiddleware, routerMiddleware(history));
-  const store = createStore(reducers, middleware);
-  const task = sagaMiddleware.run(rootSaga);
-
-  const element = (
-    <Provider store={store}>
-      <ConnectedRouter history={history}>
-        <HashRouter>
-          <Switch>
-            <Route default component={Popup} />
-          </Switch>
-        </HashRouter>
-      </ConnectedRouter>
-    </Provider>
-  );
-
-  const container = document.getElementById('container');
-  ReactDOM.render(element, container);
-  return { container, task };
+  return browser.storage.local.get().then((state) => {
+    updateWidth(state);
+    candidateInit(state.orderOfCandidates);
+    commandInit();
+    const history        = createHistory();
+    const sagaMiddleware = createSagaMiddleware();
+    const middleware     = applyMiddleware(sagaMiddleware, routerMiddleware(history));
+    const store          = createStore(reducers, state, middleware);
+    const task           = sagaMiddleware.run(rootSaga);
+    const container      = document.getElementById('container');
+    const element = (
+      <Provider store={store}>
+        <ConnectedRouter history={history}>
+          <HashRouter>
+            <Switch>
+              <Route default component={Popup} />
+            </Switch>
+          </HashRouter>
+        </ConnectedRouter>
+      </Provider>
+    );
+    ReactDOM.render(element, container);
+    return { container, task };
+  });
 }
 
 export function stop({ container, task }) {
@@ -61,15 +69,4 @@ export function stop({ container, task }) {
   task.cancel();
 }
 
-export function init() {
-  candidateInit();
-  commandInit();
-
-  browser.storage.local.get('popupWidth').then(({ popupWidth }) => {
-    const width = popupWidth || 700;
-    document.body.style.width = `${width}px`;
-  });
-}
-
-init();
 window.onload = start;
