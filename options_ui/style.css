@@ -4,12 +4,46 @@
   width: 100%;
 }
 
-.popupWidthLabel {
-  padding: 8px;
+.optionsTitle {
+  font-size: 2em;
 }
 
-.popupWidthInput {
+.optionsLabel {
+  font-size: 1.4em;
+}
+
+.optionsDescription {
+  margin-left: 40px;
+}
+
+.optionsValue {
+  margin: 8px;
+}
+
+.optionsValueInput {
   display: inline-block;
-  margin-left: 160px;
+  margin-left: 40px;
   width: 60px;
+}
+
+.sortableList {
+  list-style-type: none;
+}
+
+.sortableListItem {
+  display: block;
+  padding: 6px;
+  margin: 2px;
+  width: 200px;
+  list-style-type: none;
+  border: solid 1px;
+  vertical-align: middle;
+}
+
+.dragIcon {
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
+  margin-right: 4px;
+  pointer-events: none;
 }
