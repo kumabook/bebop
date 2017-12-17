@@ -26,6 +26,7 @@ import reducers from './reducers/popup';
 import rootSaga from './sagas/popup';
 import { init as candidateInit } from './candidates';
 import { init as commandInit } from './commands';
+import { init as keySequenceInit } from './sagas/key_sequence';
 import { start as appStart, stop } from './utils/app';
 
 if (process.env.NODE_ENV === 'production') {
@@ -41,6 +42,7 @@ export function start() {
   return browser.storage.local.get().then((state) => {
     updateWidth(state);
     candidateInit(state);
+    keySequenceInit(state);
     commandInit();
     const history        = createHistory();
     const sagaMiddleware = createSagaMiddleware();

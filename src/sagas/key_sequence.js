@@ -41,3 +41,10 @@ export function* handleKeySequece({ payload }) {
 export function* watchKeySequence() {
   yield takeEvery('KEY_SEQUENCE', handleKeySequece);
 }
+
+export function init({ enabledCJKMove }) {
+  if (enabledCJKMove) {
+    commandOfSeq['C-j'] = dispatchAction('NEXT_CANDIDATE');
+    commandOfSeq['C-k'] = dispatchAction('PREVIOUS_CANDIDATE');
+  }
+}

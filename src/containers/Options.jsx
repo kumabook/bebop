@@ -30,8 +30,10 @@ class Options extends React.Component {
       popupWidth:                     PropTypes.number.isRequired,
       orderOfCandidates:              PropTypes.arrayOf(PropTypes.string).isRequired,
       maxResultsForEmpty:             PropTypes.objectOf(PropTypes.number).isRequired,
+      enabledCJKMove:                 PropTypes.bool.isRequired,
       handlePopupWidthChange:         PropTypes.func.isRequired,
       handleMaxResultsForEmptyChange: PropTypes.func.isRequired,
+      handleCJKMoveChange:            PropTypes.func.isRequired,
       handleSortEnd:                  PropTypes.func.isRequired,
     };
   }
@@ -67,7 +69,7 @@ class Options extends React.Component {
         <h3 className="optionsTitle">Options</h3>
         <h4 className="optionsLabel">Popup width</h4>
         <input
-          className="optionsValueInput"
+          className="optionsValueInput popupWidthInput"
           type="number"
           min="200"
           max="5000"
@@ -83,6 +85,14 @@ class Options extends React.Component {
         <div className="optionsValue">
           {this.renderInputsOfCandidates()}
         </div>
+        <h4 className="optionsLabel">key-bindings</h4>
+        <input
+          className="optionsValueInput cjkMoveCheckbox"
+          type="checkbox"
+          checked={this.props.enabledCJKMove}
+          onChange={e => this.props.handleCJKMoveChange(e.target.checked)}
+        />
+        C-j ... next-candidate, C-k ... previous-candidate
       </div>
     );
   }
@@ -93,6 +103,7 @@ function mapStateToProps(state) {
     popupWidth:         state.popupWidth,
     orderOfCandidates:  state.orderOfCandidates,
     maxResultsForEmpty: state.maxResultsForEmpty,
+    enabledCJKMove:     state.enabledCJKMove,
   };
 }
 
@@ -102,6 +113,10 @@ function mapDispatchToProps(dispatch) {
     handleSortEnd:                  payload => dispatch({ type: 'CHANGE_ORDER', payload }),
     handleMaxResultsForEmptyChange: payload => dispatch({
       type: 'UPDATE_MAX_RESULTS_FOR_EMPTY',
+      payload,
+    }),
+    handleCJKMoveChange: payload => dispatch({
+      type: 'ENABLE_CJK_MOVE',
       payload,
     }),
   };

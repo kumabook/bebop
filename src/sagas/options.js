@@ -34,11 +34,19 @@ function* watchDefaultNumberOfCandidates() {
   });
 }
 
+function* watchEnableCJKMove() {
+  yield takeEvery('ENABLE_CJK_MOVE', function* h() {
+    const { enabledCJKMove } = yield select(state => state);
+    yield browser.storage.local.set({ enabledCJKMove });
+  });
+}
+
 export default function* root() {
   yield all([
     fork(dispatchPopupWidth),
     fork(watchWidth),
     fork(watchOrderOfCandidates),
     fork(watchDefaultNumberOfCandidates),
+    fork(watchEnableCJKMove),
   ]);
 }

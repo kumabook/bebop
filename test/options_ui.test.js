@@ -52,7 +52,7 @@ test.serial('options_ui succeeds in rendering html', async (t) => {
 test.serial('options_ui changes popup width', async (t) => {
   await delay(WAIT_MS);
   const { document } = window;
-  const input = document.querySelector('.optionsValueInput');
+  const input = document.querySelector('.popupWidthInput');
   input.value = 500;
   ReactTestUtils.Simulate.change(input);
   t.pass();
@@ -78,6 +78,15 @@ test.serial('options_ui changes max results for empty query', async (t) => {
   const input = document.querySelector('.maxResultsInput');
   input.value = 10;
   ReactTestUtils.Simulate.change(input);
+  t.pass();
+  await delay(WAIT_MS);
+});
+
+test.serial('options_ui enable C-j,k move ', async (t) => {
+  await delay(WAIT_MS);
+  const { document } = window;
+  const checkbox = document.querySelector('.cjkMoveCheckbox');
+  ReactTestUtils.Simulate.change(checkbox, { target: { checked: true } });
   t.pass();
   await delay(WAIT_MS);
 });

@@ -44,10 +44,20 @@ const maxResultsForEmpty = (state = numbers, action) => {
   }
 };
 
+const enabledCJKMove = (state = false, action) => {
+  switch (action.type) {
+    case 'ENABLE_CJK_MOVE':
+      return action.payload;
+    default:
+      return state;
+  }
+};
+
 const rootReducer = combineReducers({
   popupWidth,
   orderOfCandidates,
   maxResultsForEmpty,
+  enabledCJKMove,
 });
 
 export default rootReducer;
