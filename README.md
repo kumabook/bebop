@@ -40,25 +40,39 @@ Usage
     | history     | h         | open a history                  |
     | bookmark    | b         | open a bookmark                 |
 
-- `:type` narrows down to the candidates whose type is the specified type
-- `x` also narrows down to the candidates whose shorthand is the specified type
-- ex.
-  - `阿部寛` narrows down to the all candidates searched with `阿部寛`
-  - `:link` or `l` narrow down to link candidates
-  - `:link 阿部寛` or `:l 阿部寛` narrow down to link candidates searched with `阿部寛`
+    - `:type` narrows down to the candidates whose type is the specified type
+    - `x` also narrows down to the candidates whose shorthand is the specified type
+    - ex.
+      - `阿部寛` narrows down to the all candidates searched with `阿部寛`
+      - `:link` or `l` narrow down to link candidates
+      - `:link 阿部寛` or `:l 阿部寛` narrow down to link candidates searched with `阿部寛`
+
+    You can use these key-bindings in command input:
+
+    | key-binding | command              |
+    |:------------|:-------------------- |
+    | C-f         | forward-char         |
+    | C-b         | backward-char        |
+    | C-a         | beginning-of-line    |
+    | C-e         | end-of-line          |
+    | C-h         | delete-backward-char |
+    | C-k         | kill-line            |
 
 
 3. Select the candidate. You can change the selected candidate with shortcut keys:
 
-    | key-binding | action               |
-    |:------------|:-------------------- |
-    | tab         | next-candidate       |
-    | S-tab       | previous-candidate   |
-    | C-n         | next-candidate       |
-    | C-p         | previous-candidate   |
-    | C-j         | next-candidate       |
-    | C-k         | previous-candidate   |
-    | C-SPC       | mark-candidate       |
+    | key-binding    | action               |
+    |:---------------|:-------------------- |
+    | tab            | next-candidate       |
+    | S-tab          | previous-candidate   |
+    | C-n (only mac) | next-candidate       |
+    | C-p            | previous-candidate   |
+    | C-j (opt-in)   | next-candidate       |
+    | C-k (opt-in)   | previous-candidate   |
+    | C-SPC          | mark-candidate       |
+
+    `C-j`, `C-k` are opt-in key-bindings. You can enable them from options page.
+
 
  You can mark multiple candidates with `C-SPC`.
  Some command can handle multiple candidates.
@@ -66,8 +80,8 @@ Usage
 
 
 4. Execute command. A candidate can be executed by various commands.
-You can execute default command by pressing `return` or click a candidate.
-You can also execute another command by these shortcuts.
+    You can execute default command by pressing `return` or click a candidate.
+    You can also execute another command by these shortcuts.
 
     | key-binding | command                  |
     |:------------|:------------------------ |
@@ -78,26 +92,6 @@ You can also execute another command by these shortcuts.
 
 You can change shortcut key from `Ctrl+Comma`.
 See [Customize](#change-shortcut-key-with-your-own-private-addon)
-
-## emacs key-bindings on textarea (except mac)
-
-You can edit with key-bindings in text input of html (not browser native-ui):
-
-| key-binding | command              |
-|:------------|:-------------------- |
-| C-f         | forward-char         |
-| C-b         | backward-char        |
-| C-a         | beginning-of-line    |
-| C-e         | end-of-line          |
-| C-n         | next-line            |
-| C-p         | previous-line        |
-| M->         | end-of-buffer        |
-| M-<         | beginning-of-buffer  |
-| C-h         | delete-backward-char |
-
-macOS provides emacs key-bindings for text editing.
-So this extension does nothing on macOS.
-
 
 ## Customize
 
