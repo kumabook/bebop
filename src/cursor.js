@@ -121,6 +121,21 @@ export function deleteBackwardChar() {
   elem.setSelectionRange(start - 1, start - 1);
 }
 
+export function killLine() {
+  const elem = document.activeElement;
+  if (!elem || !elem.value) {
+    return;
+  }
+  const lines = elem.value.split('\n');
+  const start = elem.selectionStart;
+  const { x, y } = cursor2position(lines, start);
+  lines[y] = lines[y].slice(0, x);
+  elem.value = lines.join('\n');
+  const newPos = { x: lines[y].length, y };
+  const newStart = position2cursor(lines, newPos);
+  elem.setSelectionRange(newStart, newStart);
+}
+
 export function activeElementValue() {
   const elem = document.activeElement;
   if (!elem || !elem.value) {

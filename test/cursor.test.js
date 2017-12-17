@@ -11,6 +11,7 @@ import {
   endOfBuffer,
   beginningOfBuffer,
   deleteBackwardChar,
+  killLine,
 } from '../src/cursor';
 
 
@@ -77,4 +78,13 @@ test('deleteBackwardChar removes previous character', (t) => {
   elem.setSelectionRange(1, 1);
   deleteBackwardChar();
   t.is(elem.value, 'bcd\n1234');
+});
+
+test('killline removes characters from current cusor to end of line', (t) => {
+  setInputElement('abcd\n1234');
+  const elem = getInputElement();
+  elem.focus();
+  elem.setSelectionRange(1, 1);
+  killLine();
+  t.is(elem.value, 'a\n1234');
 });

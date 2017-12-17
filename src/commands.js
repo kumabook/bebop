@@ -146,6 +146,7 @@ const cursorCommands = [
   { label: 'end-of-buffer'       , icon: null, handler: noop, contentHandler: cursor.endOfBuffer },
   { label: 'beginning-of-buffer' , icon: null, handler: noop, contentHandler: cursor.beginningOfBuffer },
   { label: 'delete-backward-char', icon: null, handler: noop, contentHandler: cursor.deleteBackwardChar },
+  { label: 'kill-line'           , icon: null, handler: noop, contentHandler: cursor.killLine },
 ];
 
 const runCommands = [
