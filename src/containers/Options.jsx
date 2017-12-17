@@ -63,10 +63,9 @@ class Options extends React.Component {
       );
     });
   }
-  render() {
+  renderPopupWidthInput() {
     return (
-      <div className="options">
-        <h3 className="optionsTitle">Options</h3>
+      <div>
         <h4 className="optionsLabel">Popup width</h4>
         <input
           className="optionsValueInput popupWidthInput"
@@ -78,13 +77,31 @@ class Options extends React.Component {
           value={this.props.popupWidth}
           onChange={e => this.handlePopupWidthChange(e)}
         />
+      </div>
+    );
+  }
+  renderOrderOfCandidates() {
+    return (
+      <div>
         <h4 className="optionsLabel">Order of candidates</h4>
         <p className="optionsDescription">You can change order by drag</p>
         <SortableList items={this.props.orderOfCandidates} onSortEnd={this.props.handleSortEnd} />
+      </div>
+    );
+  }
+  renderMaxResultsForEmpty() {
+    return (
+      <div>
         <h4 className="optionsLabel">Max results of candidates for empty query</h4>
         <div className="optionsValue">
           {this.renderInputsOfCandidates()}
         </div>
+      </div>
+    );
+  }
+  renderKeyBindings() {
+    return (
+      <div>
         <h4 className="optionsLabel">key-bindings</h4>
         <input
           className="optionsValueInput cjkMoveCheckbox"
@@ -93,6 +110,17 @@ class Options extends React.Component {
           onChange={e => this.props.handleCJKMoveChange(e.target.checked)}
         />
         C-j ... next-candidate, C-k ... previous-candidate
+      </div>
+    );
+  }
+  render() {
+    return (
+      <div className="options">
+        <h3 className="optionsTitle">Options</h3>
+        {this.renderPopupWidthInput()}
+        {this.renderOrderOfCandidates()}
+        {this.renderMaxResultsForEmpty()}
+        {this.renderKeyBindings()}
       </div>
     );
   }
