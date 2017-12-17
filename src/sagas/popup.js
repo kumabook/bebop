@@ -109,7 +109,7 @@ function getMarkedCandidates({ markedCandidateIds, items }) {
     .filter(item => item);
 }
 
-function* getTargetCandidates({ markedCandidateIds, items, index }, needNormalize = false) {
+export function* getTargetCandidates({ markedCandidateIds, items, index }, needNormalize = false) {
   const marked = getMarkedCandidates({ markedCandidateIds, items });
   if (marked.length > 0) {
     return marked;

@@ -7,8 +7,18 @@ import {
   searchCandidates,
   candidateSelector,
   executeCommand,
+  normalizeCandidate,
+  getTargetCandidates,
 } from '../../src/sagas/popup';
 import candidates from '../../src/candidates';
+
+const items = [{
+  id:         'google-search-test',
+  label:      'test Search with Google',
+  type:       'search',
+  args:       ['test'],
+  faviconUrl: null,
+}];
 
 test('dispatchEmptyQuery saga', (t) => {
   const gen = dispatchEmptyQuery();
@@ -43,3 +53,8 @@ test('normalizeCandidate', (t) => {
   t.deepEqual(gen.next().value, { type: 'test' });
 });
 
+test('getTargetCandidates', (t) => {
+  const markedCandidateIds = { 'google-search-test': true };
+  const gen = getTargetCandidates({ markedCandidateIds, items, index: 0 });
+  t.deepEqual(gen.next().value, items);
+});
