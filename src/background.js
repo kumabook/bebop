@@ -17,13 +17,6 @@ function getPopupPorts() {
   return Object.values(popupPorts);
 }
 
-browser.commands.onCommand.addListener((command) => {
-  switch (command) {
-    default:
-      break;
-  }
-});
-
 function postMessageToContentScript(type, payload) {
   const currentWindow = true;
   const active        = true;
@@ -39,8 +32,7 @@ function postMessageToContentScript(type, payload) {
   });
 }
 
-function handleContentScriptMessage() {
-}
+function handleContentScriptMessage() {}
 
 browser.runtime.onConnect.addListener((port) => {
   const { name } = port;

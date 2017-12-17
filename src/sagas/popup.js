@@ -224,18 +224,8 @@ function* watchTabChange() {
   });
 }
 
-function* watchClose() {
-  yield takeEvery('CLOSE', () => window.close());
-}
-
-const routes = {
-  '/search': function* putSearch() {
-    yield put({ type: 'SEARCH' });
-  },
-};
-
 function* routerSaga() {
-  yield fork(router, history, routes);
+  yield fork(router, history, {});
 }
 
 export default function* root() {
@@ -249,7 +239,6 @@ export default function* root() {
     fork(watchListCommands),
     fork(watchMarkCandidate),
     fork(watchPort),
-    fork(watchClose),
     fork(routerSaga),
     fork(dispatchEmptyQuery),
   ]);
