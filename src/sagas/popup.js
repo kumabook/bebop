@@ -25,7 +25,7 @@ import { watchKeySequence } from './key_sequence';
 
 const history = createHashHistory();
 const portName = `popup-${Date.now()}`;
-const port = getPort(portName);
+export const port = getPort(portName);
 
 export const debounceDelayMs = 100;
 
@@ -208,18 +208,16 @@ function* watchMarkCandidate() {
  * So, we just close window.
  * If this restriction is change, we need to flag on.
  */
-const canFocusToPopup = false;
-
 function* watchTabChange() {
-  yield takeLatest('TAB_CHANGED', function* handleTabChange() {
-    if (!canFocusToPopup) {
+  yield takeLatest('TAB_CHANGED', function* h({ payload = {} }) {
+    if (!payload.canFocusToPopup) {
       window.close();
     } else {
       yield call(delay, debounceDelayMs);
       document.querySelector('.commandInput').focus();
       const query = yield select(state => state.query);
-      const payload = yield search(query);
-      yield put({ type: 'CANDIDATES', payload });
+      const p = yield search(query);
+      yield put({ type: 'CANDIDATES', payload: p });
     }
   });
 }

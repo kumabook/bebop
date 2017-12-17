@@ -2,6 +2,7 @@ import test from 'ava';
 import nisemono from 'nisemono';
 import ReactTestUtils from 'react-dom/test-utils';
 import { start, stop } from '../src/popup';
+import { port } from '../src/sagas/popup';
 
 const WAIT_MS = 250;
 const delay  = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -133,5 +134,23 @@ test.serial('popup cannot marks commands', async (t) => {
   await delay(WAIT_MS);
   const markedCandidate = document.querySelector('.candidate.marked');
   t.truthy(markedCandidate === null);
+  await delay(WAIT_MS);
+});
+
+test.serial('popup handles TAB_CHANGED action and close', async (t) => {
+  await delay(WAIT_MS);
+  port.listeners.forEach((l) => {
+    l({ type: 'TAB_CHANGED' });
+  });
+  t.pass();
+  await delay(WAIT_MS);
+});
+
+test.serial('popup handles TAB_CHANGED action re-focus', async (t) => {
+  await delay(WAIT_MS);
+  port.listeners.forEach((l) => {
+    l({ type: 'TAB_CHANGED', payload: { canFocusToPopup: true } });
+  });
+  t.pass();
   await delay(WAIT_MS);
 });
