@@ -41,11 +41,11 @@ Usage
     | bookmark    | b         | open a bookmark                 |
 
     - `:type` narrows down to the candidates whose type is the specified type
-    - `x` also narrows down to the candidates whose shorthand is the specified type
+    - `x (shorthand letter)` also narrows down to the candidates whose shorthand is the specified type
     - ex.
       - `阿部寛` narrows down to the all candidates searched with `阿部寛`
       - `:link` or `l` narrow down to link candidates
-      - `:link 阿部寛` or `:l 阿部寛` narrow down to link candidates searched with `阿部寛`
+      - `:link 阿部寛` or `l 阿部寛` narrow down to link candidates searched with `阿部寛`
 
     You can use these key-bindings in command input:
 
