@@ -1,6 +1,5 @@
 import browser from 'webextension-polyfill';
 import logger from 'kiroku';
-import keySequence from './key_sequences';
 import { init as commandInit, find as findCommand } from './commands';
 import { search, highlight, dehighlight } from './link';
 
@@ -9,18 +8,6 @@ let port = null;
 if (process.env.NODE_ENV === 'production') {
   logger.setLevel('INFO');
 }
-
-const commandNameOfSeq = {
-  'C-f': 'forward-char',
-  'C-b': 'backward-char',
-  'C-a': 'beginning-of-line',
-  'C-e': 'end-of-line',
-  'C-n': 'next-line',
-  'C-p': 'previous-line',
-  'M->': 'end-of-buffer',
-  'M-<': 'beginning-of-buffer',
-  'C-h': 'delete-backward-char',
-};
 
 function executeCommand(commandName, candidates) {
   const command = findCommand(commandName);
@@ -34,17 +21,6 @@ function executeCommand(commandName, candidates) {
 function handleExecuteCommand(payload) {
   const { commandName, candidates } = payload;
   return executeCommand(commandName, candidates);
-}
-
-function keydownListener(e) {
-  const seq = keySequence(e);
-  logger.trace(seq);
-  const name = commandNameOfSeq[seq];
-  if (name) {
-    logger.trace(`execute command: ${name}`);
-    executeCommand(name, []);
-    e.preventDefault();
-  }
 }
 
 function handleCandidateChange(candidate) {
@@ -70,18 +46,6 @@ function portMessageListener(msg) {
   switch (type) {
     case 'POPUP_CLOSE':
       handleClose();
-      break;
-    case 'PLATFORM_INFO':
-      switch (payload.os) {
-        case 'mac':
-          break;
-        case 'android':
-          break;
-        default:
-          logger.info('Setup key-bindings');
-          window.addEventListener('keydown', keydownListener, true);
-          break;
-      }
       break;
     default:
       break;

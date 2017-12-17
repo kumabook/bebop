@@ -52,10 +52,6 @@ browser.runtime.onConnect.addListener((port) => {
       port.onMessage.removeListener(handleContentScriptMessage);
     });
     port.onMessage.addListener(handleContentScriptMessage);
-    browser.runtime.getPlatformInfo().then(payload => port.postMessage({
-      type: 'PLATFORM_INFO',
-      payload,
-    }));
   } else if (name.startsWith('popup')) {
     popupPorts[name] = port;
     port.onDisconnect.addListener(() => {
