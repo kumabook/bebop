@@ -25,13 +25,21 @@ test('searchCandidates saga', (t) => {
 
 test('executeCommand', (t) => {
   const command = { handler: () => Promise.resolve() };
-  const candidate = { name: 'name', args: [] };
-  const gen = executeCommand(command, candidate);
+  const gen = executeCommand(command, items);
   gen.next();
   gen.next();
   t.pass();
 
-  const noCommandGen = executeCommand({}, candidate);
+  const noCommandGen = executeCommand(null, items);
   noCommandGen.next();
   t.pass();
 });
+
+test('normalizeCandidate', (t) => {
+  const noCandidateGen = normalizeCandidate(null);
+  t.deepEqual(noCandidateGen.next().value, null);
+
+  const gen = normalizeCandidate({ type: 'test' });
+  t.deepEqual(gen.next().value, { type: 'test' });
+});
+

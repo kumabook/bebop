@@ -92,7 +92,7 @@ function* watchChangeCandidate() {
   });
 }
 
-function* normalizeCandidate(candidate) {
+export function* normalizeCandidate(candidate) {
   if (!candidate) {
     return null;
   }
