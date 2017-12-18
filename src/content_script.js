@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === 'production') {
   logger.setLevel('INFO');
 }
 
-function executeCommand(commandName, candidates) {
+export function executeCommand(commandName, candidates) {
   const command = findCommand(commandName);
   if (command && command.contentHandler) {
     const f = command.contentHandler;
@@ -36,12 +36,8 @@ function handleClose() {
   dehighlight();
 }
 
-function portMessageListener(msg) {
-  const { type, payload, targetUrl } = msg;
-  if (targetUrl !== window.location.href && type === 'SELECT_CANDIDATE') {
-    logger.trace('This content script is not active.');
-    return;
-  }
+export function portMessageListener(msg) {
+  const { type, payload } = msg;
   logger.trace(`Handle message ${type} ${JSON.stringify(payload)}`);
   switch (type) {
     case 'POPUP_CLOSE':
@@ -52,18 +48,20 @@ function portMessageListener(msg) {
   }
 }
 
-function messageListener(request, sender, sendResponse) {
+export function messageListener(request, sender, sendResponse) {
   switch (request.type) {
     case 'FETCH_LINKS':
       sendResponse(search(request.payload));
       break;
     case 'CHANGE_CANDIDATE':
       handleCandidateChange(request.payload);
+      sendResponse();
       break;
     case 'EXECUTE_COMMAND':
       sendResponse(handleExecuteCommand(request.payload));
       break;
     default:
+      sendResponse();
       break;
   }
 }

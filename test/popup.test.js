@@ -139,7 +139,7 @@ test.serial('popup cannot marks commands', async (t) => {
 
 test.serial('popup handles TAB_CHANGED action and close', async (t) => {
   await delay(WAIT_MS);
-  port.listeners.forEach((l) => {
+  port.messageListeners.forEach((l) => {
     l({ type: 'TAB_CHANGED' });
   });
   t.pass();
@@ -148,7 +148,7 @@ test.serial('popup handles TAB_CHANGED action and close', async (t) => {
 
 test.serial('popup handles TAB_CHANGED action re-focus', async (t) => {
   await delay(WAIT_MS);
-  port.listeners.forEach((l) => {
+  port.messageListeners.forEach((l) => {
     l({ type: 'TAB_CHANGED', payload: { canFocusToPopup: true } });
   });
   t.pass();

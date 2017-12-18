@@ -1,3 +1,26 @@
+function createPort() {
+  const messageListeners = [];
+  return {
+    messageListeners,
+    postMessage: () => {},
+    onMessage:   {
+      addListener:    listener => messageListeners.push(listener),
+      removeListener: (listener) => {
+        messageListeners.some((v, i) => {
+          if (v === listener) {
+            messageListeners.splice(i, 1);
+          }
+          return null;
+        });
+      },
+    },
+    onDisconnect: {
+      addListener:    () => {},
+      removeListener: () => {},
+    },
+  };
+}
+
 const browser = {};
 
 browser.i18n = {};
@@ -7,28 +30,15 @@ browser.extension = {};
 browser.extension.getURL = key => `moz-extension://extension-id/${key}`;
 
 browser.runtime = {};
-browser.runtime.connect = () => {
-  const listeners = [];
-  return {
-    listeners,
-    postMessage: () => {},
-    onMessage:   {
-      addListener:    listener => listeners.push(listener),
-      removeListener: (listener) => {
-        listeners.some((v, i) => {
-          if (v === listener) {
-            listeners.splice(i, 1);
-          }
-          return null;
-        });
-      },
-    },
-  };
-};
+browser.runtime.connect = createPort;
+
+const port = createPort();
+
 browser.runtime.onConnect = {
   addListener:    () => {},
   removeListener: () => {},
 };
+browser.runtime.onMessage = port.onMessage;
 browser.runtime.browserInfo = () => Promise.resolve({ name: 'Firefox' });
 
 browser.storage = {
