@@ -34,28 +34,33 @@ test('portMessageListener handles UNKNOWN message', (t) => {
   t.pass();
 });
 
-test.cb('messageListener handles FETCH_LINKS messages from popup', (t) => {
+test('messageListener handles FETCH_LINKS messages from popup', async (t) => {
   const message = { type: 'FETCH_LINKS', payload: { query: '', maxResults: 20 } };
-  messageListener(message, {}, () => t.end());
+  await messageListener(message);
+  t.pass();
 });
 
-test.cb('messageListener handles CHANGE_CANDIDATE messages from popup', (t) => {
+test('messageListener handles CHANGE_CANDIDATE messages from popup', async (t) => {
   const message = { type: 'CHANGE_CANDIDATE', payload: { type: 'search' } };
-  messageListener(message, {}, () => t.end());
+  await messageListener(message);
+  t.pass();
 });
 
-test.cb('messageListener handles CHANGE_CANDIDATE messages with a link candidate, from popup', (t) => {
+test('messageListener handles CHANGE_CANDIDATE messages with a link candidate, from popup', async (t) => {
   const message = { type: 'CHANGE_CANDIDATE', payload: { type: 'link', args: [] } };
-  messageListener(message, {}, () => t.end());
+  await messageListener(message);
+  t.pass();
 });
 
-test.cb('messageListener handles EXECUTE_COMMAND messages from popup', (t) => {
+test('messageListener handles EXECUTE_COMMAND messages from popup', async (t) => {
   const message = { type: 'EXECUTE_COMMAND', payload: { commandName: 'open', candidates: [] } };
-  messageListener(message, {}, () => t.end());
+  await messageListener(message, {}, () => t.end());
+  t.pass();
 });
 
-test.cb('messageListener does not handle unknown messages from popup', (t) => {
+test('messageListener does not handle unknown messages from popup', async (t) => {
   const message = { type: 'UNKNOWN', payload: {} };
-  messageListener(message, {}, () => t.end());
+  await messageListener(message, {}, () => t.end());
+  t.pass();
 });
 

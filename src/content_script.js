@@ -30,6 +30,7 @@ function handleCandidateChange(candidate) {
   } else {
     highlight(candidate.args[0]);
   }
+  return Promise.resolve();
 }
 
 function handleClose() {
@@ -48,21 +49,16 @@ export function portMessageListener(msg) {
   }
 }
 
-export function messageListener(request, sender, sendResponse) {
+export function messageListener(request) {
   switch (request.type) {
     case 'FETCH_LINKS':
-      sendResponse(search(request.payload));
-      break;
+      return Promise.resolve(search(request.payload));
     case 'CHANGE_CANDIDATE':
-      handleCandidateChange(request.payload);
-      sendResponse();
-      break;
+      return handleCandidateChange(request.payload);
     case 'EXECUTE_COMMAND':
-      sendResponse(handleExecuteCommand(request.payload));
-      break;
+      return handleExecuteCommand(request.payload);
     default:
-      sendResponse();
-      break;
+      return null;
   }
 }
 
