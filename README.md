@@ -6,6 +6,8 @@ bebop
 [![Coverage Status](https://coveralls.io/repos/github/kumabook/bebop/badge.svg?branch=master)](https://coveralls.io/github/kumabook/bebop?branch=master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/739ecb729336efef52b8/maintainability)](https://codeclimate.com/github/kumabook/bebop/maintainability)
 
+<img height="100" src="bebop.png" align="right">
+
 bebop is a WebExtensions that makes your browsing groovy.
 
 bebop is available on [Firefox Add-ons][] and [Chrome web store][]
