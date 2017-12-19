@@ -20,7 +20,14 @@ const dummyHrefs = [
 
 function reduce(method) {
   return Array.prototype.reduce.apply(window.frames, [
-    (acc, f) => acc.concat(method(f.document)),
+    (acc, f) => {
+      try {
+        return acc.concat(method(f.document));
+      } catch (e) {
+        // do nothing
+      }
+      return acc;
+    },
     method(document),
   ]);
 }
