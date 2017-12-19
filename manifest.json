@@ -26,7 +26,24 @@
   ],
   "browser_action": {
     "browser_style": true,
-    "default_icon": "icons/icon-32.png",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png",
+      "64": "icons/icon-64.png"
+    },
+    "theme_icons": [{
+      "light": "icons/icon-dark-16.png",
+      "dark": "icons/icon-16.png",
+      "size": 16
+    }, {
+      "light": "icons/icon-dark-32.png",
+      "dark": "icons/icon-32.png",
+      "size": 32
+    }, {
+      "light": "icons/icon-dark-64.png",
+      "dark": "icons/icon-64.png",
+      "size": 64
+    }],
     "default_title": "button label",
     "default_popup": "popup/index.html"
   },
