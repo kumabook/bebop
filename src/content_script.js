@@ -70,7 +70,7 @@ setTimeout(() => {
   port = browser.runtime.connect({ name: portName });
   port.onMessage.addListener(portMessageListener);
   const disconnectListener = () => {
-    port.onMessage.removeListener(messageListener);
+    port.onMessage.removeListener(portMessageListener);
     port.onDisconnect.removeListener(disconnectListener);
   };
   port.onDisconnect.addListener(disconnectListener);
