@@ -6,6 +6,7 @@ import {
   onWindowFocusChanged,
   onTabActived,
 } from './utils/popup_window';
+import { getActiveContentTab } from './utils/tabs';
 
 const contentScriptPorts = {};
 const popupPorts         = {};
@@ -69,6 +70,16 @@ browser.tabs.onActivated.addListener((payload) => {
     payload,
   }));
   setTimeout(() => onTabActived(payload), 10);
+});
+
+browser.runtime.onMessage.addListener((request) => {
+  switch (request.type) {
+    case 'ACTIVE_CONTENT_TAB': {
+      return getActiveContentTab();
+    }
+    default:
+      return null;
+  }
 });
 
 browser.commands.onCommand.addListener((command) => {

@@ -1,6 +1,6 @@
 import browser from 'webextension-polyfill';
 import { getFaviconUrl } from '../utils/url';
-import { sendMessageToActiveTab } from '../utils/tabs';
+import { sendMessageToActiveContentTab } from '../utils/tabs';
 import getMessage from '../utils/i18n';
 
 const linkMaxResults = 100;
@@ -25,7 +25,7 @@ export function getLabel(link) {
 }
 
 export default function candidates(query, { maxResults } = {}) {
-  return sendMessageToActiveTab({
+  return sendMessageToActiveContentTab({
     type:    'FETCH_LINKS',
     payload: {
       query,
