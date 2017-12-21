@@ -25,6 +25,7 @@ characterMap[38]  = 'up';
 characterMap[40]  = 'down';
 characterMap[9]   = 'tab';
 characterMap[13]  = 'return';
+characterMap[27]  = 'ESC';
 
 export default function keySequence(keyEvent) {
   let code = String.fromCharCode(keyEvent.keyCode).toLowerCase();

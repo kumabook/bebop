@@ -222,6 +222,10 @@ function* watchTabChange() {
   });
 }
 
+function* watchQuit() {
+  yield takeLatest('QUIT', () => window.close());
+}
+
 function* routerSaga() {
   yield fork(router, history, {});
 }
@@ -236,6 +240,7 @@ export default function* root() {
     fork(watchReturn),
     fork(watchListCommands),
     fork(watchMarkCandidate),
+    fork(watchQuit),
     fork(watchPort),
     fork(routerSaga),
     fork(dispatchEmptyQuery),

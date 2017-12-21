@@ -154,3 +154,13 @@ test.serial('popup handles TAB_CHANGED action re-focus', async (t) => {
   t.pass();
   await delay(WAIT_MS);
 });
+
+
+test.serial('popup handles QUIT action re-focus', async (t) => {
+  await delay(WAIT_MS);
+  port.messageListeners.forEach((l) => {
+    l({ type: 'QUIT' });
+  });
+  t.true(window.close.isCalled);
+  await delay(WAIT_MS);
+});

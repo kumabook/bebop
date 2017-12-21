@@ -25,6 +25,8 @@ export const commandOfSeq = {
   'S-return': dispatchAction('RETURN', { commandIndex: 1 }),
   'C-i':      dispatchAction('LIST_COMMANDS'),
   'C-SPC':    dispatchAction('MARK_CANDIDATE'),
+  'ESC':      dispatchAction('QUIT'),
+  'C-g':      dispatchAction('QUIT'),
 };
 
 export function* handleKeySequece({ payload }) {
