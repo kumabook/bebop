@@ -40,6 +40,9 @@ function postMessageToContentScript(type, payload) {
 
 function handleContentScriptMessage() {}
 
+browser.windows.onRemoved.addListener(onWindowRemoved);
+browser.windows.onFocusChanged.addListener(onWindowFocusChanged);
+
 browser.runtime.onConnect.addListener((port) => {
   const { name } = port;
   logger.info(`connect channel: ${name}`);
@@ -65,6 +68,7 @@ browser.tabs.onActivated.addListener((payload) => {
     type: 'TAB_CHANGED',
     payload,
   }));
+  setTimeout(() => onTabActived(payload), 10);
 });
 
 browser.commands.onCommand.addListener((command) => {

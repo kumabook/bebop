@@ -1,6 +1,7 @@
 import browser from 'webextension-polyfill';
 
 let popupWindow = null;
+let activeTabId = null;
 
 export const defaultPopupWidth = 700;
 export async function getDisplay() {
@@ -34,3 +35,30 @@ export async function toggle() {
   });
 }
 
+export function onWindowRemoved(windowId) {
+  if (popupWindow && popupWindow.id === windowId) {
+    popupWindow = null;
+  }
+}
+
+export async function onWindowFocusChanged(windowId) {
+  if (!popupWindow) {
+    return;
+  }
+  if (popupWindow.id !== windowId) {
+    browser.windows.remove(popupWindow.id).catch(() => {});
+  } else {
+    popupWindow.focused = true;
+  }
+}
+
+export function onTabActived({ tabId, windowId }) {
+  if (popupWindow && popupWindow.id === windowId) {
+    return;
+  }
+  activeTabId = tabId;
+}
+
+export function getActiveTabId() {
+  return activeTabId;
+}
