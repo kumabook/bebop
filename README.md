@@ -59,6 +59,7 @@ Usage
     | C-e         | end-of-line          |
     | C-h         | delete-backward-char |
     | C-k         | kill-line            |
+    | C-g         | quit                 |
 
 
 3. Select the candidate. You can change the selected candidate with shortcut keys:
