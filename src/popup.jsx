@@ -1,4 +1,3 @@
-import 'regenerator-runtime/runtime';
 import browser       from 'webextension-polyfill';
 import React         from 'react';
 import createHistory from 'history/createHashHistory';
