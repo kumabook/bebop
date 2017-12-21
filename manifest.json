@@ -14,7 +14,14 @@
     "32": "icons/icon-32.png",
     "64": "icons/icon-64.png"
   },
-  "permissions": ["tabs", "activeTab", "history", "bookmarks", "storage"],
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "history",
+    "bookmarks",
+    "storage",
+    "system.display"
+  ],
   "background": {
     "scripts": ["background/bundle.js"]
   },
@@ -22,9 +29,7 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": [
-         "content_scripts/bundle.js"
-      ],
+      "js": ["content_scripts/bundle.js"],
       "run_at": "document_start",
       "match_about_blank": true
     }
