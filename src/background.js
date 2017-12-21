@@ -1,5 +1,11 @@
 import browser from 'webextension-polyfill';
 import logger from 'kiroku';
+import {
+  toggle as togglePopupWindow,
+  onWindowRemoved,
+  onWindowFocusChanged,
+  onTabActived,
+} from './utils/popup_window';
 
 const contentScriptPorts = {};
 const popupPorts         = {};
@@ -59,6 +65,16 @@ browser.tabs.onActivated.addListener((payload) => {
     type: 'TAB_CHANGED',
     payload,
   }));
+});
+
+browser.commands.onCommand.addListener((command) => {
+  switch (command) {
+    case 'toggle_popup_window':
+      togglePopupWindow();
+      break;
+    default:
+      break;
+  }
 });
 
 logger.info('bebop is initialized.');

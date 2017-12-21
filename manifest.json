@@ -64,6 +64,9 @@
         "mac"    : "MacCtrl+Comma",
         "linux"  : "Ctrl+Comma"
       }
+    },
+    "toggle_popup_window": {
+      "description": "Toggle popup window"
     }
   },
   "options_ui": {
