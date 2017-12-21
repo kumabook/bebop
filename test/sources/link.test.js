@@ -5,6 +5,8 @@ import candidates, { faviconUrl, getLabel } from '../../src/sources/link';
 
 const { browser } = global;
 const { query, sendMessage } = browser.tabs;
+const { sendMessage: sendMessageToRuntime } = browser.runtime;
+
 function setup() {
   browser.tabs.query = nisemono.func();
   nisemono.expects(browser.tabs.query).resolves([{
@@ -14,11 +16,13 @@ function setup() {
     windowId: 'window-0',
   }]);
   browser.tabs.sendMessage = nisemono.func();
+  browser.runtime.sendMessage = nisemono.func();
 }
 
 function restore() {
   browser.tabs.query = query;
   browser.tabs.sendMessage = sendMessage;
+  browser.runtime.sendMessage = sendMessageToRuntime;
 }
 
 test.beforeEach(setup);
@@ -40,6 +44,7 @@ test('getLabel returns label', (t) => {
 });
 
 test.serial('candidates returns link candidates', (t) => {
+  nisemono.expects(browser.runtime.sendMessage).resolves({ id: 1 });
   nisemono.expects(browser.tabs.sendMessage).resolves([{
     id:    'link-0',
     label: 'title',
@@ -55,6 +60,7 @@ test.serial('candidates returns link candidates', (t) => {
 
 test.serial('candidates returns link candidates', (t) => {
   nisemono.expects(browser.tabs.sendMessage).rejects(new Error('error'));
+  nisemono.expects(browser.runtime.sendMessage).rejects(new Error('error'));
   return candidates('q').then(({ items, label }) => {
     t.true(label !== null);
     t.is(items.length, 0);

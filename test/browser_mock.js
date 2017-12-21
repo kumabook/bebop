@@ -40,6 +40,7 @@ browser.runtime.onConnect = {
 };
 browser.runtime.onMessage = port.onMessage;
 browser.runtime.browserInfo = () => Promise.resolve({ name: 'Firefox' });
+browser.runtime.sendMessage = () => Promise.resolve();
 
 browser.storage = {
   local: {
@@ -57,11 +58,25 @@ browser.bookmarks = {
 };
 
 browser.tabs = {
+  get:         () => Promise.resolve(),
   create:      () => Promise.resolve(),
   update:      () => Promise.resolve(),
   query:       () => Promise.resolve([]),
   sendMessage: () => Promise.resolve(),
   onActivated: {
+    addListener:    () => {},
+    removeListener: () => {},
+  },
+};
+
+browser.windows = {
+  create:    () => Promise.resolve(),
+  remove:    () => Promise.resolve(),
+  onRemoved: {
+    addListener:    () => {},
+    removeListener: () => {},
+  },
+  onFocusChanged: {
     addListener:    () => {},
     removeListener: () => {},
   },
