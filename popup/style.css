@@ -19,6 +19,7 @@
   padding: 8px;
   top: 0;
   height: 36px;
+  box-sizing: border-box;
 }
 
 .footer {
