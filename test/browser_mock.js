@@ -1,25 +1,4 @@
-function createPort() {
-  const messageListeners = [];
-  return {
-    messageListeners,
-    postMessage: () => {},
-    onMessage:   {
-      addListener:    listener => messageListeners.push(listener),
-      removeListener: (listener) => {
-        messageListeners.some((v, i) => {
-          if (v === listener) {
-            messageListeners.splice(i, 1);
-          }
-          return null;
-        });
-      },
-    },
-    onDisconnect: {
-      addListener:    () => {},
-      removeListener: () => {},
-    },
-  };
-}
+const createPort = require('./create_port');
 
 const browser = {};
 
@@ -70,7 +49,7 @@ browser.tabs = {
 };
 
 browser.windows = {
-  create:    () => Promise.resolve(),
+  create:    () => Promise.resolve({ id: 1 }),
   remove:    () => Promise.resolve(),
   onRemoved: {
     addListener:    () => {},
@@ -86,6 +65,19 @@ browser.commands = {
   onCommand: {
     addListener:    () => {},
     removeListener: () => {},
+  },
+};
+
+browser.system = {
+  display: {
+    getInfo: callback => callback([{
+      bounds: {
+        left:   0,
+        top:    0,
+        width:  100,
+        height: 100,
+      },
+    }]),
   },
 };
 

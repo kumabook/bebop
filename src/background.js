@@ -8,19 +8,19 @@ import {
 } from './utils/popup_window';
 import { getActiveContentTab } from './utils/tabs';
 
-const contentScriptPorts = {};
-const popupPorts         = {};
+let contentScriptPorts = {};
+let popupPorts         = {};
 
 if (process.env.NODE_ENV === 'production') {
   logger.setLevel('INFO');
 }
 logger.info(`bebop starts initialization. log level ${logger.getLevel()}`);
 
-function getContentScriptPorts() {
+export function getContentScriptPorts() {
   return Object.values(contentScriptPorts);
 }
 
-function getPopupPorts() {
+export function getPopupPorts() {
   return Object.values(popupPorts);
 }
 
@@ -41,55 +41,62 @@ function postMessageToContentScript(type, payload) {
 
 function handleContentScriptMessage() {}
 
-browser.windows.onRemoved.addListener(onWindowRemoved);
-browser.windows.onFocusChanged.addListener(onWindowFocusChanged);
+export function init() {
+  contentScriptPorts = {};
+  popupPorts         = {};
 
-browser.runtime.onConnect.addListener((port) => {
-  const { name } = port;
-  logger.info(`connect channel: ${name}`);
-  if (name.startsWith('content-script')) {
-    contentScriptPorts[name] = port;
-    port.onDisconnect.addListener(() => {
-      delete contentScriptPorts[name];
-      port.onMessage.removeListener(handleContentScriptMessage);
-    });
-    port.onMessage.addListener(handleContentScriptMessage);
-  } else if (name.startsWith('popup')) {
-    popupPorts[name] = port;
-    port.onDisconnect.addListener(() => {
-      delete popupPorts[name];
-      postMessageToContentScript('POPUP_CLOSE');
-    });
-  }
-  logger.info(`There are ${Object.values(contentScriptPorts).length} channel`);
-});
+  browser.windows.onRemoved.addListener(onWindowRemoved);
+  browser.windows.onFocusChanged.addListener(onWindowFocusChanged);
 
-browser.tabs.onActivated.addListener((payload) => {
-  getPopupPorts().forEach(p => p.postMessage({
-    type: 'TAB_CHANGED',
-    payload,
-  }));
-  setTimeout(() => onTabActived(payload), 10);
-});
-
-browser.runtime.onMessage.addListener((request) => {
-  switch (request.type) {
-    case 'ACTIVE_CONTENT_TAB': {
-      return getActiveContentTab();
+  browser.runtime.onConnect.addListener((port) => {
+    const { name } = port;
+    logger.info(`connect channel: ${name}`);
+    if (name.startsWith('content-script')) {
+      contentScriptPorts[name] = port;
+      port.onDisconnect.addListener(() => {
+        delete contentScriptPorts[name];
+        port.onMessage.removeListener(handleContentScriptMessage);
+      });
+      port.onMessage.addListener(handleContentScriptMessage);
+    } else if (name.startsWith('popup')) {
+      popupPorts[name] = port;
+      port.onDisconnect.addListener(() => {
+        delete popupPorts[name];
+        postMessageToContentScript('POPUP_CLOSE');
+      });
     }
-    default:
-      return null;
-  }
-});
+    logger.info(`There are ${Object.values(contentScriptPorts).length} channel`);
+  });
 
-browser.commands.onCommand.addListener((command) => {
-  switch (command) {
-    case 'toggle_popup_window':
-      togglePopupWindow();
-      break;
-    default:
-      break;
-  }
-});
+  browser.tabs.onActivated.addListener((payload) => {
+    getPopupPorts().forEach(p => p.postMessage({
+      type: 'TAB_CHANGED',
+      payload,
+    }));
+    setTimeout(() => onTabActived(payload), 10);
+  });
 
-logger.info('bebop is initialized.');
+  browser.runtime.onMessage.addListener((request) => {
+    switch (request.type) {
+      case 'ACTIVE_CONTENT_TAB': {
+        return getActiveContentTab();
+      }
+      default:
+        return null;
+    }
+  });
+
+  browser.commands.onCommand.addListener((command) => {
+    switch (command) {
+      case 'toggle_popup_window':
+        togglePopupWindow();
+        break;
+      default:
+        break;
+    }
+  });
+
+  logger.info('bebop is initialized.');
+}
+
+init();
