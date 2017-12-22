@@ -39,4 +39,8 @@ export function getFaviconUrl(url) {
   }
 }
 
+export function isExtensionUrl(url) {
+  return url.startsWith('chrome-extension') || url.startsWith('moz-extension');
+}
+
 init();

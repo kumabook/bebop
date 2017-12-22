@@ -1,10 +1,10 @@
 import browser from 'webextension-polyfill';
 import getMessage from '../utils/i18n';
+import { isExtensionUrl } from '../utils/url';
 
 function isCandidate(tab, q) {
   const { title: t, url: u } = tab;
-  return (t.includes(q) || u.includes(q)) &&
-    !(u.startsWith('moz-extension') || u.startsWith('chrome-extension'));
+  return (t.includes(q) || u.includes(q)) && !isExtensionUrl(u);
 }
 
 export default function candidates(q, { maxResults }) {
