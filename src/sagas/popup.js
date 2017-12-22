@@ -29,6 +29,14 @@ export const port = getPort(portName);
 
 export const debounceDelayMs = 100;
 
+export function close() {
+  if (window.parent !== window) {
+    window.parent.postMessage(JSON.stringify({ type: 'CLOSE' }), '*');
+  } else {
+    window.close();
+  }
+}
+
 export function* executeCommand(command, candidates) {
   if (!command || candidates.length === 0) {
     return;
@@ -44,7 +52,7 @@ export function* executeCommand(command, candidates) {
   } catch (e) {
     logger.error(e);
   } finally {
-    window.close();
+    close();
   }
 }
 
@@ -211,7 +219,7 @@ function* watchMarkCandidate() {
 function* watchTabChange() {
   yield takeLatest('TAB_CHANGED', function* h({ payload = {} }) {
     if (!payload.canFocusToPopup) {
-      window.close();
+      close();
     } else {
       yield call(delay, debounceDelayMs);
       document.querySelector('.commandInput').focus();
@@ -223,7 +231,7 @@ function* watchTabChange() {
 }
 
 function* watchQuit() {
-  yield takeLatest('QUIT', () => window.close());
+  yield takeLatest('QUIT', close);
 }
 
 function* routerSaga() {
