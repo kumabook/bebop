@@ -19,7 +19,7 @@ import {
   getPort,
   createPortChannel,
 } from '../utils/port';
-import { sendMessageToActiveContentTab } from '../utils/tabs';
+import { sendMessageToActiveContentTabViaBackground } from '../utils/tabs';
 import { query as queryCommands } from '../commands';
 import { watchKeySequence } from './key_sequence';
 
@@ -46,13 +46,10 @@ export function* executeCommand(command, candidates) {
     return;
   }
   try {
-    if (command.handler) {
-      const f = command.handler;
-      yield f.call(this, candidates);
-      logger.trace(`executed ${command.label}`);
-    }
     const payload = { commandName: command.label, candidates };
-    yield call(sendMessageToActiveContentTab, { type: 'EXECUTE_COMMAND', payload });
+    const message = { type: 'EXECUTE_COMMAND', payload };
+    yield call(sendMessageToBackground, message);
+    yield call(sendMessageToActiveContentTabViaBackground, message);
   } catch (e) {
     logger.error(e);
   } finally {
@@ -102,7 +99,7 @@ function* watchChangeCandidate() {
   yield takeEvery(actions, function* handleChangeCandidate() {
     const { index, items } = yield select(state => state.candidates);
     const candidate = items[index];
-    sendMessageToActiveContentTab({ type: 'CHANGE_CANDIDATE', payload: candidate })
+    sendMessageToActiveContentTabViaBackground({ type: 'CHANGE_CANDIDATE', payload: candidate })
       .catch(() => {});
   });
 }

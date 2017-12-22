@@ -1,8 +1,10 @@
 import test from 'ava';
 import nisemono from 'nisemono';
 import ReactTestUtils from 'react-dom/test-utils';
+import browser from 'webextension-polyfill';
 import app, { start, stop } from '../src/popup';
 import { port } from '../src/sagas/popup';
+import search from '../src/candidates';
 
 const WAIT_MS = 250;
 const delay  = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -12,6 +14,7 @@ const SPC   = 32;
 app.then(a => stop(a)); // stop default app
 
 const { close } = window;
+const { sendMessage } = browser.runtime;
 let popup = null;
 
 function code(c) {
@@ -33,12 +36,21 @@ function* setup() {
   document.scrollingElement = { scrollTo: nisemono.func() };
   nisemono.expects(document.scrollingElement.scrollTo).returns();
   window.close = nisemono.func();
+  browser.runtime.sendMessage = ({ type, payload }) => {
+    switch (type) {
+      case 'SEARCH_CANDIDATES':
+        return search(payload);
+      default:
+        return Promise.resolve();
+    }
+  };
   popup = yield start();
 }
 
 function restore() {
   document.scrollingElement = null;
   window.close = close;
+  browser.runtime.sendMessage = sendMessage;
   stop(popup);
 }
 

@@ -20,11 +20,10 @@ export function getActiveContentTab() {
 }
 
 export function sendMessageToActiveContentTab(msg) {
-  const type = 'ACTIVE_CONTENT_TAB';
-  return browser.runtime.sendMessage({ type }).then((tab) => {
-    if (tab && tab.id) {
-      return browser.tabs.sendMessage(tab.id, msg);
-    }
-    return Promise.reject(new Error('No active tab'));
-  });
+  return getActiveContentTab().then(t => browser.tabs.sendMessage(t.id, msg));
+}
+
+export function sendMessageToActiveContentTabViaBackground(msg) {
+  const type = 'SEND_MESSAGE_TO_ACTIVE_CONTENT_TAB';
+  return browser.runtime.sendMessage({ type, payload: msg });
 }

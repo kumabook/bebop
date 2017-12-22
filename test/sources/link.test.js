@@ -44,7 +44,6 @@ test('getLabel returns label', (t) => {
 });
 
 test.serial('candidates returns link candidates', (t) => {
-  nisemono.expects(browser.runtime.sendMessage).resolves({ id: 1 });
   nisemono.expects(browser.tabs.sendMessage).resolves([{
     id:    'link-0',
     label: 'title',

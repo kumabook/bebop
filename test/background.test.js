@@ -22,7 +22,7 @@ const onRemovedPort      = createPort();
 const onFocusChangedPort = createPort();
 const onActivatedPort    = createPort();
 
-function setup() {
+async function setup() {
   browser.runtime.onConnect      = onConnectPort.onMessage;
   browser.runtime.onMessage      = onMessagePort.onMessage;
   browser.commands.onCommand     = onCommandPort.onMessage;
@@ -30,6 +30,7 @@ function setup() {
   browser.windows.onFocusChanged = onFocusChangedPort.onMessage;
   browser.tabs.onActivated       = onActivatedPort.onMessage;
   init();
+  delay(10);
 }
 
 function restore() {

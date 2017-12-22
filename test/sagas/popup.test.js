@@ -9,8 +9,8 @@ import {
   executeCommand,
   normalizeCandidate,
   getTargetCandidates,
+  sendMessageToBackground,
 } from '../../src/sagas/popup';
-import candidates from '../../src/candidates';
 
 const items = [{
   id:         'google-search-test',
@@ -29,7 +29,10 @@ test('searchCandidates saga', (t) => {
   const gen = searchCandidates({ payload: '' });
   t.deepEqual(gen.next().value, call(delay, debounceDelayMs));
   t.deepEqual(gen.next().value, select(candidateSelector));
-  t.deepEqual(gen.next().value, call(candidates, ''));
+  t.deepEqual(gen.next().value, call(sendMessageToBackground, {
+    type:    'SEARCH_CANDIDATES',
+    payload: '',
+  }));
   t.deepEqual(gen.next().value, put({ type: 'CANDIDATES', payload: undefined }));
 });
 
