@@ -57,6 +57,38 @@ function toggleContentPopup() {
 
 function handleContentScriptMessage() {}
 
+export function messageListener(request) {
+  switch (request.type) {
+    case 'SEND_MESSAGE_TO_ACTIVE_CONTENT_TAB': {
+      return getActiveContentTab()
+        .then(tab => browser.tabs.sendMessage(tab.id, request.payload));
+    }
+    case 'SEARCH_CANDIDATES': {
+      const query = request.payload;
+      return search(query);
+    }
+    case 'EXECUTE_COMMAND': {
+      const { commandName, candidates } = request.payload;
+      return executeCommand(commandName, candidates);
+    }
+    default:
+      return null;
+  }
+}
+
+export function commandListener(command) {
+  switch (command) {
+    case 'toggle_popup_window':
+      togglePopupWindow();
+      break;
+    case 'toggle_content_popup':
+      toggleContentPopup();
+      break;
+    default:
+      break;
+  }
+}
+
 export async function init() {
   contentScriptPorts = {};
   popupPorts         = {};
@@ -96,37 +128,8 @@ export async function init() {
     setTimeout(() => onTabActived(payload), 10);
   });
 
-  browser.runtime.onMessage.addListener((request) => {
-    switch (request.type) {
-      case 'SEND_MESSAGE_TO_ACTIVE_CONTENT_TAB': {
-        return getActiveContentTab()
-          .then(tab => browser.tabs.sendMessage(tab.id, request.payload));
-      }
-      case 'SEARCH_CANDIDATES': {
-        const query = request.payload;
-        return search(query);
-      }
-      case 'EXECUTE_COMMAND': {
-        const { commandName, candidates } = request.payload;
-        return executeCommand(commandName, candidates);
-      }
-      default:
-        return null;
-    }
-  });
-
-  browser.commands.onCommand.addListener((command) => {
-    switch (command) {
-      case 'toggle_popup_window':
-        togglePopupWindow();
-        break;
-      case 'toggle_content_popup':
-        toggleContentPopup();
-        break;
-      default:
-        break;
-    }
-  });
+  browser.runtime.onMessage.addListener(messageListener);
+  browser.commands.onCommand.addListener(commandListener);
 
   logger.info('bebop is initialized.');
 }
