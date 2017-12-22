@@ -9,11 +9,12 @@ function imageURL(type) {
 }
 
 function typeImg(type) {
+  const alt = type[0].toUpperCase();
   switch (type) {
     case 'search':
       return <span className="candidate-icon-dummy" />;
     default:
-      return <img className="candidate-icon" src={imageURL(type)} alt={type} />;
+      return <img className="candidate-icon" src={imageURL(type)} alt={alt} />;
   }
 }
 
