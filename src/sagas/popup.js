@@ -1,3 +1,4 @@
+import browser from 'webextension-polyfill';
 import logger from 'kiroku';
 import { delay } from 'redux-saga';
 import {
@@ -18,7 +19,6 @@ import {
   getPort,
   createPortChannel,
 } from '../utils/port';
-import search from '../candidates';
 import { sendMessageToActiveContentTab } from '../utils/tabs';
 import { query as queryCommands } from '../commands';
 import { watchKeySequence } from './key_sequence';
@@ -35,6 +35,10 @@ export function close() {
   } else {
     window.close();
   }
+}
+
+export function sendMessageToBackground(message) {
+  return browser.runtime.sendMessage(message);
 }
 
 export function* executeCommand(command, candidates) {
@@ -72,7 +76,10 @@ export function* searchCandidates({ payload: query }) {
     const items      = queryCommands(candidate.type, query);
     yield put({ type: 'CANDIDATES', payload: { items, separators } });
   } else {
-    const payload = yield call(search, query);
+    const payload = yield call(sendMessageToBackground, {
+      type:    'SEARCH_CANDIDATES',
+      payload: query,
+    });
     yield put({ type: 'CANDIDATES', payload });
   }
 }
@@ -224,8 +231,11 @@ function* watchTabChange() {
       yield call(delay, debounceDelayMs);
       document.querySelector('.commandInput').focus();
       const query = yield select(state => state.query);
-      const p = yield search(query);
-      yield put({ type: 'CANDIDATES', payload: p });
+      const items = yield call(sendMessageToBackground, {
+        type:    'SEARCH_CANDIDATES',
+        payload: query,
+      });
+      yield put({ type: 'CANDIDATES', payload: items });
     }
   });
 }
