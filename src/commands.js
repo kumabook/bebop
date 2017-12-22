@@ -182,10 +182,6 @@ export function find(name = '') {
   return command2Candidate(commandList.find(c => c.label === name));
 }
 
-export function defaulOf(type) {
-  return commandsOfType[type];
-}
-
 export function init() {
   register('search'  , googleSearchCommands);
   register('link'    , linkCommands);
