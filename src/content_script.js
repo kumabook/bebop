@@ -1,5 +1,6 @@
 import browser from 'webextension-polyfill';
 import logger from 'kiroku';
+import { toggle } from './content_popup';
 import { init as commandInit, find as findCommand } from './commands';
 import { search, highlight, dehighlight } from './link';
 
@@ -37,6 +38,10 @@ function handleClose() {
   dehighlight();
 }
 
+async function handleTogglePopup() {
+  await toggle();
+}
+
 export function portMessageListener(msg) {
   const { type, payload } = msg;
   logger.trace(`Handle message ${type} ${JSON.stringify(payload)}`);
@@ -57,6 +62,8 @@ export function messageListener(request) {
       return handleCandidateChange(request.payload);
     case 'EXECUTE_COMMAND':
       return handleExecuteCommand(request.payload);
+    case 'TOGGLE_POPUP':
+      return handleTogglePopup(request.payload);
     default:
       return null;
   }

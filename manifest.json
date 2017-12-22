@@ -68,10 +68,13 @@
     },
     "toggle_popup_window": {
       "description": "Toggle popup window"
+    },
+    "toggle_content_popup": {
+      "description": "Toggle popup in current content"
     }
   },
   "options_ui": {
     "page": "options_ui/index.html"
   },
-  "web_accessible_resources": ["images/*.png"]
+  "web_accessible_resources": ["images/*.png", "popup/*"]
 }

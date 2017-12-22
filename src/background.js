@@ -39,6 +39,11 @@ function postMessageToContentScript(type, payload) {
   });
 }
 
+function toggleContentPopup() {
+  const msg = { type: 'TOGGLE_POPUP' };
+  return getActiveContentTab().then(t => browser.tabs.sendMessage(t.id, msg));
+}
+
 function handleContentScriptMessage() {}
 
 export function init() {
@@ -90,6 +95,9 @@ export function init() {
     switch (command) {
       case 'toggle_popup_window':
         togglePopupWindow();
+        break;
+      case 'toggle_content_popup':
+        toggleContentPopup();
         break;
       default:
         break;
