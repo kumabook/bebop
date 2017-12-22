@@ -1,4 +1,5 @@
 import browser from 'webextension-polyfill';
+import { isExtensionUrl } from './utils/url';
 
 export const HIGHLIGHTER_ID    = 'bebop-highlighter';
 export const LINK_MARKER_CLASS = 'bebop-link-marker';
@@ -22,7 +23,9 @@ function reduce(method) {
   return Array.prototype.reduce.apply(window.frames, [
     (acc, f) => {
       try {
-        return acc.concat(method(f.document));
+        if (!isExtensionUrl(f.document.location.href)) {
+          return acc.concat(method(f.document));
+        }
       } catch (e) {
         // do nothing
       }
