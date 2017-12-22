@@ -46,5 +46,8 @@ export async function toggle() {
       }
     }
   });
+  if (document.activeElement) {
+    document.activeElement.blur();
+  }
   document.body.appendChild(popup);
 }
