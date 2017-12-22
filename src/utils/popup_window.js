@@ -59,6 +59,10 @@ export function onTabActived({ tabId, windowId }) {
   activeTabId = tabId;
 }
 
+export function getPopupWindow() {
+  return popupWindow;
+}
+
 export function getActiveTabId() {
   return activeTabId;
 }
