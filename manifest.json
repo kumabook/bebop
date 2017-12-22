@@ -20,7 +20,8 @@
     "history",
     "bookmarks",
     "storage",
-    "system.display"
+    "system.display",
+    "chrome://favicon/*"
   ],
   "background": {
     "scripts": ["background/bundle.js"]
