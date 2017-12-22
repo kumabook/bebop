@@ -1,7 +1,7 @@
 import test from 'ava';
 import nisemono from 'nisemono';
 import ReactTestUtils from 'react-dom/test-utils';
-import { start, stop } from '../src/popup';
+import app, { start, stop } from '../src/popup';
 import { port } from '../src/sagas/popup';
 
 const WAIT_MS = 250;
@@ -9,7 +9,7 @@ const delay  = ms => new Promise(resolve => setTimeout(resolve, ms));
 const ENTER = 13;
 const SPC   = 32;
 
-window.onload = null; // remove app onload listener;
+app.then(a => stop(a)); // stop default app
 
 const { close } = window;
 let popup = null;

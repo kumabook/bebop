@@ -1,11 +1,11 @@
 import test from 'ava';
 import ReactTestUtils from 'react-dom/test-utils';
-import { start, stop } from '../src/options_ui';
+import app, { start, stop } from '../src/options_ui';
 
 const WAIT_MS = 250;
 const delay  = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-window.onload = null; // remove app onload listener;
+app.then(a => stop(a)); // stop default app
 let optionsUI = null;
 
 const { getBoundingClientRect } =  Element.prototype;

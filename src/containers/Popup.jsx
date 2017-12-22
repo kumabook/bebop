@@ -33,7 +33,7 @@ class Popup extends React.Component {
   }
   componentDidMount() {
     window.addEventListener('focus', this.focusInput);
-    setTimeout(() => {
+    this.timer = setTimeout(() => {
       this.input.focus();
       if (document.scrollingElement) {
         document.scrollingElement.scrollTo(0, 0);
@@ -53,6 +53,7 @@ class Popup extends React.Component {
   }
   componentWillUnmount() {
     window.removeEventListener('focus', this.focusInput);
+    clearTimeout(this.timer);
   }
   handleCandidateClick(index) {
     const candidate = this.props.candidates[index];

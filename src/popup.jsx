@@ -14,7 +14,6 @@ import {
   routerMiddleware,
 } from 'react-router-redux';
 import {
-  HashRouter,
   Switch,
   Route,
 } from 'react-router-dom';
@@ -51,11 +50,9 @@ export function start() {
     const element = (
       <Provider store={store}>
         <ConnectedRouter history={history}>
-          <HashRouter>
-            <Switch>
-              <Route default component={Popup} />
-            </Switch>
-          </HashRouter>
+          <Switch>
+            <Route default component={Popup} />
+          </Switch>
         </ConnectedRouter>
       </Provider>
     );
@@ -65,4 +62,4 @@ export function start() {
 
 export { stop };
 
-window.onload = start;
+export default start();

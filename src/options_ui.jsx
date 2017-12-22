@@ -35,4 +35,4 @@ export function start() {
 
 export { stop };
 
-window.onload = start;
+export default start();
