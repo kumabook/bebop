@@ -30,6 +30,9 @@ Usage
 ## command
 
 1. `Click icon on toolbar` or `Ctrl+Comma` ... show popup that has command input
+
+    NOTE: On Vivaldi, `_execute_browser_action` keyboard shortcut doesn't work. Please use `toggle_popup_window` instead. See [Customize shortcut](#change-shortcut-key)
+
 2. Input a query to narrow down the candidates.
 
     NOTE: On Windows, you need to press a tab-key to focus to a query input
@@ -94,7 +97,7 @@ Usage
 
 
 You can change shortcut key from `Ctrl+Comma`.
-See [Customize](#change-shortcut-key-with-your-own-private-addon)
+See [Customize shortcut](#change-shortcut-key)
 
 ## Customize
 
@@ -105,11 +108,12 @@ Change popup width from `Add-ons` -> `Extensions` -> `Preferences` of `bebop`.
 
 ### Change shortcut key
 
-#### Chrome: Extensions page
+#### Chromium based browser: Extensions page
 
 1. Open `chrome://extensions/`
 2. Click `Keyboard shortcuts` at thxe bottom of the page
 3. Set `Activate the extension` as your favorite shortcut key
+   - Vivaldi user should use `toggle_popup_window` and change `In vivaldi` to `Global`.
 
 #### Firefox: Change shortcut key with your own private addon
 
