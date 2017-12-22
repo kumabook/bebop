@@ -20,6 +20,7 @@ browser.runtime.onConnect = {
 browser.runtime.onMessage = port.onMessage;
 browser.runtime.browserInfo = () => Promise.resolve({ name: 'Firefox' });
 browser.runtime.sendMessage = () => Promise.resolve();
+browser.runtime.openOptionsPage = () => Promise.resolve();
 
 browser.storage = {
   local: {
@@ -29,18 +30,21 @@ browser.storage = {
 };
 
 browser.history = {
-  search: () => Promise.resolve([]),
+  search:    () => Promise.resolve([]),
+  deleteUrl: () => Promise.resolve(),
 };
 
 browser.bookmarks = {
   search: () => Promise.resolve([]),
+  remove: () => Promise.resolve(),
 };
 
 browser.tabs = {
   get:         () => Promise.resolve(),
   create:      () => Promise.resolve(),
   update:      () => Promise.resolve(),
-  query:       () => Promise.resolve([]),
+  remove:      () => Promise.resolve(),
+  query:       () => Promise.resolve([{ id: 1, url: 'http://example.com', title: '' }]),
   sendMessage: () => Promise.resolve(),
   onActivated: {
     addListener:    () => {},
