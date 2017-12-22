@@ -5,7 +5,7 @@ export const POPUP_FRAME_ID = 'bebop-popup';
 export const DEFAULT_POPUP_WIDTH = 700;
 const POPUP_OPACITY = 0.85;
 
-function hasPopup() {
+export function hasPopup() {
   return !!document.getElementById(POPUP_FRAME_ID);
 }
 
@@ -13,6 +13,15 @@ function removePopup() {
   const previousPopup = document.getElementById(POPUP_FRAME_ID);
   if (previousPopup) {
     document.body.removeChild(previousPopup);
+  }
+}
+
+export function messageListener(event) {
+  if (isExtensionUrl(event.origin)) {
+    const { type } = JSON.parse(event.data);
+    if (type === 'CLOSE') {
+      removePopup();
+    }
   }
 }
 
@@ -38,14 +47,7 @@ export async function toggle() {
   popup.style.zIndex          = 10000000;
   popup.style.backgroundColor = `rgba(255, 255, 255, ${POPUP_OPACITY})`;
   popup.style.boxShadow       = '0 0 1em';
-  window.addEventListener('message', (event) => {
-    if (isExtensionUrl(event.origin)) {
-      const { type } = JSON.parse(event.data);
-      if (type === 'CLOSE') {
-        removePopup();
-      }
-    }
-  });
+  window.addEventListener('message', messageListener);
   if (document.activeElement) {
     document.activeElement.blur();
   }
