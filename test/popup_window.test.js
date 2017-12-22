@@ -3,7 +3,7 @@ import {
   toggle,
   getPopupWindow,
   onWindowRemoved,
-} from '../../src/utils/popup_window';
+} from '../src/popup_window';
 
 const delay  = ms => new Promise(resolve => setTimeout(resolve, ms));
 

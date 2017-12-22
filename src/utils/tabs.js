@@ -1,5 +1,5 @@
 import browser from 'webextension-polyfill';
-import { getActiveTabId } from './popup_window';
+import { getActiveTabId } from '../popup_window';
 
 export function getActiveTab() {
   const options = { currentWindow: true, active: true };

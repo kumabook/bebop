@@ -4,7 +4,7 @@ import {
   getActiveContentTab,
   sendMessageToActiveContentTab,
 } from '../../src/utils/tabs';
-import { onTabActived } from '../../src/utils/popup_window';
+import { onTabActived } from '../../src/popup_window';
 
 const { browser } = global;
 const { get, query, sendMessage }   = browser.tabs;

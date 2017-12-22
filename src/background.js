@@ -5,7 +5,7 @@ import {
   onWindowRemoved,
   onWindowFocusChanged,
   onTabActived,
-} from './utils/popup_window';
+} from './popup_window';
 import { getActiveContentTab } from './utils/tabs';
 
 let contentScriptPorts = {};

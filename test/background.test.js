@@ -5,7 +5,7 @@ import {
   getContentScriptPorts,
   getPopupPorts,
 } from '../src/background';
-import { getPopupWindow } from '../src/utils/popup_window';
+import { getPopupWindow } from '../src/popup_window';
 import createPort from './create_port';
 
 const delay  = ms => new Promise(resolve => setTimeout(resolve, ms));
