@@ -150,7 +150,7 @@ const cursorCommands = [
 ];
 
 const runCommands = [
-  { id: 'run-command', label: 'run command', icon: null, handler: runCommand, contentHandler: noop },
+  { id: 'run-command', label: 'run command', icon: 'command', handler: runCommand, contentHandler: noop },
 ];
 
 export function command2Candidate(c) {
