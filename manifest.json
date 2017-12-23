@@ -3,6 +3,7 @@
   "version": "0.1.2",
   "manifest_version": 2,
   "description": "Offer emacs key-bindings and command line interface like helm",
+  "author": "Hiroki Kumamoto",
   "applications": {
     "gecko": {
       "id": "bebop@kumabook",
