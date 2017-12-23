@@ -17,12 +17,18 @@ Enjoy and swing your browsing!
 About
 -----
 
-
 bebop is a WebExtensions that offers command line interface like
 [emacs helm](https://github.com/emacs-helm/helm) for browsing.
 
+- bebop retrieves candidates from various sources such as `tabs`, `history`, `bookmark`, etc.
+- you can narrows down them with a pattern.
+- bebop provides actions on candidates such as `open url`, `activate tab`, `remove bookmark`, etc.
+- you can choose a candidate and execute an action on it.
+  - you can also marks multiple candidates to execute chosen action on this set of candidates.
+  - ex: close multiple tabs at once.
 
 ![Demo](./demo.gif)
+
 
 Usage
 -----
