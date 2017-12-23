@@ -46,7 +46,7 @@ export function* executeCommand(command, candidates) {
     return;
   }
   try {
-    const payload = { commandName: command.label, candidates };
+    const payload = { commandId: command.id, candidates };
     const message = { type: 'EXECUTE_COMMAND', payload };
     yield call(sendMessageToBackground, message);
     yield call(sendMessageToActiveContentTabViaBackground, message);

@@ -158,16 +158,17 @@ export function command2Candidate(c) {
     return null;
   }
   return Object.assign({}, c, {
-    id:         c.label,
+    id:         c.id,
+    label:      c.label,
     type:       'command',
-    faviconUrl: browser.extension.getURL(`images/${c.icon}.png`),
+    faviconUrl: c.icon ? browser.extension.getURL(`images/${c.icon}.png`) : null,
   });
 }
 
 export function register(name, commands) {
   commandsOfType[name] = commands;
   commands.forEach((c) => {
-    if (!commandList.includes(c)) {
+    if (!commandList.find(v => v.id === c.id)) {
       commandList.push(c);
     }
   });
@@ -178,8 +179,8 @@ export function query(type = '', q = '') {
   return commands.filter(c => c.label.includes(q)).map(command2Candidate);
 }
 
-export function find(name = '') {
-  return command2Candidate(commandList.find(c => c.label === name));
+export function find(id = '') {
+  return command2Candidate(commandList.find(c => c.id === id));
 }
 
 export function init() {

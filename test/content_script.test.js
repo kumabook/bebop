@@ -53,7 +53,7 @@ test('messageListener handles CHANGE_CANDIDATE messages with a link candidate, f
 });
 
 test('messageListener handles EXECUTE_COMMAND messages from popup', async (t) => {
-  const message = { type: 'EXECUTE_COMMAND', payload: { commandName: 'open', candidates: [] } };
+  const message = { type: 'EXECUTE_COMMAND', payload: { commandId: 'open', candidates: [] } };
   await messageListener(message, {}, () => t.end());
   t.pass();
 });

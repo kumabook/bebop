@@ -10,8 +10,8 @@ if (process.env.NODE_ENV === 'production') {
   logger.setLevel('INFO');
 }
 
-export function executeCommand(commandName, candidates) {
-  const command = findCommand(commandName);
+export function executeCommand(commandId, candidates) {
+  const command = findCommand(commandId);
   if (command && command.contentHandler) {
     const f = command.contentHandler;
     return f.call(this, candidates);
@@ -20,8 +20,8 @@ export function executeCommand(commandName, candidates) {
 }
 
 function handleExecuteCommand(payload) {
-  const { commandName, candidates } = payload;
-  return executeCommand(commandName, candidates);
+  const { commandId, candidates } = payload;
+  return executeCommand(commandId, candidates);
 }
 
 function handleCandidateChange(candidate) {

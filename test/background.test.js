@@ -133,8 +133,8 @@ test('messageListener', (t) => {
   messageListener({
     type:    'EXECUTE_COMMAND',
     payload: {
-      commandName: 'google-search',
-      candidates:  [],
+      commandId:  'google-search',
+      candidates: [],
     },
   });
   t.pass();

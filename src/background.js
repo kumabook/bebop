@@ -41,8 +41,8 @@ function postMessageToContentScript(type, payload) {
   });
 }
 
-export function executeCommand(commandName, candidates) {
-  const command = findCommand(commandName);
+export function executeCommand(commandId, candidates) {
+  const command = findCommand(commandId);
   if (command && command.handler) {
     const f = command.handler;
     return f.call(this, candidates);
@@ -68,8 +68,8 @@ export function messageListener(request) {
       return search(query);
     }
     case 'EXECUTE_COMMAND': {
-      const { commandName, candidates } = request.payload;
-      return executeCommand(commandName, candidates);
+      const { commandId, candidates } = request.payload;
+      return executeCommand(commandId, candidates);
     }
     default:
       return null;
