@@ -25,11 +25,7 @@ export function messageListener(event) {
   }
 }
 
-export async function toggle() {
-  if (hasPopup()) {
-    removePopup();
-    return;
-  }
+async function createPopup() {
   const popup = document.createElement('iframe');
   popup.src = browser.extension.getURL('popup/index.html');
   const { popupWidth } = await browser.storage.local.get('popupWidth');
@@ -47,6 +43,15 @@ export async function toggle() {
   popup.style.zIndex          = 10000000;
   popup.style.backgroundColor = `rgba(255, 255, 255, ${POPUP_OPACITY})`;
   popup.style.boxShadow       = '0 0 1em';
+  return popup;
+}
+
+export async function toggle() {
+  if (hasPopup()) {
+    removePopup();
+    return;
+  }
+  const popup = await createPopup();
   window.addEventListener('message', messageListener);
   if (document.activeElement) {
     document.activeElement.blur();
