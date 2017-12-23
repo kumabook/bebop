@@ -12,7 +12,7 @@ export default function candidates(q, { maxResults }) {
     label:      c.name,
     type:       'command',
     args:       [c.name],
-    faviconUrl: browser.extension.getURL('images/command.png'),
+    faviconUrl: browser.extension.getURL('images/options.png'),
   }))).then(items => ({
     items,
     label: `${getMessage('commands')} (:command or c)`,
