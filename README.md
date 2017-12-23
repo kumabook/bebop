@@ -31,7 +31,23 @@ Usage
 
 1. `Click icon on toolbar` or `Ctrl+Comma` ... show popup that has command input
 
-    NOTE: On Vivaldi, `_execute_browser_action` keyboard shortcut doesn't work. Please use `toggle_popup_window` instead. See [Customize shortcut](#change-shortcut-key)
+    On Vivaldi, `_execute_browser_action` keyboard shortcut doesn't work.
+    So, bebop offers two alternatives to it.
+
+    | command              | description                      |
+    |:---------------------|:-------------------------------- |
+    | toggle_popup_window  | show popup as a window           |
+    | toggle_content_popup | show popup in a content document |
+
+    To use these alternatives, you need to set shortcut key.
+    See [Customize shortcut](#change-shortcut-key).
+
+    NOTE: `toggle_content_popup` doesn't work completely.
+
+    ex:
+
+    - it doesn't work in some pages
+    - it can't focus automatically from browser ui.
 
 2. Input a query to narrow down the candidates.
 
