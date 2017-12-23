@@ -47,7 +47,7 @@ export function go(url) {
   return getActiveTab().then(tab => browser.tabs.update(tab.id, { url }));
 }
 
-export function openUrls(candidates) {
+export function openUrlsInNewTab(candidates) {
   return Promise.all(candidates.map(({ args }) => {
     if (isUrl(args[0])) {
       return open(args[0]);
@@ -56,7 +56,7 @@ export function openUrls(candidates) {
   }));
 }
 
-export function goUrl(candidates) {
+export function openUrl(candidates) {
   const candidate = candidates.find(c => isUrl(c.args[0]));
   if (candidate) {
     return go(candidate.args[0]);
@@ -81,11 +81,11 @@ function googleUrl(q) {
   return `https://www.google.com/search?q=${q}`;
 }
 
-export function openGoogleSearch(cs) {
+export function searchWithGoogleInNewTab(cs) {
   return Promise.all(first(cs, 'search').map(({ args }) => open(googleUrl(args[0]))));
 }
 
-export function goGoogleSearch(cs) {
+export function searchWithGoogle(cs) {
   return Promise.all(first(cs, 'search').map(({ args }) => go(googleUrl(args[0]))));
 }
 
@@ -110,47 +110,47 @@ export function runCommand(cs) {
 }
 
 const googleSearchCommands = [
-  { label: 'open'    , icon: 'open', handler: goGoogleSearch  , contentHandler: noop },
-  { label: 'tab open', icon: 'tab' , handler: openGoogleSearch, contentHandler: noop },
+  { id: 'search-with-google'           , label: 'search with google'           , icon: 'open', handler: searchWithGoogle        , contentHandler: noop },
+  { id: 'search-with-google-in-new-tab', label: 'search with google in new tab', icon: 'tab' , handler: searchWithGoogleInNewTab, contentHandler: noop },
 ];
 
 const linkCommands = [
-  { label: 'click'     , icon: 'click', handler: noop    , contentHandler: clickLink },
-  { label: 'tab open'  , icon: 'tab'  , handler: openLink, contentHandler: noop },
+  { id: 'click'    , label: 'click'               , icon: 'click', handler: noop    , contentHandler: clickLink },
+  { id: 'open-link', label: 'open link in new tab', icon: 'tab'  , handler: openLink, contentHandler: noop },
 ];
 
 const tabCommands = [
-  { label: 'activate-tab', icon: 'tab'   , handler: activateTab, contentHandler: noop },
-  { label: 'close-tab'   , icon: 'delete', handler: closeTab   , contentHandler: noop },
+  { id: 'activate-tab', label: 'activate tab', icon: 'tab'   , handler: activateTab, contentHandler: noop },
+  { id: 'close-tab'   , label: 'close tab(s)', icon: 'delete', handler: closeTab   , contentHandler: noop },
 ];
 
 const historyCommands = [
-  { label: 'open'    , icon: 'open'  , handler: goUrl        , contentHandler: noop },
-  { label: 'tab open', icon: 'tab'   , handler: openUrls     , contentHandler: noop },
-  { label: 'delete'  , icon: 'delete', handler: deleteHistory, contentHandler: noop },
+  { id: 'open-url'            , label: 'open'                  , icon: 'open'  , handler: openUrl         , contentHandler: noop },
+  { id: 'open-urls-in-new-tab', label: 'open url(s) in new tab', icon: 'tab'   , handler: openUrlsInNewTab, contentHandler: noop },
+  { id: 'delete-history'      , label: 'delete history(s)'     , icon: 'delete', handler: deleteHistory   , contentHandler: noop },
 ];
 
 const bookmarkCommands = [
-  { label: 'open'    , icon: 'open'  , handler: goUrl         , contentHandler: noop },
-  { label: 'tab open', icon: 'tab'   , handler: openUrls      , contentHandler: noop },
-  { label: 'delete'  , icon: 'delete', handler: deleteBookmark, contentHandler: noop },
+  { id: 'open-url'            , label: 'open'                   , icon: 'open'  , handler: openUrl         , contentHandler: noop },
+  { id: 'open-urls-in-new-tab', label: 'open urls in new tab(s)', icon: 'tab'   , handler: openUrlsInNewTab, contentHandler: noop },
+  { id: 'delete-bookmark'     , label: 'delete bookmark(s)'     , icon: 'delete', handler: deleteBookmark  , contentHandler: noop },
 ];
 
 const cursorCommands = [
-  { label: 'forward-char'        , icon: null, handler: noop, contentHandler: cursor.forwardChar },
-  { label: 'backward-char'       , icon: null, handler: noop, contentHandler: cursor.backwardChar },
-  { label: 'beginning-of-line'   , icon: null, handler: noop, contentHandler: cursor.beginningOfLine },
-  { label: 'end-of-line'         , icon: null, handler: noop, contentHandler: cursor.endOfLine },
-  { label: 'next-line'           , icon: null, handler: noop, contentHandler: cursor.nextLine },
-  { label: 'previous-line'       , icon: null, handler: noop, contentHandler: cursor.previousLine },
-  { label: 'end-of-buffer'       , icon: null, handler: noop, contentHandler: cursor.endOfBuffer },
-  { label: 'beginning-of-buffer' , icon: null, handler: noop, contentHandler: cursor.beginningOfBuffer },
-  { label: 'delete-backward-char', icon: null, handler: noop, contentHandler: cursor.deleteBackwardChar },
-  { label: 'kill-line'           , icon: null, handler: noop, contentHandler: cursor.killLine },
+  { id: 'forward-char'        , label: 'Forward char'        , icon: null, handler: noop, contentHandler: cursor.forwardChar },
+  { id: 'backward-char'       , label: 'Backward char'       , icon: null, handler: noop, contentHandler: cursor.backwardChar },
+  { id: 'beginning-of-line'   , label: 'Beginning of line'   , icon: null, handler: noop, contentHandler: cursor.beginningOfLine },
+  { id: 'end-of-line'         , label: 'End of line'         , icon: null, handler: noop, contentHandler: cursor.endOfLine },
+  { id: 'next-line'           , label: 'Next line'           , icon: null, handler: noop, contentHandler: cursor.nextLine },
+  { id: 'previous-line'       , label: 'Previous line'       , icon: null, handler: noop, contentHandler: cursor.previousLine },
+  { id: 'end-of-buffer'       , label: 'End of buffer'       , icon: null, handler: noop, contentHandler: cursor.endOfBuffer },
+  { id: 'beginning-of-buffer' , label: 'Beginning of buffer' , icon: null, handler: noop, contentHandler: cursor.beginningOfBuffer },
+  { id: 'delete-backward-char', label: 'Delete backward char', icon: null, handler: noop, contentHandler: cursor.deleteBackwardChar },
+  { id: 'kill-line'           , label: 'Kill line'           , icon: null, handler: noop, contentHandler: cursor.killLine },
 ];
 
 const runCommands = [
-  { label: 'run command', icon: null, handler: runCommand, contentHandler: noop },
+  { id: 'run-command', label: 'run command', icon: null, handler: runCommand, contentHandler: noop },
 ];
 
 export function command2Candidate(c) {

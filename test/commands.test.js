@@ -2,12 +2,12 @@ import test from 'ava';
 import {
   activateTab,
   closeTab,
-  openUrls,
-  goUrl,
+  openUrlsInNewTab,
+  openUrl,
   clickLink,
   openLink,
-  openGoogleSearch,
-  goGoogleSearch,
+  searchWithGoogle,
+  searchWithGoogleInNewTab,
   deleteHistory,
   deleteBookmark,
   runCommand,
@@ -30,15 +30,15 @@ test('closeTab', (t) => {
   t.pass();
 });
 
-test('open', (t) => {
-  openUrls([{ type: 'history', args: urlArgs }]);
-  openUrls([]);
+test('openUrlsInNewTab', (t) => {
+  openUrlsInNewTab([{ type: 'history', args: urlArgs }]);
+  openUrlsInNewTab([]);
   t.pass();
 });
 
-test('go', (t) => {
-  goUrl([{ type: 'history', args: urlArgs }]);
-  goUrl([]);
+test('openUrl', (t) => {
+  openUrl([{ type: 'history', args: urlArgs }]);
+  openUrl([]);
   t.pass();
 });
 
@@ -54,15 +54,15 @@ test('openLink', (t) => {
   t.pass();
 });
 
-test('openGoogleSearch', (t) => {
-  openGoogleSearch([{ type: 'search', args: searchArgs }]);
-  openGoogleSearch([]);
+test('searchWithGoogle', (t) => {
+  searchWithGoogle([{ type: 'search', args: searchArgs }]);
+  searchWithGoogle([]);
   t.pass();
 });
 
-test('goGoogleSearch', (t) => {
-  goGoogleSearch([{ type: 'search', args: searchArgs }]);
-  goGoogleSearch([]);
+test('searchWithGoogleInNewTab', (t) => {
+  searchWithGoogleInNewTab([{ type: 'search', args: searchArgs }]);
+  searchWithGoogleInNewTab([]);
   t.pass();
 });
 
