@@ -30,7 +30,7 @@ async function createPopup() {
   popup.src = browser.extension.getURL('popup/index.html');
   const { popupWidth } = await browser.storage.local.get('popupWidth');
   const w      = window.innerWidth - 100;
-  const width  = Math.min(w, Number.popupWidth ? popupWidth : DEFAULT_POPUP_WIDTH);
+  const width  = Math.min(w, popupWidth || DEFAULT_POPUP_WIDTH);
   const height = window.innerHeight * 0.8;
   const left   = Math.round((window.innerWidth - width) * 0.5);
   const top    = Math.round((window.innerHeight - height) * 0.25);
