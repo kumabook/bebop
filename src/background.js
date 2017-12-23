@@ -57,6 +57,34 @@ function toggleContentPopup() {
 
 function handleContentScriptMessage() {}
 
+function connectListener(port) {
+  const { name } = port;
+  logger.info(`connect channel: ${name}`);
+  if (name.startsWith('content-script')) {
+    contentScriptPorts[name] = port;
+    port.onDisconnect.addListener(() => {
+      delete contentScriptPorts[name];
+      port.onMessage.removeListener(handleContentScriptMessage);
+    });
+    port.onMessage.addListener(handleContentScriptMessage);
+  } else if (name.startsWith('popup')) {
+    popupPorts[name] = port;
+    port.onDisconnect.addListener(() => {
+      delete popupPorts[name];
+      postMessageToContentScript('POPUP_CLOSE');
+    });
+  }
+  logger.info(`There are ${Object.values(contentScriptPorts).length} channel`);
+}
+
+function activatedListener(payload) {
+  getPopupPorts().forEach(p => p.postMessage({
+    type: 'TAB_CHANGED',
+    payload,
+  }));
+  setTimeout(() => onTabActived(payload), 10);
+}
+
 export function messageListener(request) {
   switch (request.type) {
     case 'SEND_MESSAGE_TO_ACTIVE_CONTENT_TAB': {
@@ -99,35 +127,8 @@ export async function init() {
 
   browser.windows.onRemoved.addListener(onWindowRemoved);
   browser.windows.onFocusChanged.addListener(onWindowFocusChanged);
-
-  browser.runtime.onConnect.addListener((port) => {
-    const { name } = port;
-    logger.info(`connect channel: ${name}`);
-    if (name.startsWith('content-script')) {
-      contentScriptPorts[name] = port;
-      port.onDisconnect.addListener(() => {
-        delete contentScriptPorts[name];
-        port.onMessage.removeListener(handleContentScriptMessage);
-      });
-      port.onMessage.addListener(handleContentScriptMessage);
-    } else if (name.startsWith('popup')) {
-      popupPorts[name] = port;
-      port.onDisconnect.addListener(() => {
-        delete popupPorts[name];
-        postMessageToContentScript('POPUP_CLOSE');
-      });
-    }
-    logger.info(`There are ${Object.values(contentScriptPorts).length} channel`);
-  });
-
-  browser.tabs.onActivated.addListener((payload) => {
-    getPopupPorts().forEach(p => p.postMessage({
-      type: 'TAB_CHANGED',
-      payload,
-    }));
-    setTimeout(() => onTabActived(payload), 10);
-  });
-
+  browser.runtime.onConnect.addListener(connectListener);
+  browser.tabs.onActivated.addListener(activatedListener);
   browser.runtime.onMessage.addListener(messageListener);
   browser.commands.onCommand.addListener(commandListener);
 
