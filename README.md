@@ -33,71 +33,77 @@ bebop is a WebExtensions that offers command line interface like
 Usage
 -----
 
-1. `Click icon on toolbar` or `Ctrl+Comma` ... show popup that has command input
+### 1. Show popup
 
-    On Vivaldi, `_execute_browser_action` keyboard shortcut doesn't work.
-    So, bebop offers two alternatives to it.
+`Click icon on toolbar` or `Ctrl+Comma` ... show popup that has command input
 
-    | command name         | description                      |
-    |:---------------------|:-------------------------------- |
-    | toggle_popup_window  | show popup as a window           |
-    | toggle_content_popup | show popup in a content document |
+On Vivaldi, `_execute_browser_action` keyboard shortcut doesn't work.
+So, bebop offers two alternatives to it.
 
-    To use these alternatives, you need to set shortcut key.
-    See [Customize shortcut](#change-shortcut-key).
+| command name         | description                      |
+|:---------------------|:-------------------------------- |
+| toggle_popup_window  | show popup as a window           |
+| toggle_content_popup | show popup in a content document |
 
-    NOTE: `toggle_content_popup` doesn't work completely.
+To use these alternatives, you need to set shortcut key.
+See [Customize shortcut](#change-shortcut-key).
 
-    ex:
+NOTE: `toggle_content_popup` doesn't work completely.
 
-    - it doesn't work in some pages
-    - it can't focus automatically from browser ui.
+ex:
 
-2. Input a query to narrow down the candidates.
+- it doesn't work in some pages
+- it can't focus automatically from browser ui.
 
-    NOTE: On Windows, you need to press a tab-key to focus to a query input
+### 2. Narrow down candidates
 
-    | type        | shorthand | description                     |
-    |:------------|:---------:|:------------------------------- |
-    | search      |           | open new tab with google search |
-    | link        | l         | click a link in current page    |
-    | tab         | t         | active selected tab             |
-    | history     | h         | open a history                  |
-    | bookmark    | b         | open a bookmark                 |
+Input a query to narrow down the candidates.
 
-    - `:type` narrows down to the candidates whose type is the specified type
-    - `x (shorthand letter)` also narrows down to the candidates whose shorthand is the specified type
-    - ex.
-      - `阿部寛` narrows down to the all candidates searched with `阿部寛`
-      - `:link` or `l` narrow down to link candidates
-      - `:link 阿部寛` or `l 阿部寛` narrow down to link candidates searched with `阿部寛`
+NOTE: On Windows, you need to press a tab-key to focus to a query input
 
-    You can use these key-bindings in command input:
+| type        | shorthand | description                     |
+|:------------|:---------:|:------------------------------- |
+| search      |           | open new tab with google search |
+| link        | l         | click a link in current page    |
+| tab         | t         | active selected tab             |
+| history     | h         | open a history                  |
+| bookmark    | b         | open a bookmark                 |
 
-    | key-binding | command              |
-    |:------------|:-------------------- |
-    | C-f         | forward-char         |
-    | C-b         | backward-char        |
-    | C-a         | beginning-of-line    |
-    | C-e         | end-of-line          |
-    | C-h         | delete-backward-char |
-    | C-k         | kill-line            |
-    | C-g         | quit                 |
+- `:type` narrows down to the candidates whose type is the specified type
+  - `x (shorthand letter)` also narrows down to the candidates whose shorthand is the specified type
+- ex.
+  - `阿部寛` narrows down to the all candidates searched with `阿部寛`
+  - `:link` or `l` narrow down to link candidates
+  - `:link 阿部寛` or `l 阿部寛` narrow down to link candidates searched with `阿部寛`
+
+You can use these key-bindings in command input:
+
+| key-binding | command              |
+|:------------|:-------------------- |
+| C-f         | forward-char         |
+| C-b         | backward-char        |
+| C-a         | beginning-of-line    |
+| C-e         | end-of-line          |
+| C-h         | delete-backward-char |
+| C-k         | kill-line            |
+| C-g         | quit                 |
 
 
-3. Select the candidate. You can change the selected candidate with shortcut keys:
+### 3. Select the candidates
 
-    | key-binding    | command              |
-    |:---------------|:-------------------- |
-    | tab            | next-candidate       |
-    | S-tab          | previous-candidate   |
-    | C-n (only mac) | next-candidate       |
-    | C-p            | previous-candidate   |
-    | C-j (opt-in)   | next-candidate       |
-    | C-k (opt-in)   | previous-candidate   |
-    | C-SPC          | mark-candidate       |
+You can change the selected candidate with shortcut keys:
 
-    `C-j`, `C-k` are opt-in key-bindings. You can enable them from options page.
+| key-binding    | command              |
+|:---------------|:-------------------- |
+| tab            | next-candidate       |
+| S-tab          | previous-candidate   |
+| C-n (only mac) | next-candidate       |
+| C-p            | previous-candidate   |
+| C-j (opt-in)   | next-candidate       |
+| C-k (opt-in)   | previous-candidate   |
+| C-SPC          | mark-candidate       |
+
+`C-j`, `C-k` are opt-in key-bindings. You can enable them from options page.
 
 
  You can mark multiple candidates with `C-SPC`.
@@ -105,21 +111,24 @@ Usage
  For example, `close-tab` command closes multiple tabs.
 
 
-4. Execute action. A candidate can be executed by various actions.
-    You can execute default action by pressing `return` or click a candidate.
-    You can also execute another action by these shortcuts.
+### 4. Execute action
 
-    | key-binding | action                   |
-    |:------------|:------------------------ |
-    | return      | runs the first action   |
-    | S-return    | runs the second action  |
-    | C-i         | lists available actions |
+A candidate can be executed by various actions.
+You can execute default action by pressing `return` or click a candidate.
+You can also execute another action by these shortcuts.
+
+| key-binding | action                   |
+|:------------|:------------------------ |
+| return      | runs the first action   |
+| S-return    | runs the second action  |
+| C-i         | lists available actions |
 
 
 You can change shortcut key from `Ctrl+Comma`.
 See [Customize shortcut](#change-shortcut-key)
 
-## Customize
+Customize
+---------
 
 ### Change popup width from addon-setting page
 
