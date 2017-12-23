@@ -130,9 +130,11 @@ See [Customize shortcut](#change-shortcut-key)
 Customize
 ---------
 
-### Change popup width from addon-setting page
+### Options page
 
-Change popup width from `Add-ons` -> `Extensions` -> `Preferences` of `bebop`.
+- `open-options` command opens options page
+- Firefox: `Add-ons` -> `Extensions` -> `Preferences` of `bebop`
+- Chrome: `Window` -> `Extensions` -> `Options` of `bebop`
 
 
 ### Change shortcut key
