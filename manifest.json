@@ -21,7 +21,7 @@
     "bookmarks",
     "storage",
     "system.display",
-    "chrome://favicon/*"
+    "<all_urls>"
   ],
   "background": {
     "scripts": ["background/bundle.js"]
