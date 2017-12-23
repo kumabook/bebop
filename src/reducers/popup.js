@@ -87,7 +87,7 @@ const prev = (state = {}, action) => {
 const mode = (state = 'candidate', action) => {
   switch (action.type) {
     case 'SAVE_CANDIDATES':
-      return 'command';
+      return 'action';
     case 'RESTORE_CANDIDATES':
       return 'candidate';
     default:

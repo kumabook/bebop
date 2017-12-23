@@ -65,11 +65,11 @@ class Popup extends React.Component {
     }
   }
   hasFooter() {
-    return this.props.mode !== 'command';
+    return this.props.mode !== 'action';
   }
   renderFooter() {
     switch (this.props.mode) {
-      case 'command':
+      case 'action':
         return null;
       default:
         return (

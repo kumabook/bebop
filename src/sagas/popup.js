@@ -20,7 +20,7 @@ import {
   createPortChannel,
 } from '../utils/port';
 import { sendMessageToActiveContentTabViaBackground } from '../utils/tabs';
-import { query as queryCommands } from '../commands';
+import { query as queryActions } from '../actions';
 import { watchKeySequence } from './key_sequence';
 
 const history = createHashHistory();
@@ -41,13 +41,13 @@ export function sendMessageToBackground(message) {
   return browser.runtime.sendMessage(message);
 }
 
-export function* executeCommand(command, candidates) {
-  if (!command || candidates.length === 0) {
+export function* executeAction(action, candidates) {
+  if (!action || candidates.length === 0) {
     return;
   }
   try {
-    const payload = { commandId: command.id, candidates };
-    const message = { type: 'EXECUTE_COMMAND', payload };
+    const payload = { actionId: action.id, candidates };
+    const message = { type: 'EXECUTE_ACTION', payload };
     yield call(sendMessageToBackground, message);
     yield call(sendMessageToActiveContentTabViaBackground, message);
   } catch (e) {
@@ -69,8 +69,8 @@ export function* searchCandidates({ payload: query }) {
   yield call(delay, debounceDelayMs);
   const candidate = yield select(candidateSelector);
   if (candidate) {
-    const separators = [{ label: `Commands for "${candidate.label}"`, index: 0 }];
-    const items      = queryCommands(candidate.type, query);
+    const separators = [{ label: `Actions for "${candidate.label}"`, index: 0 }];
+    const items      = queryActions(candidate.type, query);
     yield put({ type: 'CANDIDATES', payload: { items, separators } });
   } else {
     const payload = yield call(sendMessageToBackground, {
@@ -136,56 +136,56 @@ function* watchSelectCandidate() {
   yield takeEvery('SELECT_CANDIDATE', function* handleSelectCandidate({ payload }) {
     const { mode, prev } = yield select(state => state);
     let c;
-    let command;
+    let action;
     switch (mode) {
-      case 'command': {
-        command = payload;
+      case 'action': {
+        action = payload;
         const candidates = yield getTargetCandidates(prev);
-        yield executeCommand(command, candidates);
+        yield executeAction(action, candidates);
         break;
       }
       default: {
-        c         = yield normalizeCandidate(payload);
-        [command] = queryCommands(c.type);
+        c        = yield normalizeCandidate(payload);
+        [action] = queryActions(c.type);
       }
     }
-    yield executeCommand(command, [c]);
+    yield executeAction(action, [c]);
   });
 }
 
 function* watchReturn() {
-  yield takeEvery('RETURN', function* handleReturn({ payload: { commandIndex } }) {
+  yield takeEvery('RETURN', function* handleReturn({ payload: { actionIndex } }) {
     const {
       candidates: { index, items },
       mode, markedCandidateIds, prev,
     } = yield select(state => state);
     switch (mode) {
-      case 'command': {
-        const command = items[index];
+      case 'action': {
+        const action = items[index];
         const candidates = yield getTargetCandidates(prev);
-        yield executeCommand(command, candidates);
+        yield executeAction(action, candidates);
         break;
       }
       default: {
         const candidates = yield getTargetCandidates({ index, items, markedCandidateIds }, true);
-        const commands = queryCommands(candidates[0].type);
-        const command  = commands[Math.min(commandIndex, commands.length - 1)];
-        yield executeCommand(command, candidates);
+        const actions = queryActions(candidates[0].type);
+        const action  = actions[Math.min(actionIndex, actions.length - 1)];
+        yield executeAction(action, candidates);
         break;
       }
     }
   });
 }
 
-function* watchListCommands() {
+function* watchListActions() {
   /* eslint-disable object-curly-newline */
-  yield takeEvery('LIST_COMMANDS', function* handleListCommands() {
+  yield takeEvery('LIST_ACTIONS', function* handleListActions() {
     const {
       candidates: { index, items },
       query, separators, markedCandidateIds, mode, prev,
     } = yield select(state => state);
     switch (mode) {
-      case 'command':
+      case 'action':
         yield put({ type: 'RESTORE_CANDIDATES', payload: prev });
         break;
       default: {
@@ -207,7 +207,7 @@ function* watchListCommands() {
 function* watchMarkCandidate() {
   yield takeEvery('MARK_CANDIDATE', function* handleMarkCandidate() {
     const { mode, candidates: { index, items } } = yield select(state => state);
-    if (mode === 'command') {
+    if (mode === 'action') {
       return;
     }
     const candidate = yield normalizeCandidate(items[index]);
@@ -253,7 +253,7 @@ export default function* root() {
     fork(watchChangeCandidate),
     fork(watchSelectCandidate),
     fork(watchReturn),
-    fork(watchListCommands),
+    fork(watchListActions),
     fork(watchMarkCandidate),
     fork(watchQuit),
     fork(watchPort),

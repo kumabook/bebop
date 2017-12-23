@@ -131,9 +131,9 @@ test('messageListener', (t) => {
   messageListener({ type: 'SEND_MESSAGE_TO_ACTIVE_CONTENT_TAB' });
   messageListener({ type: 'SEARCH_CANDIDATES', payload: '' });
   messageListener({
-    type:    'EXECUTE_COMMAND',
+    type:    'EXECUTE_ACTION',
     payload: {
-      commandId:  'google-search',
+      actionId:   'google-search',
       candidates: [],
     },
   });

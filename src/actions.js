@@ -5,8 +5,8 @@ import { click } from './link';
 import * as cursor from './cursor';
 import { getActiveTab } from './utils/tabs';
 
-const commandsOfType = {};
-const commandList = [];
+const actionsOfType = {};
+const actionList = [];
 const EMPTY_URLS = ['about:newtab', 'about:blank'];
 
 const noop = () => Promise.resolve();
@@ -109,34 +109,34 @@ export function runCommand(cs) {
   }));
 }
 
-const googleSearchCommands = [
+const googleSearchActions = [
   { id: 'search-with-google'           , label: 'search with google'           , icon: 'open', handler: searchWithGoogle        , contentHandler: noop },
   { id: 'search-with-google-in-new-tab', label: 'search with google in new tab', icon: 'tab' , handler: searchWithGoogleInNewTab, contentHandler: noop },
 ];
 
-const linkCommands = [
+const linkActions = [
   { id: 'click'    , label: 'click'               , icon: 'click', handler: noop    , contentHandler: clickLink },
   { id: 'open-link', label: 'open link in new tab', icon: 'tab'  , handler: openLink, contentHandler: noop },
 ];
 
-const tabCommands = [
+const tabActions = [
   { id: 'activate-tab', label: 'activate tab', icon: 'tab'   , handler: activateTab, contentHandler: noop },
   { id: 'close-tab'   , label: 'close tab(s)', icon: 'delete', handler: closeTab   , contentHandler: noop },
 ];
 
-const historyCommands = [
+const historyActions = [
   { id: 'open-url'            , label: 'open'                  , icon: 'open'  , handler: openUrl         , contentHandler: noop },
   { id: 'open-urls-in-new-tab', label: 'open url(s) in new tab', icon: 'tab'   , handler: openUrlsInNewTab, contentHandler: noop },
   { id: 'delete-history'      , label: 'delete history(s)'     , icon: 'delete', handler: deleteHistory   , contentHandler: noop },
 ];
 
-const bookmarkCommands = [
+const bookmarkActions = [
   { id: 'open-url'            , label: 'open'                   , icon: 'open'  , handler: openUrl         , contentHandler: noop },
   { id: 'open-urls-in-new-tab', label: 'open urls in new tab(s)', icon: 'tab'   , handler: openUrlsInNewTab, contentHandler: noop },
   { id: 'delete-bookmark'     , label: 'delete bookmark(s)'     , icon: 'delete', handler: deleteBookmark  , contentHandler: noop },
 ];
 
-const cursorCommands = [
+const cursorActions = [
   { id: 'forward-char'        , label: 'Forward char'        , icon: null, handler: noop, contentHandler: cursor.forwardChar },
   { id: 'backward-char'       , label: 'Backward char'       , icon: null, handler: noop, contentHandler: cursor.backwardChar },
   { id: 'beginning-of-line'   , label: 'Beginning of line'   , icon: null, handler: noop, contentHandler: cursor.beginningOfLine },
@@ -149,46 +149,46 @@ const cursorCommands = [
   { id: 'kill-line'           , label: 'Kill line'           , icon: null, handler: noop, contentHandler: cursor.killLine },
 ];
 
-const runCommands = [
+const commandActions = [
   { id: 'run-command', label: 'run command', icon: 'command', handler: runCommand, contentHandler: noop },
 ];
 
-export function command2Candidate(c) {
+export function action2Candidate(c) {
   if (!c) {
     return null;
   }
   return Object.assign({}, c, {
     id:         c.id,
     label:      c.label,
-    type:       'command',
+    type:       'action',
     faviconUrl: c.icon ? browser.extension.getURL(`images/${c.icon}.png`) : null,
   });
 }
 
-export function register(name, commands) {
-  commandsOfType[name] = commands;
-  commands.forEach((c) => {
-    if (!commandList.find(v => v.id === c.id)) {
-      commandList.push(c);
+export function register(name, actions) {
+  actionsOfType[name] = actions;
+  actions.forEach((c) => {
+    if (!actionList.find(v => v.id === c.id)) {
+      actionList.push(c);
     }
   });
 }
 
 export function query(type = '', q = '') {
-  const commands = commandsOfType[type] ? commandsOfType[type] : [];
-  return commands.filter(c => c.label.includes(q)).map(command2Candidate);
+  const actions = actionsOfType[type] ? actionsOfType[type] : [];
+  return actions.filter(c => c.label.includes(q)).map(action2Candidate);
 }
 
 export function find(id = '') {
-  return command2Candidate(commandList.find(c => c.id === id));
+  return action2Candidate(actionList.find(c => c.id === id));
 }
 
 export function init() {
-  register('search'  , googleSearchCommands);
-  register('link'    , linkCommands);
-  register('tab'     , tabCommands);
-  register('history' , historyCommands);
-  register('bookmark', bookmarkCommands);
-  register('cursor'  , cursorCommands);
-  register('command' , runCommands);
+  register('search'  , googleSearchActions);
+  register('link'    , linkActions);
+  register('tab'     , tabActions);
+  register('history' , historyActions);
+  register('bookmark', bookmarkActions);
+  register('cursor'  , cursorActions);
+  register('command' , commandActions);
 }

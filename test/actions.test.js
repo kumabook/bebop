@@ -11,7 +11,7 @@ import {
   deleteHistory,
   deleteBookmark,
   runCommand,
-} from '../src/commands';
+} from '../src/actions';
 
 const tabArgs = [1];
 const urlArgs = ['http://example.com'];

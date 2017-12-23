@@ -23,7 +23,7 @@ import Popup from './containers/Popup';
 import reducers from './reducers/popup';
 import rootSaga from './sagas/popup';
 import { init as candidateInit } from './candidates';
-import { init as commandInit } from './commands';
+import { init as actionInit } from './actions';
 import { init as keySequenceInit } from './sagas/key_sequence';
 import { start as appStart, stop } from './utils/app';
 
@@ -41,7 +41,7 @@ export function start() {
     updateWidth(state);
     candidateInit(state);
     keySequenceInit(state);
-    commandInit();
+    actionInit();
     const history        = createHistory();
     const sagaMiddleware = createSagaMiddleware();
     const middleware     = applyMiddleware(sagaMiddleware, routerMiddleware(history));

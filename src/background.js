@@ -1,7 +1,7 @@
 import browser from 'webextension-polyfill';
 import logger from 'kiroku';
 import search, { init as candidateInit } from './candidates';
-import { init as commandInit, find as findCommand } from './commands';
+import { init as actionInit, find as findAction } from './actions';
 import {
   toggle as togglePopupWindow,
   onWindowRemoved,
@@ -41,10 +41,10 @@ function postMessageToContentScript(type, payload) {
   });
 }
 
-export function executeCommand(commandId, candidates) {
-  const command = findCommand(commandId);
-  if (command && command.handler) {
-    const f = command.handler;
+export function executeAction(actionId, candidates) {
+  const action = findAction(actionId);
+  if (action && action.handler) {
+    const f = action.handler;
     return f.call(this, candidates);
   }
   return Promise.resolve();
@@ -95,9 +95,9 @@ export function messageListener(request) {
       const query = request.payload;
       return search(query);
     }
-    case 'EXECUTE_COMMAND': {
-      const { commandId, candidates } = request.payload;
-      return executeCommand(commandId, candidates);
+    case 'EXECUTE_ACTION': {
+      const { actionId, candidates } = request.payload;
+      return executeAction(actionId, candidates);
     }
     default:
       return null;
@@ -123,7 +123,7 @@ export async function init() {
 
   const state = await browser.storage.local.get();
   candidateInit(state);
-  commandInit();
+  actionInit();
 
   browser.windows.onRemoved.addListener(onWindowRemoved);
   browser.windows.onFocusChanged.addListener(onWindowFocusChanged);

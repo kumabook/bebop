@@ -6,7 +6,7 @@ import {
   dispatchEmptyQuery,
   searchCandidates,
   candidateSelector,
-  executeCommand,
+  executeAction,
   normalizeCandidate,
   getTargetCandidates,
   sendMessageToBackground,
@@ -36,15 +36,15 @@ test('searchCandidates saga', (t) => {
   t.deepEqual(gen.next().value, put({ type: 'CANDIDATES', payload: undefined }));
 });
 
-test('executeCommand', (t) => {
-  const command = { handler: () => Promise.resolve() };
-  const gen = executeCommand(command, items);
+test('executeAction', (t) => {
+  const action = { handler: () => Promise.resolve() };
+  const gen = executeAction(action, items);
   gen.next();
   gen.next();
   t.pass();
 
-  const noCommandGen = executeCommand(null, items);
-  noCommandGen.next();
+  const noActionGen = executeAction(null, items);
+  noActionGen.next();
   t.pass();
 });
 

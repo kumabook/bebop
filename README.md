@@ -27,14 +27,12 @@ bebop is a WebExtensions that offers command line interface like
 Usage
 -----
 
-## command
-
 1. `Click icon on toolbar` or `Ctrl+Comma` ... show popup that has command input
 
     On Vivaldi, `_execute_browser_action` keyboard shortcut doesn't work.
     So, bebop offers two alternatives to it.
 
-    | command              | description                      |
+    | command name         | description                      |
     |:---------------------|:-------------------------------- |
     | toggle_popup_window  | show popup as a window           |
     | toggle_content_popup | show popup in a content document |
@@ -83,7 +81,7 @@ Usage
 
 3. Select the candidate. You can change the selected candidate with shortcut keys:
 
-    | key-binding    | action               |
+    | key-binding    | command              |
     |:---------------|:-------------------- |
     | tab            | next-candidate       |
     | S-tab          | previous-candidate   |
@@ -97,19 +95,19 @@ Usage
 
 
  You can mark multiple candidates with `C-SPC`.
- Some command can handle multiple candidates.
+ Some action can handle multiple candidates.
  For example, `close-tab` command closes multiple tabs.
 
 
-4. Execute command. A candidate can be executed by various commands.
-    You can execute default command by pressing `return` or click a candidate.
-    You can also execute another command by these shortcuts.
+4. Execute action. A candidate can be executed by various actions.
+    You can execute default action by pressing `return` or click a candidate.
+    You can also execute another action by these shortcuts.
 
-    | key-binding | command                  |
+    | key-binding | action                   |
     |:------------|:------------------------ |
-    | return      | runs the first command   |
-    | S-return    | runs the second command  |
-    | C-i         | lists available commands |
+    | return      | runs the first action   |
+    | S-return    | runs the second action  |
+    | C-i         | lists available actions |
 
 
 You can change shortcut key from `Ctrl+Comma`.

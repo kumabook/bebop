@@ -1,7 +1,7 @@
 import browser from 'webextension-polyfill';
 import logger from 'kiroku';
 import { toggle } from './content_popup';
-import { init as commandInit, find as findCommand } from './commands';
+import { init as actionInit, find as findAction } from './actions';
 import { search, highlight, dehighlight } from './link';
 
 const portName = `content-script-${window.location.href}`;
@@ -10,18 +10,17 @@ if (process.env.NODE_ENV === 'production') {
   logger.setLevel('INFO');
 }
 
-export function executeCommand(commandId, candidates) {
-  const command = findCommand(commandId);
-  if (command && command.contentHandler) {
-    const f = command.contentHandler;
+export function executeAction(actionId, candidates) {
+  const action = findAction(actionId);
+  if (action && action.contentHandler) {
+    const f = action.contentHandler;
     return f.call(this, candidates);
   }
   return Promise.resolve();
 }
 
-function handleExecuteCommand(payload) {
-  const { commandId, candidates } = payload;
-  return executeCommand(commandId, candidates);
+function handleExecuteAction({ actionId, candidates }) {
+  return executeAction(actionId, candidates);
 }
 
 function handleCandidateChange(candidate) {
@@ -60,8 +59,8 @@ export function messageListener(request) {
       return Promise.resolve(search(request.payload));
     case 'CHANGE_CANDIDATE':
       return handleCandidateChange(request.payload);
-    case 'EXECUTE_COMMAND':
-      return handleExecuteCommand(request.payload);
+    case 'EXECUTE_ACTION':
+      return handleExecuteAction(request.payload);
     case 'TOGGLE_POPUP':
       return handleTogglePopup(request.payload);
     default:
@@ -80,4 +79,4 @@ setTimeout(() => {
   browser.runtime.onMessage.addListener(messageListener);
   logger.info('bebop content_script is loaded');
 }, 500);
-commandInit();
+actionInit();

@@ -1,6 +1,6 @@
 import test from 'ava';
 import {
-  executeCommand,
+  executeAction,
   portMessageListener,
   messageListener,
 } from '../src/content_script';
@@ -12,13 +12,13 @@ test('content_script', async (t) => {
   t.pass();
 });
 
-test('executeCommand calls contentHandler of a command', async (t) => {
-  executeCommand('click', []);
+test('executeAction calls contentHandler of a action', async (t) => {
+  executeAction('click', []);
   t.pass();
 });
 
-test('executeCommand does nothing for comamdn that has no contentHandler', async (t) => {
-  executeCommand('unknown', []);
+test('executeAction does nothing for action that has no contentHandler', async (t) => {
+  executeAction('unknown', []);
   t.pass();
 });
 
@@ -52,8 +52,8 @@ test('messageListener handles CHANGE_CANDIDATE messages with a link candidate, f
   t.pass();
 });
 
-test('messageListener handles EXECUTE_COMMAND messages from popup', async (t) => {
-  const message = { type: 'EXECUTE_COMMAND', payload: { commandId: 'open', candidates: [] } };
+test('messageListener handles EXECUTE_ACTION messages from popup', async (t) => {
+  const message = { type: 'EXECUTE_ACTION', payload: { actionId: 'open', candidates: [] } };
   await messageListener(message, {}, () => t.end());
   t.pass();
 });

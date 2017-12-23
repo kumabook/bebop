@@ -87,7 +87,7 @@ test.serial('popup selects a candidate by `click`', async (t) => {
   await delay(WAIT_MS);
 });
 
-test.serial('popup selects command lists', async (t) => {
+test.serial('popup selects action lists', async (t) => {
   await delay(WAIT_MS);
   const { document } = window;
   const input = document.querySelector('.commandInput');
@@ -100,7 +100,7 @@ test.serial('popup selects command lists', async (t) => {
 });
 
 
-test.serial('popup selects a command and `return`', async (t) => {
+test.serial('popup selects a action and `return`', async (t) => {
   await delay(WAIT_MS);
   const { document } = window;
   const input = document.querySelector('.commandInput');
@@ -112,7 +112,7 @@ test.serial('popup selects a command and `return`', async (t) => {
   await delay(WAIT_MS);
 });
 
-test.serial('popup selects a command and `click`', async (t) => {
+test.serial('popup selects a action and `click`', async (t) => {
   await delay(WAIT_MS);
   const { document } = window;
   const input = document.querySelector('.commandInput');
@@ -136,7 +136,7 @@ test.serial('popup marks candidates', async (t) => {
   await delay(WAIT_MS);
 });
 
-test.serial('popup cannot marks commands', async (t) => {
+test.serial('popup cannot marks actions', async (t) => {
   await delay(WAIT_MS);
   const { document } = window;
   const input = document.querySelector('.commandInput');
