@@ -3,7 +3,7 @@ import browser from 'webextension-polyfill';
 import isUrl from 'is-url';
 import { click } from './link';
 import * as cursor from './cursor';
-import { getActiveTab } from './utils/tabs';
+import { getActiveContentTab } from './utils/tabs';
 
 const actionsOfType = {};
 const actionList = [];
@@ -32,7 +32,7 @@ export function closeTab(cs) {
 }
 
 export function open(url) {
-  return getActiveTab().then((tab) => {
+  return getActiveContentTab().then((tab) => {
     if (!url) {
       return Promise.resolve();
     }
@@ -44,7 +44,7 @@ export function open(url) {
 }
 
 export function go(url) {
-  return getActiveTab().then(tab => browser.tabs.update(tab.id, { url }));
+  return getActiveContentTab().then(tab => browser.tabs.update(tab.id, { url }));
 }
 
 export function openUrlsInNewTab(candidates) {
