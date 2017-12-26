@@ -55,7 +55,7 @@ export async function onWindowFocusChanged(windowId) {
   }
 }
 
-export function onTabActived({ tabId, windowId }) {
+export function onTabActivated({ tabId, windowId }) {
   if (popupWindow && popupWindow.id === windowId) {
     return;
   }

@@ -5,7 +5,7 @@ import { init as actionInit, find as findAction } from './actions';
 import {
   toggle as togglePopupWindow,
   onWindowFocusChanged,
-  onTabActived,
+  onTabActivated,
   onTabRemoved,
 } from './popup_window';
 import { getActiveContentTab } from './utils/tabs';
@@ -82,7 +82,7 @@ function activatedListener(payload) {
     type: 'TAB_CHANGED',
     payload,
   }));
-  setTimeout(() => onTabActived(payload), 10);
+  setTimeout(() => onTabActivated(payload), 10);
 }
 
 export function messageListener(request) {

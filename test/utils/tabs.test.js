@@ -5,7 +5,7 @@ import {
   sendMessageToActiveContentTab,
   sendMessageToActiveContentTabViaBackground,
 } from '../../src/utils/tabs';
-import { onTabActived } from '../../src/popup_window';
+import { onTabActivated } from '../../src/popup_window';
 
 const { browser } = global;
 const { get, query, sendMessage }   = browser.tabs;
@@ -35,14 +35,14 @@ test.afterEach(() => {
 test('getActiveContentTab returns active content tab id', (t) => {
   setup([{ id: 1 }]);
   nisemono.expects(browser.tabs.get).resolves({ id: 1 });
-  onTabActived({ tabId: 1 });
+  onTabActivated({ tabId: 1 });
   return getActiveContentTab().then(tab => t.is(tab.id, 1));
 });
 
 test('getActiveContentTab returns active tab id if no content tab', (t) => {
   setup([{ id: 1 }]);
   nisemono.expects(browser.tabs.get).resolves(null);
-  onTabActived({});
+  onTabActivated({});
   return getActiveContentTab().then(tab => t.is(tab.id, 1));
 });
 

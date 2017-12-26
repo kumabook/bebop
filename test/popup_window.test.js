@@ -2,7 +2,9 @@ import test from 'ava';
 import {
   toggle,
   getPopupWindow,
+  getActiveTabId,
   onTabRemoved,
+  onTabActivated,
 } from '../src/popup_window';
 
 const delay  = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -27,4 +29,15 @@ test.serial('onTabRemoved removes popup window', async (t) => {
   onTabRemoved(1, { windowId: 1 });
   await delay();
   t.falsy(getPopupWindow());
+});
+
+test.serial('onTabActivated update activeTabId', async (t) => {
+  t.falsy(getActiveTabId());
+  onTabActivated({ tabId: 1, windowId: 2 });
+  await delay();
+  t.is(getActiveTabId(), 1);
+  await delay();
+  onTabRemoved(1, { windowId: 1 });
+  await delay();
+  t.falsy(getActiveTabId());
 });
