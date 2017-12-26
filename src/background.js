@@ -4,9 +4,9 @@ import search, { init as candidateInit } from './candidates';
 import { init as actionInit, find as findAction } from './actions';
 import {
   toggle as togglePopupWindow,
-  onWindowRemoved,
   onWindowFocusChanged,
   onTabActived,
+  onTabRemoved,
 } from './popup_window';
 import { getActiveContentTab } from './utils/tabs';
 
@@ -133,10 +133,10 @@ export async function init() {
 
   await loadOptions();
 
-  browser.windows.onRemoved.addListener(onWindowRemoved);
   browser.windows.onFocusChanged.addListener(onWindowFocusChanged);
   browser.runtime.onConnect.addListener(connectListener);
   browser.tabs.onActivated.addListener(activatedListener);
+  browser.tabs.onRemoved.addListener(onTabRemoved);
   browser.runtime.onMessage.addListener(messageListener);
   browser.commands.onCommand.addListener(commandListener);
   browser.storage.onChanged.addListener(storageChangedListener);

@@ -15,8 +15,8 @@ const delay  = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 const { onConnect, onMessage }      = browser.runtime;
 const { onCommand }                 = browser.commands;
-const { onRemoved, onFocusChanged } = browser.windows;
-const { onActivated }               = browser.tabs;
+const { onFocusChanged }            = browser.windows;
+const { onActivated, onRemoved }    = browser.tabs;
 const { onChanged }                 = browser.storage;
 
 const onConnectPort      = createPort();
@@ -31,9 +31,9 @@ async function setup() {
   browser.runtime.onConnect      = onConnectPort.onMessage;
   browser.runtime.onMessage      = onMessagePort.onMessage;
   browser.commands.onCommand     = onCommandPort.onMessage;
-  browser.windows.onRemoved      = onRemovedPort.onMessage;
   browser.windows.onFocusChanged = onFocusChangedPort.onMessage;
   browser.tabs.onActivated       = onActivatedPort.onMessage;
+  browser.tabs.onRemoved         = onRemovedPort.onMessage;
   browser.storage.onChanged      = onChangedPort.onMessage;
   init();
   delay(10);
@@ -43,9 +43,9 @@ function restore() {
   browser.runtime.onConnect      = onConnect;
   browser.runtime.onMessage      = onMessage;
   browser.commands.onCommand     = onCommand;
-  browser.windows.onRemoved      = onRemoved;
   browser.windows.onFocusChanged = onFocusChanged;
   browser.tabs.onActivated       = onActivated;
+  browser.tabs.onRemoved         = onRemoved;
   browser.storage.onChanged      = onChanged;
 }
 

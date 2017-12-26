@@ -2,7 +2,7 @@ import test from 'ava';
 import {
   toggle,
   getPopupWindow,
-  onWindowRemoved,
+  onTabRemoved,
 } from '../src/popup_window';
 
 const delay  = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -18,13 +18,13 @@ test.serial('toggle removes popup window if popup window is already shown', asyn
   t.falsy(getPopupWindow());
 });
 
-test.serial('onWindowRemoved removes popup window', async (t) => {
+test.serial('onTabRemoved removes popup window', async (t) => {
   t.falsy(getPopupWindow());
   toggle();
   await delay();
   t.truthy(getPopupWindow());
   await delay();
-  onWindowRemoved(1);
+  onTabRemoved(1, { windowId: 1 });
   await delay();
   t.falsy(getPopupWindow());
 });

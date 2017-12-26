@@ -35,9 +35,12 @@ export async function toggle() {
   });
 }
 
-export function onWindowRemoved(windowId) {
+export function onTabRemoved(tabId, { windowId }) {
   if (popupWindow && popupWindow.id === windowId) {
     popupWindow = null;
+  }
+  if (activeTabId === tabId) {
+    activeTabId = null;
   }
 }
 

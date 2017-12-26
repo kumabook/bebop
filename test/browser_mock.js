@@ -54,6 +54,10 @@ browser.tabs = {
     addListener:    () => {},
     removeListener: () => {},
   },
+  onRemoved: {
+    addListener:    () => {},
+    removeListener: () => {},
+  },
 };
 
 browser.windows = {
