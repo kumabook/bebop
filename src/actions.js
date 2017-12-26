@@ -43,6 +43,10 @@ export function open(url) {
   });
 }
 
+export function openWindow(url, { incognito } = { incognito: false }) {
+  return browser.windows.create({ url, incognito });
+}
+
 export function go(url) {
   return getActiveContentTab().then(tab => browser.tabs.update(tab.id, { url }));
 }
@@ -54,6 +58,14 @@ export function openUrlsInNewTab(candidates) {
     }
     return Promise.resolve();
   }));
+}
+
+export function openUrlsInNewWindow(candidates) {
+  return openWindow(candidates.map(({ args }) => args[0]));
+}
+
+export function openUrlsInPrivateWindow(candidates) {
+  return openWindow(candidates.map(({ args }) => args[0]), { incognito: true });
 }
 
 export function openUrl(candidates) {
@@ -68,13 +80,23 @@ export function clickLink(cs) {
   return Promise.all(filter(cs, 'link').map(({ args }) => click(args[0])));
 }
 
-export function openLink(candidates) {
-  return Promise.all(candidates.map(({ args }) => {
-    if (args[0] && isUrl(args[0].url)) {
-      return open(args[0].url);
-    }
-    return Promise.resolve();
-  }));
+function link2Url({ args }) {
+  if (args[0] && isUrl(args[0].url)) {
+    return { args: [args[0].url] };
+  }
+  return { args: [] };
+}
+
+export function openLinkInNewTab(candidates) {
+  return openUrlsInNewTab(candidates.map(link2Url));
+}
+
+export function openLinkInNewWindow(candidates) {
+  return openUrlsInNewWindow(candidates.map(link2Url));
+}
+
+export function openLinkInPrivateWindow(candidates) {
+  return openUrlsInPrivateWindow(candidates.map(link2Url));
 }
 
 function googleUrl(q) {
@@ -115,8 +137,10 @@ const googleSearchActions = [
 ];
 
 const linkActions = [
-  { id: 'click'    , label: 'click'               , icon: 'click', handler: noop    , contentHandler: clickLink },
-  { id: 'open-link', label: 'open link in new tab', icon: 'tab'  , handler: openLink, contentHandler: noop },
+  { id: 'click'                      , label: 'click'                      , icon: 'click', handler: noop                   , contentHandler: clickLink },
+  { id: 'open-link-in-new-tab'       , label: 'open link in new tab'       , icon: 'tab'  , handler: openLinkInNewTab       , contentHandler: noop },
+  { id: 'open-link-in-new-window'    , label: 'open link in new window'    , icon: 'tab'  , handler: openLinkInNewWindow    , contentHandler: noop },
+  { id: 'open-link-in-private-window', label: 'open link in private window', icon: 'tab'  , handler: openLinkInPrivateWindow, contentHandler: noop },
 ];
 
 const tabActions = [
