@@ -6,6 +6,7 @@ import {
   getPopupPorts,
   messageListener,
   commandListener,
+  storageChangedListener,
 } from '../src/background';
 import { getPopupWindow } from '../src/popup_window';
 import createPort from './create_port';
@@ -16,6 +17,7 @@ const { onConnect, onMessage }      = browser.runtime;
 const { onCommand }                 = browser.commands;
 const { onRemoved, onFocusChanged } = browser.windows;
 const { onActivated }               = browser.tabs;
+const { onChanged }                 = browser.storage;
 
 const onConnectPort      = createPort();
 const onMessagePort      = createPort();
@@ -23,6 +25,7 @@ const onCommandPort      = createPort();
 const onRemovedPort      = createPort();
 const onFocusChangedPort = createPort();
 const onActivatedPort    = createPort();
+const onChangedPort      = createPort();
 
 async function setup() {
   browser.runtime.onConnect      = onConnectPort.onMessage;
@@ -31,6 +34,7 @@ async function setup() {
   browser.windows.onRemoved      = onRemovedPort.onMessage;
   browser.windows.onFocusChanged = onFocusChangedPort.onMessage;
   browser.tabs.onActivated       = onActivatedPort.onMessage;
+  browser.storage.onChanged      = onChangedPort.onMessage;
   init();
   delay(10);
 }
@@ -42,6 +46,7 @@ function restore() {
   browser.windows.onRemoved      = onRemoved;
   browser.windows.onFocusChanged = onFocusChanged;
   browser.tabs.onActivated       = onActivated;
+  browser.storage.onChanged      = onChanged;
 }
 
 test.before(setup);
@@ -143,5 +148,10 @@ test('messageListener', (t) => {
 test('commandListener', (t) => {
   commandListener('toggle_popup_window');
   commandListener('toggle_content_popup');
+  t.pass();
+});
+
+test('storageChangedListener', async (t) => {
+  await storageChangedListener();
   t.pass();
 });

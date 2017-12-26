@@ -27,6 +27,10 @@ browser.storage = {
     get: () => Promise.resolve({}),
     set: () => Promise.resolve({}),
   },
+  onChanged: {
+    addListener:    () => {},
+    removeListener: () => {},
+  },
 };
 
 browser.history = {

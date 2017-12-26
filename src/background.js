@@ -117,13 +117,21 @@ export function commandListener(command) {
   }
 }
 
+async function loadOptions() {
+  const state = await browser.storage.local.get();
+  candidateInit(state);
+  actionInit();
+}
+
+export async function storageChangedListener() {
+  await loadOptions();
+}
+
 export async function init() {
   contentScriptPorts = {};
   popupPorts         = {};
 
-  const state = await browser.storage.local.get();
-  candidateInit(state);
-  actionInit();
+  await loadOptions();
 
   browser.windows.onRemoved.addListener(onWindowRemoved);
   browser.windows.onFocusChanged.addListener(onWindowFocusChanged);
@@ -131,6 +139,7 @@ export async function init() {
   browser.tabs.onActivated.addListener(activatedListener);
   browser.runtime.onMessage.addListener(messageListener);
   browser.commands.onCommand.addListener(commandListener);
+  browser.storage.onChanged.addListener(storageChangedListener);
 
   logger.info('bebop is initialized.');
 }
