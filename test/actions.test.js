@@ -5,7 +5,9 @@ import {
   openUrlsInNewTab,
   openUrl,
   clickLink,
-  openLink,
+  openLinkInNewTab,
+  openLinkInNewWindow,
+  openLinkInPrivateWindow,
   searchWithGoogle,
   searchWithGoogleInNewTab,
   deleteHistory,
@@ -48,9 +50,21 @@ test('clickLink', (t) => {
   t.pass();
 });
 
-test('openLink', (t) => {
-  openLink([{ type: 'link', args: linkArgs }]);
-  openLink([]);
+test('openLinkInNewTab', (t) => {
+  openLinkInNewTab([{ type: 'link', args: linkArgs }]);
+  openLinkInNewTab([]);
+  t.pass();
+});
+
+test('openLinkInNewWindow', (t) => {
+  openLinkInNewWindow([{ type: 'link', args: linkArgs }]);
+  openLinkInNewWindow([]);
+  t.pass();
+});
+
+test('openLinkInPrivateWindow', (t) => {
+  openLinkInPrivateWindow([{ type: 'link', args: linkArgs }]);
+  openLinkInPrivateWindow([]);
   t.pass();
 });
 

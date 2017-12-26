@@ -137,10 +137,10 @@ const googleSearchActions = [
 ];
 
 const linkActions = [
-  { id: 'click'                      , label: 'click'                      , icon: 'click', handler: noop                   , contentHandler: clickLink },
-  { id: 'open-link-in-new-tab'       , label: 'open link in new tab'       , icon: 'tab'  , handler: openLinkInNewTab       , contentHandler: noop },
-  { id: 'open-link-in-new-window'    , label: 'open link in new window'    , icon: 'tab'  , handler: openLinkInNewWindow    , contentHandler: noop },
-  { id: 'open-link-in-private-window', label: 'open link in private window', icon: 'tab'  , handler: openLinkInPrivateWindow, contentHandler: noop },
+  { id: 'click'                      , label: 'click'                      , icon: 'click'  , handler: noop                   , contentHandler: clickLink },
+  { id: 'open-link-in-new-tab'       , label: 'open link in new tab'       , icon: 'tab'    , handler: openLinkInNewTab       , contentHandler: noop },
+  { id: 'open-link-in-new-window'    , label: 'open link in new window'    , icon: 'window' , handler: openLinkInNewWindow    , contentHandler: noop },
+  { id: 'open-link-in-private-window', label: 'open link in private window', icon: 'private', handler: openLinkInPrivateWindow, contentHandler: noop },
 ];
 
 const tabActions = [
@@ -149,15 +149,19 @@ const tabActions = [
 ];
 
 const historyActions = [
-  { id: 'open-url'            , label: 'open'                  , icon: 'open'  , handler: openUrl         , contentHandler: noop },
-  { id: 'open-urls-in-new-tab', label: 'open url(s) in new tab', icon: 'tab'   , handler: openUrlsInNewTab, contentHandler: noop },
-  { id: 'delete-history'      , label: 'delete history(s)'     , icon: 'delete', handler: deleteHistory   , contentHandler: noop },
+  { id: 'open-url'                   , label: 'open'                         , icon: 'open'   , handler: openUrl                , contentHandler: noop },
+  { id: 'open-urls-in-new-tab'       , label: 'open url(s) in new tab(s)'    , icon: 'tab'    , handler: openUrlsInNewTab       , contentHandler: noop },
+  { id: 'open-urls-in-new-window'    , label: 'open url(s) in new window'    , icon: 'window' , handler: openUrlsInNewWindow    , contentHandler: noop },
+  { id: 'open-urls-in-private-window', label: 'open url(s) in private window', icon: 'private', handler: openUrlsInPrivateWindow, contentHandler: noop },
+  { id: 'delete-history'             , label: 'delete history(s)'            , icon: 'delete' , handler: deleteHistory          , contentHandler: noop },
 ];
 
 const bookmarkActions = [
-  { id: 'open-url'            , label: 'open'                   , icon: 'open'  , handler: openUrl         , contentHandler: noop },
-  { id: 'open-urls-in-new-tab', label: 'open urls in new tab(s)', icon: 'tab'   , handler: openUrlsInNewTab, contentHandler: noop },
-  { id: 'delete-bookmark'     , label: 'delete bookmark(s)'     , icon: 'delete', handler: deleteBookmark  , contentHandler: noop },
+  { id: 'open-url'                   , label: 'open'                         , icon: 'open'   , handler: openUrl                , contentHandler: noop },
+  { id: 'open-urls-in-new-tab'       , label: 'open url(s) in new tab(s)'    , icon: 'tab'    , handler: openUrlsInNewTab       , contentHandler: noop },
+  { id: 'open-urls-in-new-window'    , label: 'open url(s) in new window'    , icon: 'window' , handler: openUrlsInNewWindow    , contentHandler: noop },
+  { id: 'open-urls-in-private-window', label: 'open url(s) in private window', icon: 'private', handler: openUrlsInPrivateWindow, contentHandler: noop },
+  { id: 'delete-bookmark'            , label: 'delete bookmark(s)'           , icon: 'delete' , handler: deleteBookmark         , contentHandler: noop },
 ];
 
 const cursorActions = [
