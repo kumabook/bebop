@@ -1,8 +1,14 @@
+/* eslint-disable no-multi-spaces, comma-spacing */
 import browser from 'webextension-polyfill';
 import getMessage from '../utils/i18n';
 
 const commands = [
-  { name: 'open-options' },
+  { name: 'open-options', icon: 'options' },
+  { name: 'go-forward'  , icon: 'forward' },
+  { name: 'go-back'     , icon: 'back' },
+  { name: 'go-parent'   , icon: 'parent' },
+  { name: 'go-root'     , icon: 'root' },
+  { name: 'reload'      , icon: 'reload' },
 ];
 
 export default function candidates(q, { maxResults }) {
@@ -12,7 +18,7 @@ export default function candidates(q, { maxResults }) {
     label:      c.name,
     type:       'command',
     args:       [c.name],
-    faviconUrl: browser.extension.getURL('images/options.png'),
+    faviconUrl: browser.extension.getURL(`images/${c.icon}.png`),
   }))).then(items => ({
     items,
     label: `${getMessage('commands')} (:command or c)`,

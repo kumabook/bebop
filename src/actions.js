@@ -125,9 +125,48 @@ export function runCommand(cs) {
     switch (name) {
       case 'open-options':
         return browser.runtime.openOptionsPage();
+      case 'go-forward':
+        return Promise.resolve();
+      case 'go-back':
+        return Promise.resolve();
+      case 'go-root':
+        return Promise.resolve();
+      case 'go-parent':
+        return Promise.resolve();
+      case 'reload':
+        return Promise.resolve();
       default:
         return Promise.resolve();
     }
+  }));
+}
+
+export function runCommandOnContent(cs) {
+  return Promise.all(filter(cs, 'command').map(({ args }) => {
+    const [name] = args;
+    switch (name) {
+      case 'go-forward':
+        window.history.forward();
+        break;
+      case 'go-back':
+        window.history.back();
+        break;
+      case 'go-root': {
+        const { protocol, host } = window.location;
+        window.location.href = `${protocol}//${host}`;
+        break;
+      }
+      case 'go-parent': {
+        window.location.href = `${window.location}/../`;
+        break;
+      }
+      case 'reload':
+        window.location.reload();
+        break;
+      default:
+        break;
+    }
+    return Promise.resolve();
   }));
 }
 
@@ -178,7 +217,7 @@ const cursorActions = [
 ];
 
 const commandActions = [
-  { id: 'run-command', label: 'run command', icon: 'command', handler: runCommand, contentHandler: noop },
+  { id: 'run-command', label: 'run command', icon: 'command', handler: runCommand, contentHandler: runCommandOnContent },
 ];
 
 export function action2Candidate(c) {
