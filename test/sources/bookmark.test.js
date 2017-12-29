@@ -10,6 +10,7 @@ function setup() {
     id:    'bookmark-0',
     title: 'title',
     url:   'https://example.com/',
+    type:  'bookmark',
   }]);
 }
 
