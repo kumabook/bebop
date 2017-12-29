@@ -135,6 +135,16 @@ export function runCommand(cs) {
         return Promise.resolve();
       case 'reload':
         return Promise.resolve();
+      case 'add-bookmark':
+        return getActiveContentTab()
+          .then(({ title, url }) => browser.bookmarks.create({
+            title,
+            url,
+          }));
+      case 'remove-bookmark':
+        return getActiveContentTab()
+          .then(({ url }) => browser.bookmarks.search({ url }))
+          .then(bs => Promise.all(bs.map(b => browser.bookmarks.remove(b.id))));
       default:
         return Promise.resolve();
     }

@@ -3,12 +3,14 @@ import browser from 'webextension-polyfill';
 import getMessage from '../utils/i18n';
 
 const commands = [
-  { name: 'open-options', icon: 'options' },
-  { name: 'go-forward'  , icon: 'forward' },
-  { name: 'go-back'     , icon: 'back' },
-  { name: 'go-parent'   , icon: 'parent' },
-  { name: 'go-root'     , icon: 'root' },
-  { name: 'reload'      , icon: 'reload' },
+  { name: 'open-options'   , icon: 'options' },
+  { name: 'go-forward'     , icon: 'forward' },
+  { name: 'go-back'        , icon: 'back' },
+  { name: 'go-parent'      , icon: 'parent' },
+  { name: 'go-root'        , icon: 'root' },
+  { name: 'reload'         , icon: 'reload' },
+  { name: 'add-bookmark'   , icon: 'bookmark' },
+  { name: 'remove-bookmark', icon: 'bookmark' },
 ];
 
 export default function candidates(q, { maxResults }) {
