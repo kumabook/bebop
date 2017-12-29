@@ -3,9 +3,6 @@ import { getFaviconUrl } from '../utils/url';
 import getMessage from '../utils/i18n';
 
 export default function candidates(q, { maxResults } = {}) {
-  if (q.length === 0) {
-    return Promise.resolve({ items: [], label: 'Bookmarks' });
-  }
   return browser.bookmarks.search({ query: q })
     .then(l => l.filter(v => v.type === 'bookmark').slice(0, maxResults).map(v => ({
       id:         `${v.id}`,

@@ -21,11 +21,6 @@ function restore() {
 test.beforeEach(setup);
 test.afterEach(restore);
 
-test('candidates() reuturn [] with empty query ', t => candidates('').then(({ items, label }) => {
-  t.true(label !== null);
-  t.is(items.length, 0);
-}));
-
 test('candidates() search bookmarks ', t => candidates('q').then(({ items, label }) => {
   t.true(label !== null);
   t.is(items.length, 1);
