@@ -94,6 +94,13 @@ test('deleteHBookmark', (t) => {
 
 test('runCommand', (t) => {
   runCommand([{ type: 'command', args: ['open-options'] }]);
+  runCommand([{ type: 'command', args: ['go-forward'] }]);
+  runCommand([{ type: 'command', args: ['go-back'] }]);
+  runCommand([{ type: 'command', args: ['go-parent'] }]);
+  runCommand([{ type: 'command', args: ['go-root'] }]);
+  runCommand([{ type: 'command', args: ['reload'] }]);
+  runCommand([{ type: 'command', args: ['add-bookmark'] }]);
+  runCommand([{ type: 'command', args: ['remove-bookmark'] }]);
   runCommand([{ type: 'command', args: ['unknown'] }]);
   t.pass();
 });

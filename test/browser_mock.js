@@ -41,6 +41,7 @@ browser.history = {
 browser.bookmarks = {
   search: () => Promise.resolve([]),
   remove: () => Promise.resolve(),
+  create: () => Promise.resolve(),
 };
 
 browser.tabs = {
