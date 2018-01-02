@@ -10,6 +10,7 @@ const WAIT_MS = 250;
 const delay  = ms => new Promise(resolve => setTimeout(resolve, ms));
 const ENTER = 13;
 const SPC   = 32;
+const TAB   = 9;
 
 app.then(a => stop(a)); // stop default app
 
@@ -30,6 +31,19 @@ function keyDown(node, keyCode, { s = false, c = false, m = false } = {}) {
     ctrlKey:  c,
     metaKey:  m,
   });
+}
+
+function getSelectedIndex() {
+  const items = document.getElementsByClassName('candidate');
+  const selected = document.getElementsByClassName('selected');
+  if (selected.length > 0) {
+    for (let i = 0; i < items.length; i += 1) {
+      if (items[i] === selected[0]) {
+        return i;
+      }
+    }
+  }
+  return -1;
 }
 
 function* setup() {
@@ -65,6 +79,30 @@ test.serial('popup succeeds in rendering html', async (t) => {
   const candidate = document.querySelector('.candidate');
   t.truthy(candidate !== null);
   await delay(500);
+});
+
+test.serial('popup changes a candidate', async (t) => {
+  await delay(WAIT_MS);
+  const { document } = window;
+  const input = document.querySelector('.commandInput');
+  const { length } = document.getElementsByClassName('candidate');
+  t.is(getSelectedIndex(), 0);
+
+  keyDown(input, TAB);
+  await delay(WAIT_MS);
+  t.is(getSelectedIndex(), 1);
+
+  keyDown(input, TAB, { s: true });
+  await delay(WAIT_MS);
+  t.is(getSelectedIndex(), 0);
+
+  keyDown(input, TAB, { s: true });
+  await delay(WAIT_MS);
+  t.is(getSelectedIndex(), length - 1);
+
+  keyDown(input, TAB);
+  await delay(WAIT_MS);
+  t.is(getSelectedIndex(), 0);
 });
 
 test.serial('popup selects a candidate by `return`', async (t) => {
