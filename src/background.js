@@ -9,6 +9,7 @@ import {
   onTabRemoved,
 } from './popup_window';
 import { getActiveContentTab } from './utils/tabs';
+import { getArgListener, setPostMessageFunction } from './utils/args';
 
 let contentScriptPorts = {};
 let popupPorts         = {};
@@ -39,6 +40,13 @@ function postMessageToContentScript(type, payload) {
       }));
     }
   });
+}
+
+export function postMessageToPopup(type, payload) {
+  getPopupPorts().forEach(p => p.postMessage({
+    type,
+    payload,
+  }));
 }
 
 export function executeAction(actionId, candidates) {
@@ -99,6 +107,11 @@ export function messageListener(request) {
       const { actionId, candidates } = request.payload;
       return executeAction(actionId, candidates);
     }
+    case 'RESPONSE_ARG': {
+      const listener = getArgListener();
+      listener(request.payload);
+      return null;
+    }
     default:
       return null;
   }
@@ -128,6 +141,7 @@ export async function storageChangedListener() {
 }
 
 export async function init() {
+  setPostMessageFunction(postMessageToPopup);
   contentScriptPorts = {};
   popupPorts         = {};
 
