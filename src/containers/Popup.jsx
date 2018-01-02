@@ -21,6 +21,12 @@ class Popup extends React.Component {
       handleInputChange:     PropTypes.func.isRequired,
       handleKeyDown:         PropTypes.func.isRequired,
       dispatchQuit:          PropTypes.func.isRequired,
+      scheme:                PropTypes.shape({
+        type:    PropTypes.string,
+        title:   PropTypes.string,
+        minimum: PropTypes.number,
+        maximum: PropTypes.number,
+      }).isRequired,
     };
   }
   static get defaultProps() {
@@ -64,19 +70,42 @@ class Popup extends React.Component {
       this.props.handleSelectCandidate(candidate);
     }
   }
+  argMessage() {
+    const {
+      type,
+      title,
+      minimum,
+      maximum,
+    } = this.props.scheme;
+    let message = `Enter argument ${title}: ${type}`;
+    switch (type) {
+      case 'number': {
+        if (minimum !== undefined) {
+          message += `(N >= ${minimum})`;
+        }
+        if (maximum !== undefined) {
+          message += `(N <= ${maximum})`;
+        }
+        break;
+      }
+      default:
+        break;
+    }
+    return message;
+  }
   hasFooter() {
     return this.props.mode !== 'action';
   }
   renderFooter() {
     switch (this.props.mode) {
+      case 'candidate':
+        return <div className="footer">{getMessage('key_info')}</div>;
       case 'action':
         return null;
+      case 'arg':
+        return <div className="footer">{this.argMessage()}</div>;
       default:
-        return (
-          <div className="footer">
-            {getMessage('key_info')}
-          </div>
-        );
+        return null;
     }
   }
   renderCandidateList() {
@@ -138,6 +167,7 @@ function mapStateToProps(state) {
     separators:         state.separators,
     markedCandidateIds: state.markedCandidateIds,
     mode:               state.mode,
+    scheme:             state.scheme,
   };
 }
 
