@@ -5,6 +5,7 @@ import { click } from './link';
 import * as cursor from './cursor';
 import { getActiveContentTab } from './utils/tabs';
 import { requestArg } from './utils/args';
+import { restorePrevious } from './utils/sessions';
 
 const actionsOfType = {};
 const actionList = [];
@@ -156,6 +157,9 @@ export function runCommand(cs) {
         }, []);
         const { id: tabId } = await getActiveContentTab();
         return browser.tabs.setZoom(tabId, parseFloat(payload));
+      }
+      case 'restore-previous-session': {
+        return restorePrevious();
       }
       default:
         return Promise.resolve();
