@@ -36,8 +36,6 @@ const candidates = (state = { index: null, items: [] }, action) => {
       const i = state.index;
       return normalize({ index: (Number.isNaN(i) ? 0 : i) - 1, items: state.items });
     }
-    case 'CANDIDATE':
-      return { index: null, items: state.items };
     case 'SAVE_CANDIDATES':
       return { index: null, items: state.items };
     case 'RESTORE_CANDIDATES': {
