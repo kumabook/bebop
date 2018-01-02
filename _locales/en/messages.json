@@ -20,6 +20,9 @@
   "bookmarks": {
     "message": "Bookmarks"
   },
+  "sessions": {
+    "message": "Sessions"
+  },
   "commands": {
     "message": "Commands"
   }

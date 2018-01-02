@@ -20,6 +20,9 @@
   "bookmarks": {
     "message": "ブックマーク"
   },
+  "sessions": {
+    "message": "セッション"
+  },
   "commands": {
     "message": "コマンド"
   }
