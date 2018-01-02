@@ -187,6 +187,28 @@ test.serial('popup cannot marks actions', async (t) => {
   await delay(WAIT_MS);
 });
 
+test.serial('popup handles REQUEST_ARG message', async (t) => {
+  await delay(WAIT_MS);
+  const input = document.querySelector('.commandInput');
+  port.messageListeners.forEach((l) => {
+    l({
+      type:    'REQUEST_ARG',
+      payload: {
+        scheme: {
+          type:    'number',
+          title:   'arg title',
+          minimum: 0,
+          maximum: 10,
+        },
+      },
+    });
+    keyDown(input, code('1'));
+    keyDown(input, ENTER);
+  });
+  await delay(WAIT_MS);
+  t.pass();
+});
+
 test.serial('popup handles TAB_CHANGED action and close', async (t) => {
   await delay(WAIT_MS);
   port.messageListeners.forEach((l) => {
