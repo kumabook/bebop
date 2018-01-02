@@ -5,7 +5,11 @@ import { click } from './link';
 import * as cursor from './cursor';
 import { getActiveContentTab } from './utils/tabs';
 import { requestArg } from './utils/args';
-import { restorePrevious } from './utils/sessions';
+import {
+  restorePrevious,
+  restore as restoreSession,
+  forget as forgetSession,
+} from './utils/sessions';
 
 const actionsOfType = {};
 const actionList = [];
@@ -149,7 +153,7 @@ export function runCommand(cs) {
         return Promise.all(bs.map(b => browser.bookmarks.remove(b.id)));
       }
       case 'set-zoom': {
-        const payload       = await requestArg({
+        const payload = await requestArg({
           type:    'number',
           title:   'zoom factor',
           minimum: 0.3,
@@ -229,6 +233,11 @@ const bookmarkActions = [
   { id: 'delete-bookmark'            , label: 'delete bookmark(s)'           , icon: 'delete' , handler: deleteBookmark         , contentHandler: noop },
 ];
 
+const sessionActions = [
+  { id: 'restore-session', label: 'restore-session', icon: 'session', handler: restoreSession },
+  { id: 'forget-session' , label: 'forget-session' , icon: 'session', handler: forgetSession },
+];
+
 const cursorActions = [
   { id: 'forward-char'        , label: 'Forward char'        , icon: null, handler: noop, contentHandler: cursor.forwardChar },
   { id: 'backward-char'       , label: 'Backward char'       , icon: null, handler: noop, contentHandler: cursor.backwardChar },
@@ -282,6 +291,7 @@ export function init() {
   register('tab'     , tabActions);
   register('history' , historyActions);
   register('bookmark', bookmarkActions);
+  register('session' , sessionActions);
   register('cursor'  , cursorActions);
   register('command' , commandActions);
 }

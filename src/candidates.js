@@ -4,6 +4,7 @@ import linkCandidates from './sources/link';
 import tabCandidates from './sources/tab';
 import historyCandidates from './sources/history';
 import bookmarkCandidates from './sources/bookmark';
+import sessionCandidates from './sources/session';
 import commandCandidates from './sources/command';
 
 export const MAX_RESULTS = 20;
@@ -94,13 +95,14 @@ export default function search(query) {
 }
 
 export function init({ orderOfCandidates: order, maxResultsForEmpty: nums } = {}) {
-  sources = [{ type: 'search', shorthand: 's', f: searchCandidates }];
+  sources = [{ type: 'search', shorthand: null, f: searchCandidates }];
   /* eslint-disable no-multi-spaces, comma-spacing */
   const items = [
     { type: 'link'    , shorthand: 'l', f: linkCandidates },
     { type: 'tab'     , shorthand: 't', f: tabCandidates },
     { type: 'history' , shorthand: 'h', f: historyCandidates },
     { type: 'bookmark', shorthand: 'b', f: bookmarkCandidates },
+    { type: 'session' , shorthand: 's', f: sessionCandidates },
     { type: 'command' , shorthand: 'c', f: commandCandidates },
   ];
   if (order) {
