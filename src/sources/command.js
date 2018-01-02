@@ -11,6 +11,7 @@ const commands = [
   { name: 'reload'         , icon: 'reload' },
   { name: 'add-bookmark'   , icon: 'bookmark' },
   { name: 'remove-bookmark', icon: 'bookmark' },
+  { name: 'set-zoom'       , icon: 'zoom' },
 ];
 
 export default function candidates(q, { maxResults }) {

@@ -4,6 +4,7 @@ import isUrl from 'is-url';
 import { click } from './link';
 import * as cursor from './cursor';
 import { getActiveContentTab } from './utils/tabs';
+import { requestArg } from './utils/args';
 
 const actionsOfType = {};
 const actionList = [];
@@ -120,7 +121,7 @@ export function deleteBookmark(cs) {
 }
 
 export function runCommand(cs) {
-  return Promise.all(filter(cs, 'command').map(({ args }) => {
+  return Promise.all(filter(cs, 'command').map(async ({ args }) => {
     const [name] = args;
     switch (name) {
       case 'open-options':
@@ -141,10 +142,21 @@ export function runCommand(cs) {
             title,
             url,
           }));
-      case 'remove-bookmark':
-        return getActiveContentTab()
-          .then(({ url }) => browser.bookmarks.search({ url }))
-          .then(bs => Promise.all(bs.map(b => browser.bookmarks.remove(b.id))));
+      case 'remove-bookmark': {
+        const { url } = await getActiveContentTab();
+        const bs      = await browser.bookmarks.search({ url });
+        return Promise.all(bs.map(b => browser.bookmarks.remove(b.id)));
+      }
+      case 'set-zoom': {
+        const payload       = await requestArg({
+          type:    'number',
+          title:   'zoom factor',
+          minimum: 0.3,
+          maximum: 3,
+        }, []);
+        const { id: tabId } = await getActiveContentTab();
+        return browser.tabs.setZoom(tabId, parseFloat(payload));
+      }
       default:
         return Promise.resolve();
     }
