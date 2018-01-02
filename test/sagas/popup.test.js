@@ -5,11 +5,11 @@ import {
   debounceDelayMs,
   dispatchEmptyQuery,
   searchCandidates,
+  modeSelector,
   candidateSelector,
   executeAction,
   normalizeCandidate,
   getTargetCandidates,
-  sendMessageToBackground,
 } from '../../src/sagas/popup';
 
 const items = [{
@@ -29,11 +29,7 @@ test('searchCandidates saga', (t) => {
   const gen = searchCandidates({ payload: '' });
   t.deepEqual(gen.next().value, call(delay, debounceDelayMs));
   t.deepEqual(gen.next().value, select(candidateSelector));
-  t.deepEqual(gen.next().value, call(sendMessageToBackground, {
-    type:    'SEARCH_CANDIDATES',
-    payload: '',
-  }));
-  t.deepEqual(gen.next().value, put({ type: 'CANDIDATES', payload: undefined }));
+  t.deepEqual(gen.next().value, select(modeSelector));
 });
 
 test('executeAction', (t) => {

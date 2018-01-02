@@ -29,6 +29,9 @@ export const port = getPort(portName);
 
 export const debounceDelayMs = 100;
 
+export const modeSelector      = state => state.mode;
+export const candidateSelector = state => state.prev && state.prev.candidate;
+
 export function close() {
   if (window.parent !== window) {
     window.parent.postMessage(JSON.stringify({ type: 'CLOSE' }), '*');
@@ -57,27 +60,40 @@ export function* executeAction(action, candidates) {
   }
 }
 
-export function* dispatchEmptyQuery() {
-  yield put({ type: 'QUERY', payload: '' });
+export function* responseArg() {
+  const q = yield select(state => state.query);
+  yield call(sendMessageToBackground, { type: 'RESPONSE_ARG', payload: q });
 }
 
-export function candidateSelector(state) {
-  return state.prev && state.prev.candidate;
+export function* dispatchEmptyQuery() {
+  yield put({ type: 'QUERY', payload: '' });
 }
 
 export function* searchCandidates({ payload: query }) {
   yield call(delay, debounceDelayMs);
   const candidate = yield select(candidateSelector);
-  if (candidate) {
-    const separators = [{ label: `Actions for "${candidate.label}"`, index: 0 }];
-    const items      = queryActions(candidate.type, query);
-    yield put({ type: 'CANDIDATES', payload: { items, separators } });
-  } else {
-    const payload = yield call(sendMessageToBackground, {
-      type:    'SEARCH_CANDIDATES',
-      payload: query,
-    });
-    yield put({ type: 'CANDIDATES', payload });
+  const mode      = yield select(modeSelector);
+  switch (mode) {
+    case 'candidate': {
+      const payload = yield call(sendMessageToBackground, {
+        type:    'SEARCH_CANDIDATES',
+        payload: query,
+      });
+      yield put({ type: 'CANDIDATES', payload });
+      break;
+    }
+    case 'action': {
+      const separators = [{ label: `Actions for "${candidate.label}"`, index: 0 }];
+      const items      = queryActions(candidate.type, query);
+      yield put({ type: 'CANDIDATES', payload: { items, separators } });
+      break;
+    }
+    case 'arg': {
+      yield put({ type: 'CANDIDATES', payload: { items: [], separators: [] } });
+      break;
+    }
+    default:
+      break;
   }
 }
 
@@ -138,18 +154,25 @@ function* watchSelectCandidate() {
     let c;
     let action;
     switch (mode) {
+      case 'candidate': {
+        c        = yield normalizeCandidate(payload);
+        [action] = queryActions(c.type);
+        yield executeAction(action, [c]);
+        break;
+      }
       case 'action': {
         action = payload;
         const candidates = yield getTargetCandidates(prev);
         yield executeAction(action, candidates);
         break;
       }
-      default: {
-        c        = yield normalizeCandidate(payload);
-        [action] = queryActions(c.type);
+      case 'arg': {
+        yield responseArg();
+        break;
       }
+      default:
+        break;
     }
-    yield executeAction(action, [c]);
   });
 }
 
@@ -160,19 +183,24 @@ function* watchReturn() {
       mode, markedCandidateIds, prev,
     } = yield select(state => state);
     switch (mode) {
-      case 'action': {
-        const action = items[index];
-        const candidates = yield getTargetCandidates(prev);
-        yield executeAction(action, candidates);
-        break;
-      }
-      default: {
+      case 'candidate': {
         const candidates = yield getTargetCandidates({ index, items, markedCandidateIds }, true);
         const actions = queryActions(candidates[0].type);
         const action  = actions[Math.min(actionIndex, actions.length - 1)];
         yield executeAction(action, candidates);
         break;
       }
+      case 'action': {
+        const action = items[index];
+        const candidates = yield getTargetCandidates(prev);
+        yield executeAction(action, candidates);
+        break;
+      }
+      case 'arg':
+        yield responseArg();
+        break;
+      default:
+        break;
     }
   });
 }
@@ -185,10 +213,7 @@ function* watchListActions() {
       query, separators, markedCandidateIds, mode, prev,
     } = yield select(state => state);
     switch (mode) {
-      case 'action':
-        yield put({ type: 'RESTORE_CANDIDATES', payload: prev });
-        break;
-      default: {
+      case 'candidate': {
         const candidate = yield normalizeCandidate(items[index]);
         if (!candidate) {
           return;
@@ -200,6 +225,13 @@ function* watchListActions() {
         yield call(searchCandidates, { payload: '' });
         break;
       }
+      case 'action':
+        yield put({ type: 'RESTORE_CANDIDATES', payload: prev });
+        break;
+      case 'arg':
+        break;
+      default:
+        break;
     }
   });
 }

@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux';
 import { routerReducer }   from 'react-router-redux';
 
+const defaultScheme = { type: 'object' };
+
 const query = (state = '', action) => {
   switch (action.type) {
     case 'QUERY':
@@ -9,6 +11,8 @@ const query = (state = '', action) => {
       return '';
     case 'RESTORE_CANDIDATES':
       return action.payload.query;
+    case 'REQUEST_ARG':
+      return '';
     default:
       return state;
   }
@@ -42,6 +46,8 @@ const candidates = (state = { index: null, items: [] }, action) => {
     }
     case 'CANDIDATE_MARKED':
       return normalize({ index: state.index + 1, items: state.items });
+    case 'REQUEST_ARG':
+      return { index: 0, items: [] };
     default:
       return state;
   }
@@ -53,6 +59,9 @@ const separators = (state = [], action) => {
       return action.payload.separators;
     case 'RESTORE_CANDIDATES':
       return action.payload.separators;
+    case 'REQUEST_ARG': {
+      return [];
+    }
     default:
       return state;
   }
@@ -68,6 +77,8 @@ const markedCandidateIds = (state = {}, action) => {
       return {};
     case 'RESTORE_CANDIDATES':
       return action.payload.markedCandidateIds;
+    case 'REQUEST_ARG':
+      return {};
     default:
       return state;
   }
@@ -90,6 +101,19 @@ const mode = (state = 'candidate', action) => {
       return 'action';
     case 'RESTORE_CANDIDATES':
       return 'candidate';
+    case 'REQUEST_ARG':
+      return 'arg';
+    default:
+      return state;
+  }
+};
+
+const scheme = (state = defaultScheme, action) => {
+  switch (action.type) {
+    case 'REQUEST_ARG': {
+      const { payload } = action;
+      return payload.scheme || defaultScheme;
+    }
     default:
       return state;
   }
@@ -103,6 +127,7 @@ const rootReducer = combineReducers({
   markedCandidateIds,
   prev,
   mode,
+  scheme,
 });
 
 export default rootReducer;
