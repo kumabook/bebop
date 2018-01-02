@@ -74,6 +74,14 @@ browser.windows = {
   },
 };
 
+browser.sessions = {
+  MAX_SESSION_RESULTS: 25,
+  getRecentlyClosed:   () => Promise.resolve([]),
+  restore:             () => Promise.resolve(),
+  forgetClosedTab:     () => Promise.resolve(),
+  forgetClosedWindow:  () => Promise.resolve(),
+};
+
 browser.commands = {
   onCommand: {
     addListener:    () => {},
