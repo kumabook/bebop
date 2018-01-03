@@ -1,7 +1,10 @@
 import browser from 'webextension-polyfill';
 import { getFaviconUrl } from '../utils/url';
 
-const { MAX_SESSION_RESULTS } = browser.sessions;
+let MAX_SESSION_RESULTS = 20;
+if (browser.sessions) {
+  ({ MAX_SESSION_RESULTS } = browser.sessions);
+}
 
 export function session2candidate(session) {
   const { tab, window } = session;
