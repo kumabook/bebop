@@ -21,6 +21,7 @@
     "history",
     "bookmarks",
     "storage",
+    "cookies",
     "sessions",
     "system.display",
     "<all_urls>"
