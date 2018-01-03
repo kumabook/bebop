@@ -82,6 +82,12 @@ browser.sessions = {
   forgetClosedWindow:  () => Promise.resolve(),
 };
 
+browser.cookies = {
+  getAll: () => Promise.resolve(),
+  set:    () => Promise.resolve(),
+  remove: () => Promise.resolve(),
+};
+
 browser.commands = {
   onCommand: {
     addListener:    () => {},
