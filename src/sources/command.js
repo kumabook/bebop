@@ -13,6 +13,7 @@ const commands = [
   { name: 'remove-bookmark'         , icon: 'bookmark' },
   { name: 'set-zoom'                , icon: 'zoom' },
   { name: 'restore-previous-session', icon: 'session' },
+  { name: 'manage-cookies'          , icon: 'cookie' },
 ];
 
 export default function candidates(q, { maxResults }) {

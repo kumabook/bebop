@@ -5,6 +5,7 @@ import { click } from './link';
 import * as cursor from './cursor';
 import { getActiveContentTab } from './utils/tabs';
 import { requestArg } from './utils/args';
+import { manage as manageCookies } from './utils/cookies';
 import {
   restorePrevious,
   restore as restoreSession,
@@ -166,6 +167,10 @@ export function runCommand(cs) {
       }
       case 'restore-previous-session': {
         return restorePrevious();
+      }
+      case 'manage-cookies': {
+        const { url } = await getActiveContentTab();
+        return manageCookies(url);
       }
       default:
         return Promise.resolve();
