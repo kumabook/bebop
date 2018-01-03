@@ -44,8 +44,10 @@ const candidates = (state = { index: null, items: [] }, action) => {
     }
     case 'CANDIDATE_MARKED':
       return normalize({ index: state.index + 1, items: state.items });
-    case 'REQUEST_ARG':
-      return { index: 0, items: [] };
+    case 'REQUEST_ARG': {
+      const { scheme } = action.payload;
+      return { index: null, items: scheme.enum || [] };
+    }
     default:
       return state;
   }

@@ -15,13 +15,14 @@ export const Type = {
   integer: 'integer',
   number:  'number',
   array:   'array',
+  object:  'object',
 };
 
-export function requestArg(scheme, candidates) {
+export function requestArg(scheme) {
   return new Promise((resolve, reject) => {
     try {
       argListener = resolve;
-      postMessage('REQUEST_ARG', { scheme, candidates });
+      postMessage('REQUEST_ARG', { scheme });
     } catch (e) {
       reject(e);
     }

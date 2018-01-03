@@ -89,7 +89,12 @@ export function* searchCandidates({ payload: query }) {
       break;
     }
     case 'arg': {
-      yield put({ type: 'CANDIDATES', payload: { items: [], separators: [] } });
+      const values = yield select(state => state.scheme.enum);
+      const items = (values || []).filter(o => o.label.includes(query));
+      yield put({
+        type:    'CANDIDATES',
+        payload: { items, separators: [] },
+      });
       break;
     }
     default:
