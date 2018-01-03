@@ -61,9 +61,8 @@ export function* executeAction(action, candidates) {
   }
 }
 
-export function* responseArg() {
-  const q = yield select(state => state.query);
-  yield call(sendMessageToBackground, { type: 'RESPONSE_ARG', payload: q });
+export function* responseArg(payload) {
+  yield call(sendMessageToBackground, { type: 'RESPONSE_ARG', payload });
 }
 
 export function* dispatchEmptyQuery() {
@@ -157,11 +156,10 @@ export function* getTargetCandidates({ markedCandidateIds, items, index }, needN
 function* watchSelectCandidate() {
   yield takeEvery('SELECT_CANDIDATE', function* handleSelectCandidate({ payload }) {
     const { mode, prev } = yield select(state => state);
-    let c;
     let action;
     switch (mode) {
       case 'candidate': {
-        c        = yield normalizeCandidate(payload);
+        const c  = yield normalizeCandidate(payload);
         [action] = queryActions(c.type);
         yield executeAction(action, [c]);
         break;
@@ -173,7 +171,8 @@ function* watchSelectCandidate() {
         break;
       }
       case 'arg': {
-        yield responseArg();
+        const c = yield normalizeCandidate(payload);
+        yield responseArg([c]);
         break;
       }
       default:
@@ -202,9 +201,15 @@ function* watchReturn() {
         yield executeAction(action, candidates);
         break;
       }
-      case 'arg':
-        yield responseArg();
+      case 'arg': {
+        const type = yield select(state => state.scheme.type);
+        let payload = yield select(state => state.query);
+        if (type === 'object') {
+          payload = yield getTargetCandidates({ index, items, markedCandidateIds });
+        }
+        yield responseArg(payload);
         break;
+      }
       default:
         break;
     }
