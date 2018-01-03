@@ -4515,9 +4515,9 @@ nearley@^2.7.10:
     railroad-diagrams "^1.0.0"
     randexp "^0.4.2"
 
-nisemono@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/nisemono/-/nisemono-0.0.2.tgz#a7114d9d9e269362f82f08c38ae5fefd684056c4"
+nisemono@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/nisemono/-/nisemono-0.0.3.tgz#fcce6a23985f5b4056529b3ef3b9dad540b3035a"
 
 node-fetch@^1.0.1:
   version "1.7.3"
