@@ -22,6 +22,7 @@ import {
 import { sendMessageToActiveContentTabViaBackground } from '../utils/tabs';
 import { query as queryActions } from '../actions';
 import { watchKeySequence } from './key_sequence';
+import { beginningOfLine } from '../cursor';
 
 const history = createHashHistory();
 const portName = `popup-${Date.now()}`;
@@ -252,6 +253,14 @@ function* watchMarkCandidate() {
   });
 }
 
+function* watchRequestArg() {
+  yield takeEvery('REQUEST_ARG', function* handleRequestArg({ payload }) {
+    const { scheme: { default: defaultValue } } = payload;
+    yield put({ type: 'QUERY', payload: defaultValue || '' });
+    beginningOfLine();
+  });
+}
+
 /**
  * Currently, we can't focus to an input form after tab changed.
  * So, we just close window.
@@ -292,6 +301,7 @@ export default function* root() {
     fork(watchReturn),
     fork(watchListActions),
     fork(watchMarkCandidate),
+    fork(watchRequestArg),
     fork(watchQuit),
     fork(watchPort),
     fork(routerSaga),

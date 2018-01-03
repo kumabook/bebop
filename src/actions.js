@@ -153,14 +153,16 @@ export function runCommand(cs) {
         return Promise.all(bs.map(b => browser.bookmarks.remove(b.id)));
       }
       case 'set-zoom': {
-        const payload = await requestArg({
+        const { id: tabId } = await getActiveContentTab();
+        const zoom          = await browser.tabs.getZoom(tabId);
+        const zoomFactor    = await requestArg({
           type:    'number',
           title:   'zoom factor',
           minimum: 0.3,
           maximum: 3,
-        }, []);
-        const { id: tabId } = await getActiveContentTab();
-        return browser.tabs.setZoom(tabId, parseFloat(payload));
+          default: zoom,
+        });
+        return browser.tabs.setZoom(tabId, parseFloat(zoomFactor));
       }
       case 'restore-previous-session': {
         return restorePrevious();
