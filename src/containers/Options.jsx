@@ -51,7 +51,7 @@ class Options extends React.Component {
           <input
             className="maxResultsInput"
             type="number"
-            min="1"
+            min="0"
             max="20"
             step="1"
             value={n}
