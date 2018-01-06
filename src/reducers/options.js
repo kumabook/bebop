@@ -8,6 +8,7 @@ export const defaultOrder = [
   'tab',
   'bookmark',
   'history',
+  'session',
   'command',
 ];
 const numbers = defaultOrder.reduce(
