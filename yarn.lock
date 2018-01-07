@@ -6923,9 +6923,9 @@ web-ext@^2.2.2:
     yargs "6.6.0"
     zip-dir "1.0.2"
 
-webextension-polyfill@^0.2.1:
+webextension-polyfill@kumabook/webextension-polyfill:
   version "0.2.1"
-  resolved "https://registry.yarnpkg.com/webextension-polyfill/-/webextension-polyfill-0.2.1.tgz#cdfc9126033039f1713553157d35beff1d4d6f4a"
+  resolved "https://codeload.github.com/kumabook/webextension-polyfill/tar.gz/ef3f454f743284f1b5e7bed1952fd4f9ef6a69ea"
 
 webidl-conversions@^4.0.1, webidl-conversions@^4.0.2:
   version "4.0.2"
