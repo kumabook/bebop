@@ -242,8 +242,11 @@ const bookmarkActions = [
 
 const sessionActions = [
   { id: 'restore-session', label: 'restore-session', icon: 'session', handler: restoreSession },
-  { id: 'forget-session' , label: 'forget-session' , icon: 'session', handler: forgetSession },
 ];
+
+if (browser.sessions && browser.sessions.forgetClosedTab) {
+  sessionActions.push({ id: 'forget-session' , label: 'forget-session' , icon: 'session', handler: forgetSession });
+}
 
 const cursorActions = [
   { id: 'forward-char'        , label: 'Forward char'        , icon: null, handler: noop, contentHandler: cursor.forwardChar },
