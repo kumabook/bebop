@@ -68,6 +68,8 @@ NOTE: On Windows, you need to press a tab-key to focus to a query input
 | tab         | t         | active selected tab             |
 | history     | h         | open a history                  |
 | bookmark    | b         | open a bookmark                 |
+| session     | s         | restore a session               |
+| command     | c         | execute a command               |
 
 - `:type` narrows down to the candidates whose type is the specified type
   - `x (shorthand letter)` also narrows down to the candidates whose shorthand is the specified type
