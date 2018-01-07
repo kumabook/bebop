@@ -17,6 +17,7 @@ webExt.cmd.run({
   sourceDir:      process.cwd(),
   ignoreFiles:    process.env.IGNORE_FILES.split(' ').concat('**/*~'),
   browserConsole: true,
+  firefoxProfile: process.env.FIREFOX_PROFILE,
 }, {
   shouldExitProgram: false,
 }).then(runner => runner.registerCleanup(() => watching.close()));
