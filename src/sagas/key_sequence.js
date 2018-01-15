@@ -25,6 +25,7 @@ export const commandOfSeq = {
   'S-return': dispatchAction('RETURN', { actionIndex: 1 }),
   'C-i':      dispatchAction('LIST_ACTIONS'),
   'C-SPC':    dispatchAction('MARK_CANDIDATE'),
+  'M-a':      dispatchAction('MARK_ALL_CANDIDATES'),
   'ESC':      dispatchAction('QUIT'),
   'C-g':      dispatchAction('QUIT'),
 };

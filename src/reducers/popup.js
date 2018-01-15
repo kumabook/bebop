@@ -73,6 +73,12 @@ const markedCandidateIds = (state = {}, action) => {
       const { id } = action.payload;
       return Object.assign({}, state, { [id]: !state[id] });
     }
+    case 'CANDIDATES_MARKED': {
+      const items = action.payload;
+      return items.reduce((acc, { id }) => Object.assign(acc, {
+        [id]: true,
+      }), state);
+    }
     case 'SAVE_CANDIDATES':
       return {};
     case 'RESTORE_CANDIDATES':

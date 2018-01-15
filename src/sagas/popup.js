@@ -258,6 +258,17 @@ function* watchMarkCandidate() {
   });
 }
 
+function* watchMarkAllCandidates() {
+  yield takeEvery('MARK_ALL_CANDIDATES', function* handleMarkAllCandidates() {
+    const { mode, candidates: { index, items } } = yield select(state => state);
+    if (mode === 'action') {
+      return;
+    }
+    const { type } = items[index];
+    yield put({ type: 'CANDIDATES_MARKED', payload: items.filter(c => c.type === type) });
+  });
+}
+
 function* watchRequestArg() {
   yield takeEvery('REQUEST_ARG', function* handleRequestArg({ payload }) {
     const { scheme: { default: defaultValue } } = payload;
@@ -306,6 +317,7 @@ export default function* root() {
     fork(watchReturn),
     fork(watchListActions),
     fork(watchMarkCandidate),
+    fork(watchMarkAllCandidates),
     fork(watchRequestArg),
     fork(watchQuit),
     fork(watchPort),
