@@ -24,7 +24,7 @@
     "coverage": "cross-env NODE_ENV=test nyc report --reporter=text-lcov | coveralls"
   },
   "devDependencies": {
-    "ava": "^0.24.0",
+    "ava": "^0.25.0",
     "chrome-webstore-upload-cli": "^1.1.1",
     "coveralls": "^3.0.0"
   },
