@@ -61,7 +61,7 @@
     "redux": "^3.7.2",
     "redux-saga": "^0.16.0",
     "redux-saga-router": "^2.1.1",
-    "stylelint": "^8.2.0",
+    "stylelint": "^9.0.0",
     "stylelint-config-standard": "^18.0.0",
     "uuid": "^3.1.0",
     "web-ext": "^2.2.2",
