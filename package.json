@@ -24,7 +24,7 @@
     "coverage": "cross-env NODE_ENV=test nyc report --reporter=text-lcov | coveralls"
   },
   "devDependencies": {
-    "ava": "^0.24.0",
+    "ava": "^0.25.0",
     "chrome-webstore-upload-cli": "^1.1.1",
     "coveralls": "^3.0.0"
   },
@@ -47,7 +47,7 @@
     "history": "^4.7.2",
     "is-url": "^1.2.2",
     "jsdom": "^11.4.0",
-    "kiroku": "^0.0.1",
+    "kiroku": "^0.0.4",
     "nisemono": "^0.0.3",
     "nyc": "^11.3.0",
     "prop-types": "^15.6.0",
@@ -61,7 +61,7 @@
     "redux": "^3.7.2",
     "redux-saga": "^0.16.0",
     "redux-saga-router": "^2.1.1",
-    "stylelint": "^8.2.0",
+    "stylelint": "^9.0.0",
     "stylelint-config-standard": "^18.0.0",
     "uuid": "^3.1.0",
     "web-ext": "^2.2.2",
