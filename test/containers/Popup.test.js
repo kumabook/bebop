@@ -2,9 +2,7 @@ import test                 from 'ava';
 import { mount }            from 'enzyme';
 import React                from 'react';
 import createHistory from 'history/createHashHistory';
-import {
-  Provider,
-} from 'react-redux';
+import { Provider } from 'react-redux';
 import {
   applyMiddleware,
   createStore,
