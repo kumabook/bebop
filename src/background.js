@@ -96,8 +96,12 @@ function activatedListener(payload) {
 export function messageListener(request) {
   switch (request.type) {
     case 'SEND_MESSAGE_TO_ACTIVE_CONTENT_TAB': {
-      return getActiveContentTab()
-        .then(tab => browser.tabs.sendMessage(tab.id, request.payload));
+      return getActiveContentTab().then((tab) => {
+        if (tab.url.startsWith('chrome://')) {
+          return Promise.resolve();
+        }
+        return browser.tabs.sendMessage(tab.id, request.payload);
+      });
     }
     case 'SEARCH_CANDIDATES': {
       const query = request.payload;
