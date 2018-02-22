@@ -1,5 +1,6 @@
 import browser from 'webextension-polyfill';
 import { isExtensionUrl } from './utils/url';
+import { includes } from './utils/string';
 
 export const HIGHLIGHTER_ID    = 'bebop-highlighter';
 export const LINK_MARKER_CLASS = 'bebop-link-marker';
@@ -125,7 +126,7 @@ export function search({ query = '', maxResults = 20 } = {}) {
   return getTargetElements().map(elem2Link).filter((l) => {
     const url = l.url.toLowerCase();
     const label = l.label.toLowerCase();
-    return url.includes(query) || label.includes(query);
+    return includes(url, query) || includes(label, query);
   }).slice(0, maxResults);
 }
 
