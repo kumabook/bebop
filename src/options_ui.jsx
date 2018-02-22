@@ -14,7 +14,7 @@ import rootSaga from './sagas/options';
 import { start as appStart, stop } from './utils/app';
 
 if (process.env.NODE_ENV === 'production') {
-  logger.setLevel('INFO');
+  logger.setLevel('FATAL');
 }
 
 export function start() {

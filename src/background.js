@@ -15,7 +15,7 @@ let contentScriptPorts = {};
 let popupPorts         = {};
 
 if (process.env.NODE_ENV === 'production') {
-  logger.setLevel('INFO');
+  logger.setLevel('FATAL');
 }
 logger.info(`bebop starts initialization. log level ${logger.getLevel()}`);
 

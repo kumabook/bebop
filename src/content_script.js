@@ -7,7 +7,7 @@ import { search, highlight, dehighlight } from './link';
 const portName = `content-script-${window.location.href}`;
 let port = null;
 if (process.env.NODE_ENV === 'production') {
-  logger.setLevel('INFO');
+  logger.setLevel('FATAL');
 }
 
 export function executeAction(actionId, candidates) {

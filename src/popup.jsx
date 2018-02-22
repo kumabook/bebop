@@ -26,7 +26,7 @@ import { init as keySequenceInit } from './sagas/key_sequence';
 import { start as appStart, stop } from './utils/app';
 
 if (process.env.NODE_ENV === 'production') {
-  logger.setLevel('INFO');
+  logger.setLevel('FATAL');
 }
 
 function updateWidth({ popupWidth }) {
