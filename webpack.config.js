@@ -2,6 +2,7 @@ const webpack = require('webpack');
 
 const NODE_ENV = process.env.NODE_ENV || 'production';
 module.exports = {
+  mode: NODE_ENV,
   entry: {
     background:      './src/background.js',
     popup:           './src/popup.jsx',
