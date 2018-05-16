@@ -57,7 +57,7 @@ test.serial('candidates returns link candidates', (t) => {
   });
 });
 
-test.serial('candidates returns link candidates', (t) => {
+test.serial('candidates returns link candidates with query', (t) => {
   nisemono.expects(browser.tabs.sendMessage).rejects(new Error('error'));
   nisemono.expects(browser.runtime.sendMessage).rejects(new Error('error'));
   return candidates('q').then(({ items, label }) => {
