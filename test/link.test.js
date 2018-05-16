@@ -49,13 +49,13 @@ function setup() {
 test.beforeEach(setup);
 test.afterEach(dehighlight);
 
-test('getTargetElements returns visible and clickable links', (t) => {
+test.serial('getTargetElements returns visible and clickable links', (t) => {
   setup();
   const targets = getTargetElements();
   t.is(targets.length, 10);
 });
 
-test('search returns visible and clickable links', (t) => {
+test.serial('search returns visible and clickable links', (t) => {
   setup();
   const candidates = search();
   t.is(candidates.length, 10);
@@ -132,13 +132,13 @@ test('search returns visible and clickable links', (t) => {
 });
 
 
-test('search with a query returns links that are matched with the query ', (t) => {
+test.serial('search with a query returns links that are matched with the query ', (t) => {
   setup();
   const candidates = search({ query: 'normal link' });
   t.is(candidates.length, 1);
 });
 
-test('createHighlighter returns highter element', (t) => {
+test.serial('createHighlighter returns highter element', (t) => {
   t.truthy(createHighlighter({
     left:   10,
     top:    10,
@@ -147,14 +147,14 @@ test('createHighlighter returns highter element', (t) => {
   }));
 });
 
-test('highlight appends highlight element and link markers', (t) => {
+test.serial('highlight appends highlight element and link markers', (t) => {
   setup();
   highlight({ index: 0, url: 'https://example.org/' });
   t.truthy(document.getElementById(HIGHLIGHTER_ID));
   t.true(document.getElementsByClassName(LINK_MARKER_CLASS).length === 10);
 });
 
-test('dehighlight removes highlight element and link markers', (t) => {
+test.serial('dehighlight removes highlight element and link markers', (t) => {
   setup();
   highlight({ index: 0, url: 'https://example.org/' });
   dehighlight();
@@ -162,7 +162,7 @@ test('dehighlight removes highlight element and link markers', (t) => {
   t.true(document.getElementsByClassName(LINK_MARKER_CLASS).length === 0);
 });
 
-test('click triggers target element click', (t) => {
+test.serial('click triggers target element click', (t) => {
   setup();
   click({ index: 0, url: 'https://example.org/' });
   click({ index: 1, url: 'https://example.org/relative' });
