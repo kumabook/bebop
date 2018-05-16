@@ -1,8 +1,8 @@
 {
   "require": [
     "./test/setup.js",
-    "babel-register",
-    "babel-polyfill"
+    "@babel/register",
+    "@babel/polyfill"
   ],
   "include": ["src/**/*.{js,jsx}"],
   "exclude": ["test/**/*.test.js"],
