@@ -55,12 +55,12 @@ const enabledCJKMove = (state = false, action) => {
   }
 };
 
-const hatenaUserName = (state = false, action) => {
+const hatenaUserName = (state = '', action) => {
   switch (action.type) {
-  case 'HATENA_USER_NAME':
-    return action.payload;
-  default:
-    return state;
+    case 'HATENA_USER_NAME':
+      return action.payload || '';
+    default:
+      return state;
   }
 };
 
