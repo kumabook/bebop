@@ -22,6 +22,7 @@ export function start() {
     const container = document.getElementById('container');
     const sagaMiddleware = createSagaMiddleware();
     const store = createStore(reducers, state, applyMiddleware(sagaMiddleware));
+    store.dispatch({ type: 'INIT' });
     const element = (
       <Provider store={store}>
         <Options />

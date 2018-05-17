@@ -45,6 +45,7 @@ export function start() {
     const middleware     = applyMiddleware(sagaMiddleware, routerMiddleware(history));
     const store          = createStore(reducers, state, middleware);
     const container      = document.getElementById('container');
+    store.dispatch({ type: 'INIT' });
     const element = (
       <Provider store={store}>
         <ConnectedRouter history={history}>
