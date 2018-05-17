@@ -80,7 +80,7 @@ export default async function candidates(q, { maxResults } = {}) {
   }
 
   let items = results.map((v, id) => ({
-    id:         `${id}`,
+    id:         `hatenbu-${id}`,
     label:      `${v.title}:${v.url}:${v.comment}`,
     type:       'hatebu',
     args:       [v.url, v.id],
