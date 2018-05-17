@@ -12,6 +12,7 @@ import Options from './containers/Options';
 import reducers from './reducers/options';
 import rootSaga from './sagas/options';
 import { start as appStart, stop } from './utils/app';
+import migrateOptions from './utils/options_migrator';
 
 if (process.env.NODE_ENV === 'production') {
   logger.setLevel('FATAL');
@@ -19,6 +20,7 @@ if (process.env.NODE_ENV === 'production') {
 
 export function start() {
   return browser.storage.local.get().then((state) => {
+    migrateOptions(state);
     const container = document.getElementById('container');
     const sagaMiddleware = createSagaMiddleware();
     const store = createStore(reducers, state, applyMiddleware(sagaMiddleware));

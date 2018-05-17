@@ -24,6 +24,7 @@ import { init as candidateInit } from './candidates';
 import { init as actionInit } from './actions';
 import { init as keySequenceInit } from './sagas/key_sequence';
 import { start as appStart, stop } from './utils/app';
+import migrateOptions from './utils/options_migrator';
 
 if (process.env.NODE_ENV === 'production') {
   logger.setLevel('FATAL');
@@ -36,6 +37,7 @@ function updateWidth({ popupWidth }) {
 
 export function start() {
   return browser.storage.local.get().then((state) => {
+    migrateOptions(state);
     updateWidth(state);
     candidateInit(state);
     keySequenceInit(state);
@@ -45,7 +47,6 @@ export function start() {
     const middleware     = applyMiddleware(sagaMiddleware, routerMiddleware(history));
     const store          = createStore(reducers, state, middleware);
     const container      = document.getElementById('container');
-    store.dispatch({ type: 'INIT' });
     const element = (
       <Provider store={store}>
         <ConnectedRouter history={history}>

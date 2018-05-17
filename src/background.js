@@ -10,6 +10,7 @@ import {
 } from './popup_window';
 import { getActiveContentTab } from './utils/tabs';
 import { getArgListener, setPostMessageFunction } from './utils/args';
+import migrateOptions from './utils/options_migrator';
 
 let contentScriptPorts = {};
 let popupPorts         = {};
@@ -136,6 +137,7 @@ export function commandListener(command) {
 
 async function loadOptions() {
   const state = await browser.storage.local.get();
+  migrateOptions(state);
   candidateInit(state);
   actionInit();
 }
