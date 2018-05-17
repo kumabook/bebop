@@ -1,6 +1,14 @@
 import browser from 'webextension-polyfill';
 import { getFaviconUrl } from '../utils/url';
 
+const openOptionCommand = {
+  id:         'hatena-options',
+  label:      'Set hatena user name',
+  type:       'command',
+  args:       ['open-options'],
+  faviconUrl: browser.extension.getURL('images/options.png'),
+};
+
 function createDataStructure(text) {
   const infos = text.split('\n');
   const bookmarks = infos.splice(0, infos.length * (3 / 4));
@@ -56,10 +64,10 @@ async function fetchCachedHatenaBookmarks(userName) {
 
 export default async function candidates(q, { maxResults } = {}) {
   const { hatenaUserName } = await browser.storage.local.get('hatenaUserName');
-  if (!hatenaUserName) {
+  if (!hatenaUserName && maxResults !== 0) {
     return {
-      items: [],
-      label: 'Hatena Bookmarks: Please specify username at Preference',
+      items: [openOptionCommand],
+      label: 'Hatena Bookmarks: Please specify username at options ui',
     };
   }
 

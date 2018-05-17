@@ -99,13 +99,13 @@ export function init({ orderOfCandidates: order, maxResultsForEmpty: nums } = {}
   sources = [{ type: 'search', shorthand: null, f: searchCandidates }];
   /* eslint-disable no-multi-spaces, comma-spacing */
   const items = [
-    { type: 'link'    , shorthand: 'l', f: linkCandidates },
-    { type: 'tab'     , shorthand: 't', f: tabCandidates },
-    { type: 'history' , shorthand: 'h', f: historyCandidates },
-    { type: 'bookmark', shorthand: 'b', f: bookmarkCandidates },
+    { type: 'link'    , shorthand: 'l' , f: linkCandidates },
+    { type: 'tab'     , shorthand: 't' , f: tabCandidates },
+    { type: 'history' , shorthand: 'h' , f: historyCandidates },
+    { type: 'bookmark', shorthand: 'b' , f: bookmarkCandidates },
     { type: 'hatebu'  , shorthand: 'hb', f: hatenaBookmarkCandidates },
-    { type: 'session' , shorthand: 's', f: sessionCandidates },
-    { type: 'command' , shorthand: 'c', f: commandCandidates },
+    { type: 'session' , shorthand: 's' , f: sessionCandidates },
+    { type: 'command' , shorthand: 'c' , f: commandCandidates },
   ];
   if (order) {
     sources = sources.concat(order.map(n => items.find(i => i.type === n)));
