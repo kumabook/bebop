@@ -86,12 +86,12 @@ export function openUrl(candidates) {
 export function openHatebuEntryPage(candidates) {
   const candidate = candidates.find(c => isUrl(c.args[0]));
   if (candidate) {
-    let pageURL = new URL(candidate.args[0]);
-    let hatenaPrefix = "http://b.hatena.ne.jp/entry/";
-    if (pageURL.protocol === "https:") {
-      hatenaPrefix += "s/";
+    const pageURL = new URL(candidate.args[0]);
+    let hatenaPrefix = 'http://b.hatena.ne.jp/entry/';
+    if (pageURL.protocol === 'https:') {
+      hatenaPrefix += 's/';
     }
-    let hatebuEntryPage = hatenaPrefix + pageURL.host + pageURL.pathname;
+    const hatebuEntryPage = hatenaPrefix + pageURL.host + pageURL.pathname;
     return go(hatebuEntryPage);
   }
   return Promise.resolve();
@@ -259,7 +259,7 @@ const hatebuActions = [
   { id: 'open-urls-in-new-tab'       , label: 'open url(s) in new tab(s)'    , icon: 'tab'    , handler: openUrlsInNewTab       , contentHandler: noop },
   { id: 'open-urls-in-new-window'    , label: 'open url(s) in new window'    , icon: 'window' , handler: openUrlsInNewWindow    , contentHandler: noop },
   { id: 'open-urls-in-private-window', label: 'open url(s) in private window', icon: 'private', handler: openUrlsInPrivateWindow, contentHandler: noop },
-  { id: 'edit-bookmark'              , label: 'edit bookmark(s)'             , icon: 'open'   , handler: openHatebuEntryPage    , contentHandler: noop }
+  { id: 'edit-bookmark'              , label: 'edit bookmark(s)'             , icon: 'open'   , handler: openHatebuEntryPage    , contentHandler: noop },
 ];
 
 const sessionActions = [

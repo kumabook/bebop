@@ -120,11 +120,11 @@ class Options extends React.Component {
       <div>
         <h4 className="optionsLabel">Hatena User Name</h4>
         <input
-           className="optionsValueTextInput"
-           type="text"
-           value={this.props.hatenaUserName}
-           onChange={e => this.props.handleHatenaUserNameChange(e.target.value)}
-          />
+          className="optionsValueTextInput"
+          type="text"
+          value={this.props.hatenaUserName}
+          onChange={e => this.props.handleHatenaUserNameChange(e.target.value)}
+        />
       </div>
     );
   }
@@ -148,7 +148,7 @@ function mapStateToProps(state) {
     orderOfCandidates:  state.orderOfCandidates,
     maxResultsForEmpty: state.maxResultsForEmpty,
     enabledCJKMove:     state.enabledCJKMove,
-    hatenaUserName:     state.hatenaUserName
+    hatenaUserName:     state.hatenaUserName,
   };
 }
 
