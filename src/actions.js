@@ -11,6 +11,7 @@ import {
   restore as restoreSession,
   forget as forgetSession,
 } from './utils/sessions';
+import { downloadBookmarks } from './utils/hatebu';
 
 const actionsOfType = {};
 const actionList = [];
@@ -185,6 +186,10 @@ export function runCommand(cs) {
       case 'manage-cookies': {
         const { url } = await getActiveContentTab();
         return manageCookies(url);
+      }
+      case 'download-hatebu': {
+        const { hatenaUserName } = await browser.storage.local.get('hatenaUserName');
+        return downloadBookmarks(hatenaUserName);
       }
       default:
         return Promise.resolve();

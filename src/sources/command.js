@@ -14,6 +14,7 @@ const commands = [
   { name: 'set-zoom'                , icon: 'zoom' },
   { name: 'restore-previous-session', icon: 'session' },
   { name: 'manage-cookies'          , icon: 'cookie' },
+  { name: 'download-hatebu'         , icon: 'hatebu' },
 ];
 
 export default function candidates(q, { maxResults }) {

@@ -3,9 +3,14 @@ import {
   fork,
   takeEvery,
   select,
+  call,
   put,
   all,
 } from 'redux-saga/effects';
+
+export function sendMessageToBackground(message) {
+  return browser.runtime.sendMessage(message);
+}
 
 function* dispatchPopupWidth() {
   const { popupWidth } = yield browser.storage.local.get('popupWidth');
@@ -49,7 +54,9 @@ function* watchEnableCJKMove() {
 function* watchHatenaUserName() {
   yield takeEvery('HATENA_USER_NAME', function* h() {
     const { hatenaUserName } = yield select(state => state);
+    const message = { type: 'DOWNLOAD_HATEBU', payload: hatenaUserName };
     yield browser.storage.local.set({ hatenaUserName });
+    yield call(sendMessageToBackground, message);
   });
 }
 
