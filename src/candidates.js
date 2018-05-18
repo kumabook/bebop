@@ -32,14 +32,14 @@ function parseAsHasType(query) {
 }
 
 function parseAsHasShorthand(query) {
-  const found = query.match(/^(\w)\s+(.*)/);
+  const found = query.match(/^(\w\w?)\s+(.*)/);
   let type = null;
   let value = '';
   if (found) {
     const [, t, v] = found;
     type = getType(t);
     value = v;
-  } else if (query.length === 1) {
+  } else if (query.length === 1 || query === 'hb') {
     type = getType(query);
   }
   if (type) {
