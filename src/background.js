@@ -9,8 +9,15 @@ import {
   onTabRemoved,
 } from './popup_window';
 import { getActiveContentTab } from './utils/tabs';
+import idb from './utils/indexedDB';
 import { getArgListener, setPostMessageFunction } from './utils/args';
+import {
+  createObjectStore,
+  needDownload,
+  downloadBookmarks,
+} from './utils/hatebu';
 import migrateOptions from './utils/options_migrator';
+import config from './config';
 
 let contentScriptPorts = {};
 let popupPorts         = {};
@@ -117,6 +124,12 @@ export function messageListener(request) {
       listener(request.payload);
       return null;
     }
+    case 'DOWNLOAD_HATEBU': {
+      if (needDownload()) {
+        downloadBookmarks(request.payload);
+      }
+      return null;
+    }
     default:
       return null;
   }
@@ -152,6 +165,12 @@ export async function init() {
   popupPorts         = {};
 
   await loadOptions();
+  try {
+    await idb.upgrade(config.dbName, config.dbVersion, db => createObjectStore(db));
+    logger.info('create indexedDB');
+  } catch (e) {
+    logger.info(e);
+  }
 
   browser.windows.onFocusChanged.addListener(onWindowFocusChanged);
   browser.runtime.onConnect.addListener(connectListener);

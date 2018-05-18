@@ -1,6 +1,6 @@
 import browser from 'webextension-polyfill';
 import { getFaviconUrl } from '../utils/url';
-import { fetchCachedHatenaBookmarks } from '../utils/hatebu';
+import { fetchBookmarks } from '../utils/hatebu';
 
 const openOptionCommand = {
   id:         'hatena-options',
@@ -20,7 +20,7 @@ export default async function candidates(q, { maxResults } = {}) {
   }
 
   // To make search efficient ...
-  const bookmarks = await fetchCachedHatenaBookmarks(hatenaUserName);
+  const bookmarks = await fetchBookmarks(hatenaUserName);
   const results = [];
   for (let i = bookmarks.length - 1; i !== 0; i -= 1) {
     const bookmark = bookmarks[i];
