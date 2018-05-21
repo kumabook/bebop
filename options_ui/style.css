@@ -26,6 +26,12 @@
   width: 60px;
 }
 
+.optionsValueTextInput {
+  display: inline-block;
+  margin-left: 40px;
+  width: 150px;
+}
+
 .sortableList {
   list-style-type: none;
 }

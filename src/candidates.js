@@ -4,6 +4,7 @@ import linkCandidates from './sources/link';
 import tabCandidates from './sources/tab';
 import historyCandidates from './sources/history';
 import bookmarkCandidates from './sources/bookmark';
+import hatenaBookmarkCandidates from './sources/hatena_bookmark';
 import sessionCandidates from './sources/session';
 import commandCandidates from './sources/command';
 
@@ -102,6 +103,7 @@ export function init({ orderOfCandidates: order, maxResultsForEmpty: nums } = {}
     { type: 'tab'     , shorthand: 't', f: tabCandidates },
     { type: 'history' , shorthand: 'h', f: historyCandidates },
     { type: 'bookmark', shorthand: 'b', f: bookmarkCandidates },
+    { type: 'hatebu'  , shorthand: 'hb', f: hatenaBookmarkCandidates },
     { type: 'session' , shorthand: 's', f: sessionCandidates },
     { type: 'command' , shorthand: 'c', f: commandCandidates },
   ];

@@ -83,6 +83,20 @@ export function openUrl(candidates) {
   return Promise.resolve();
 }
 
+export function openHatebuEntryPage(candidates) {
+  const candidate = candidates.find(c => isUrl(c.args[0]));
+  if (candidate) {
+    let pageURL = new URL(candidate.args[0]);
+    let hatenaPrefix = "http://b.hatena.ne.jp/entry/";
+    if (pageURL.protocol === "https:") {
+      hatenaPrefix += "s/";
+    }
+    let hatebuEntryPage = hatenaPrefix + pageURL.host + pageURL.pathname;
+    return go(hatebuEntryPage);
+  }
+  return Promise.resolve();
+}
+
 export function clickLink(cs) {
   return Promise.all(filter(cs, 'link').map(({ args }) => click(args[0])));
 }
@@ -240,6 +254,14 @@ const bookmarkActions = [
   { id: 'delete-bookmark'            , label: 'delete bookmark(s)'           , icon: 'delete' , handler: deleteBookmark         , contentHandler: noop },
 ];
 
+const hatebuActions = [
+  { id: 'open-url'                   , label: 'open'                         , icon: 'open'   , handler: openUrl                , contentHandler: noop },
+  { id: 'open-urls-in-new-tab'       , label: 'open url(s) in new tab(s)'    , icon: 'tab'    , handler: openUrlsInNewTab       , contentHandler: noop },
+  { id: 'open-urls-in-new-window'    , label: 'open url(s) in new window'    , icon: 'window' , handler: openUrlsInNewWindow    , contentHandler: noop },
+  { id: 'open-urls-in-private-window', label: 'open url(s) in private window', icon: 'private', handler: openUrlsInPrivateWindow, contentHandler: noop },
+  { id: 'edit-bookmark'              , label: 'edit bookmark(s)'             , icon: 'open'   , handler: openHatebuEntryPage    , contentHandler: noop }
+];
+
 const sessionActions = [
   { id: 'restore-session', label: 'restore-session', icon: 'session', handler: restoreSession },
 ];
@@ -301,6 +323,7 @@ export function init() {
   register('tab'     , tabActions);
   register('history' , historyActions);
   register('bookmark', bookmarkActions);
+  register('hatebu'  , hatebuActions);
   register('session' , sessionActions);
   register('cursor'  , cursorActions);
   register('command' , commandActions);

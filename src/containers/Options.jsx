@@ -31,10 +31,12 @@ class Options extends React.Component {
       orderOfCandidates:              PropTypes.arrayOf(PropTypes.string).isRequired,
       maxResultsForEmpty:             PropTypes.objectOf(PropTypes.number).isRequired,
       enabledCJKMove:                 PropTypes.bool.isRequired,
+      hatenaUserName:                 PropTypes.string.isRequired,
       handlePopupWidthChange:         PropTypes.func.isRequired,
       handleMaxResultsForEmptyChange: PropTypes.func.isRequired,
       handleCJKMoveChange:            PropTypes.func.isRequired,
       handleSortEnd:                  PropTypes.func.isRequired,
+      handleHatenaUserNameChange:     PropTypes.func.isRequired,
     };
   }
   handlePopupWidthChange(e) {
@@ -113,6 +115,19 @@ class Options extends React.Component {
       </div>
     );
   }
+  renderHatenaUserName() {
+    return (
+      <div>
+        <h4 className="optionsLabel">Hatena User Name</h4>
+        <input
+           className="optionsValueTextInput"
+           type="text"
+           value={this.props.hatenaUserName}
+           onChange={e => this.props.handleHatenaUserNameChange(e.target.value)}
+          />
+      </div>
+    );
+  }
   render() {
     return (
       <div className="options">
@@ -121,6 +136,7 @@ class Options extends React.Component {
         {this.renderOrderOfCandidates()}
         {this.renderMaxResultsForEmpty()}
         {this.renderKeyBindings()}
+        {this.renderHatenaUserName()}
       </div>
     );
   }
@@ -132,6 +148,7 @@ function mapStateToProps(state) {
     orderOfCandidates:  state.orderOfCandidates,
     maxResultsForEmpty: state.maxResultsForEmpty,
     enabledCJKMove:     state.enabledCJKMove,
+    hatenaUserName:     state.hatenaUserName
   };
 }
 
@@ -147,6 +164,7 @@ function mapDispatchToProps(dispatch) {
       type: 'ENABLE_CJK_MOVE',
       payload,
     }),
+    handleHatenaUserNameChange: payload => dispatch({ type: 'HATENA_USER_NAME', payload }),
   };
 }
 

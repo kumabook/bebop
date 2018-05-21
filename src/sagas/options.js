@@ -12,6 +12,11 @@ function* dispatchPopupWidth() {
   yield put({ type: 'POPUP_WIDTH', payload: popupWidth });
 }
 
+function* dispatchHatenaUserName() {
+  const { hatenaUserName } = yield browser.storage.local.get('hatenaUserName');
+  yield put({ type: 'HATENA_USER_NAME', payload: hatenaUserName });
+}
+
 function* watchWidth() {
   yield takeEvery('POPUP_WIDTH', function* h({ payload }) {
     yield browser.storage.local.set({
@@ -41,12 +46,21 @@ function* watchEnableCJKMove() {
   });
 }
 
+function* watchHatenaUserName() {
+  yield takeEvery('HATENA_USER_NAME', function* h() {
+    const { hatenaUserName } = yield select(state => state);
+    yield browser.storage.local.set({ hatenaUserName });
+  });
+}
+
 export default function* root() {
   yield all([
     fork(dispatchPopupWidth),
+    fork(dispatchHatenaUserName),
     fork(watchWidth),
     fork(watchOrderOfCandidates),
     fork(watchDefaultNumberOfCandidates),
     fork(watchEnableCJKMove),
+    fork(watchHatenaUserName),
   ]);
 }
