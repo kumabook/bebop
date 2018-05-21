@@ -49,6 +49,7 @@
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.5.1",
+    "fake-indexeddb": "^2.0.4",
     "history": "^4.7.2",
     "is-url": "^1.2.2",
     "jsdom": "^11.4.0",
@@ -75,8 +76,7 @@
   },
   "ava": {
     "babel": {
-      "testOptions": {
-      }
+      "testOptions": {}
     }
   }
 }

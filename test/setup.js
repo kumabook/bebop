@@ -1,6 +1,8 @@
-const { JSDOM } = require('jsdom');
-const logger    = require('kiroku');
-const browser   = require('./browser_mock');
+const { JSDOM }   = require('jsdom');
+const logger      = require('kiroku');
+const browser     = require('./browser_mock');
+const indexedDB   = require('fake-indexeddb');
+const IDBKeyRange = require('fake-indexeddb/lib/FDBKeyRange');
 
 const body = '<div id="container" />';
 const jsdom = new JSDOM(`<!doctype html><html><body>${body}</body></html>`, {
@@ -23,6 +25,9 @@ global.document = window.document;
 global.navigator = {
   userAgent: 'node.js',
 };
+
+global.indexedDB   = indexedDB;
+global.IDBKeyRange = IDBKeyRange;
 
 Object.defineProperties(window.HTMLElement.prototype, {
   offsetLeft: {

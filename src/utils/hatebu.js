@@ -8,11 +8,29 @@ import config from '../config';
 export const Bookmark = new Model('hatena-bookmarks');
 
 const storageKey = 'indexeddb.hatebu';
+const commentRegex = new RegExp('\\s+$', '');
 
-function createDataStructure(text) {
+function parse(text) {
   const infos = text.split('\n');
   const bookmarks = infos.splice(0, infos.length * (3 / 4));
-  return [bookmarks, infos];
+  return { bookmarks, infos, length: infos.length };
+}
+
+function getBookmarkObj({ bookmarks, infos }, i) {
+  const index     = i * 3;
+  const timestamp = infos[i].split('\t', 2)[1];
+  const title     = bookmarks[index];
+  const comment   = bookmarks[index + 1];
+  const url       = bookmarks[index + 2];
+  const date      = parseInt(timestamp, 10);
+  return {
+    id:         timestamp,
+    comment:    comment.replace(commentRegex, ''),
+    title,
+    url,
+    created_at: date,
+    updated_at: date,
+  };
 }
 
 export function createObjectStore(db) {
@@ -42,38 +60,23 @@ export async function downloadBookmarks(userName) {
     return null;
   }
   logger.info(`Downloaded ${userName} bookmarks`);
-  const text = await response.text();
-  const commentRe = new RegExp('\\s+$', '');
-  const [bookmarks, infos] = createDataStructure(text);
-
-  const len = infos.length;
+  const text         = await response.text();
+  const bookmarkList = parse(text);
   const db = await idb.open(config.dbName, config.dbVersion);
   if (needClear(userName)) {
     Bookmark.clear(db);
   }
-  for (let i = len - 1; i >= 0; i -= 1) {
-    const bi = i * 3;
-    const timestamp = infos[i].split('\t', 2)[1];
-    const title = bookmarks[bi];
-    const comment = bookmarks[bi + 1];
-    const url = bookmarks[bi + 2];
-    const date = parseInt(timestamp, 10);
-    logger.trace(`Saving ${title} to object store for ${userName}`);
+  for (let i = bookmarkList.length - 1; i >= 0; i -= 1) {
     try {
+      const obj = getBookmarkObj(bookmarkList, i);
+      logger.trace(`Saving ${obj.title} to object store for ${userName}`);
       // eslint-disable-next-line no-await-in-loop
-      await Bookmark.create({
-        id:         timestamp,
-        comment:    comment.replace(commentRe, ''),
-        title,
-        url,
-        created_at: date,
-        updated_at: date,
-      }, db);
+      await Bookmark.create(obj, db);
+      logger.trace(`Saved ${obj.title} to object store for ${userName}`);
     } catch (e) {
       logger.trace(e);
       return false;
     }
-    logger.trace(`Saved ${title} to object store for ${userName}`);
   }
   await browser.storage.local.set(storageKey, {
     userName,

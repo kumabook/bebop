@@ -35,8 +35,8 @@ async function setup() {
   browser.tabs.onActivated       = onActivatedPort.onMessage;
   browser.tabs.onRemoved         = onRemovedPort.onMessage;
   browser.storage.onChanged      = onChangedPort.onMessage;
-  init();
-  delay(10);
+  await init();
+  await delay(10);
 }
 
 function restore() {
