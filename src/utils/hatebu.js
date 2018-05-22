@@ -3,6 +3,7 @@ import browser from 'webextension-polyfill';
 import logger from 'kiroku';
 import Model from './model';
 import idb from './indexedDB';
+import fetchAsText from './http';
 import config from '../config';
 
 export const Bookmark = new Model('hatena-bookmarks');
@@ -54,13 +55,9 @@ export function needDownload(userName) {
 }
 
 export async function downloadBookmarks(userName) {
-  const response = await fetch(`http://b.hatena.ne.jp/${userName}/search.data`);
-  if (!response.ok) {
-    logger.info(`${userName} doesn't exist`);
-    return null;
-  }
+  const url = `http://b.hatena.ne.jp/${userName}/search.data`;
+  const text = await fetchAsText(url);
   logger.info(`Downloaded ${userName} bookmarks`);
-  const text         = await response.text();
   const bookmarkList = parse(text);
   const db = await idb.open(config.dbName, config.dbVersion);
   if (needClear(userName)) {

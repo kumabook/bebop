@@ -22,7 +22,7 @@ export default async function candidates(q, { maxResults } = {}) {
   // To make search efficient ...
   const bookmarks = await fetchBookmarks(hatenaUserName);
   const results = [];
-  for (let i = bookmarks.length - 1; i !== 0; i -= 1) {
+  for (let i = bookmarks.length - 1; i >= 0; i -= 1) {
     const bookmark = bookmarks[i];
     if (bookmark.title.includes(q)
         || bookmark.comment.includes(q)

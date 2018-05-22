@@ -101,6 +101,16 @@ function activatedListener(payload) {
   setTimeout(() => onTabActivated(payload), 10);
 }
 
+function downloadHatebu(userName) {
+  try {
+    if (needDownload()) {
+      downloadBookmarks(userName);
+    }
+  } catch (e) {
+    logger.trace(e);
+  }
+}
+
 export function messageListener(request) {
   switch (request.type) {
     case 'SEND_MESSAGE_TO_ACTIVE_CONTENT_TAB': {
@@ -122,17 +132,16 @@ export function messageListener(request) {
     case 'RESPONSE_ARG': {
       const listener = getArgListener();
       listener(request.payload);
-      return null;
+      break;
     }
     case 'DOWNLOAD_HATEBU': {
-      if (needDownload()) {
-        downloadBookmarks(request.payload);
-      }
-      return null;
+      downloadHatebu(request.payload);
+      break;
     }
     default:
-      return null;
+      break;
   }
+  return null;
 }
 
 export function commandListener(command) {
