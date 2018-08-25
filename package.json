@@ -43,7 +43,7 @@
     "babel-plugin-istanbul": "^4.1.5",
     "cross-env": "^5.1.1",
     "enzyme": "^3.4.4",
-    "enzyme-adapter-react-16": "^1.1.0",
+    "enzyme-adapter-react-16": "^1.2.0",
     "eslint": "^4.11.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.8.0",
