@@ -29,15 +29,18 @@ class Popup extends React.Component {
       }).isRequired,
     };
   }
+
   static get defaultProps() {
     return {
       index: null,
     };
   }
+
   constructor() {
     super();
     this.focusInput = () => this.input.focus();
   }
+
   componentDidMount() {
     window.addEventListener('focus', this.focusInput);
     window.addEventListener('blur', this.props.dispatchQuit);
@@ -48,6 +51,7 @@ class Popup extends React.Component {
       }
     }, 100);
   }
+
   componentDidUpdate() {
     if (this.selectedCandidate && document.scrollingElement) {
       const container               = document.scrollingElement;
@@ -59,17 +63,20 @@ class Popup extends React.Component {
       }
     }
   }
+
   componentWillUnmount() {
     window.removeEventListener('focus', this.focusInput);
     window.removeEventListener('blur', this.props.dispatchQuit);
     clearTimeout(this.timer);
   }
+
   handleCandidateClick(index) {
     const candidate = this.props.candidates[index];
     if (candidate !== null) {
       this.props.handleSelectCandidate(candidate);
     }
   }
+
   argMessage() {
     const {
       type,
@@ -93,9 +100,11 @@ class Popup extends React.Component {
     }
     return message;
   }
+
   hasFooter() {
     return this.props.mode !== 'action';
   }
+
   renderFooter() {
     switch (this.props.mode) {
       case 'candidate':
@@ -108,6 +117,7 @@ class Popup extends React.Component {
         return null;
     }
   }
+
   renderCandidateList() {
     const className = this.hasFooter() ? 'candidatesList' : 'candidatesList-no-footer';
     return (
@@ -116,10 +126,10 @@ class Popup extends React.Component {
           <li
             key={c.id}
             ref={(node) => {
-                if (i === this.props.index) {
-                  this.selectedCandidate = node;
-                }
-              }}
+              if (i === this.props.index) {
+                this.selectedCandidate = node;
+              }
+            }}
           >
             {this.renderSeparator(i)}
             <Candidate
@@ -133,11 +143,13 @@ class Popup extends React.Component {
       </ul>
     );
   }
+
   renderSeparator(index) {
     return this.props.separators.filter(s => s.index === index && s.label).map(s => ((
       <div key={`separator${index}`} className="separator">{s.label}</div>
     )));
   }
+
   render() {
     return (
       <form

@@ -20,7 +20,7 @@ const SortableList = SortableContainer(({ items }) => ((
   <ul className="sortableList">
     {items.map((value, index) => (
       <SortableItem key={`item-${value}`} index={index} value={value} />
-     ))}
+    ))}
   </ul>
 )));
 
@@ -39,11 +39,13 @@ class Options extends React.Component {
       handleHatenaUserNameChange:     PropTypes.func.isRequired,
     };
   }
+
   handlePopupWidthChange(e) {
     if (!Number.isNaN(e.target.valueAsNumber)) {
       this.props.handlePopupWidthChange(e.target.valueAsNumber);
     }
   }
+
   renderInputsOfCandidates() {
     return defaultOrder.map((type) => {
       const n = this.props.maxResultsForEmpty[type];
@@ -58,13 +60,14 @@ class Options extends React.Component {
             step="1"
             value={n}
             onChange={e => this.props.handleMaxResultsForEmptyChange({
-                [type]: parseInt(e.target.value, 10),
-              })}
+              [type]: parseInt(e.target.value, 10),
+            })}
           />
         </div>
       );
     });
   }
+
   renderPopupWidthInput() {
     return (
       <div>
@@ -82,6 +85,7 @@ class Options extends React.Component {
       </div>
     );
   }
+
   renderOrderOfCandidates() {
     return (
       <div>
@@ -91,6 +95,7 @@ class Options extends React.Component {
       </div>
     );
   }
+
   renderMaxResultsForEmpty() {
     return (
       <div>
@@ -101,6 +106,7 @@ class Options extends React.Component {
       </div>
     );
   }
+
   renderKeyBindings() {
     return (
       <div>
@@ -115,6 +121,7 @@ class Options extends React.Component {
       </div>
     );
   }
+
   renderHatenaUserName() {
     return (
       <div>
@@ -128,6 +135,7 @@ class Options extends React.Component {
       </div>
     );
   }
+
   render() {
     return (
       <div className="options">

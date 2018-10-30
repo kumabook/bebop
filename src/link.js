@@ -41,10 +41,10 @@ export function getTargetElements() {
     const elements = doc.querySelectorAll(SELECTOR);
     return Array.prototype.filter.call(elements, (e) => {
       const style = window.getComputedStyle(e);
-      return style.display !== 'none' &&
-        style.visibility !== 'hidden' &&
-        e.type !== 'hidden' &&
-        e.offsetHeight > 0;
+      return style.display !== 'none'
+        && style.visibility !== 'hidden'
+        && e.type !== 'hidden'
+        && e.offsetHeight > 0;
     });
   });
 }
@@ -228,8 +228,8 @@ function getElementRect(element) {
 }
 
 function isDisplayed(container, rect) {
-  return container.left <= rect.left && rect.left <= container.right &&
-    container.top <= rect.top && rect.top <= container.bottom;
+  return container.left <= rect.left && rect.left <= container.right
+    && container.top <= rect.top && rect.top <= container.bottom;
 }
 
 export function highlight({ index, url } = {}) {
