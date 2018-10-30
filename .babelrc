@@ -4,7 +4,7 @@
       "targets": {
         "browsers": ["last 2 versions"]
       },
-      "useBuiltIn": true,
+      "useBuiltIns": "usage",
       "exclude": ["transform-regenerator"]
     }],
     "@babel/preset-react"
