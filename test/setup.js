@@ -1,6 +1,5 @@
 const { JSDOM }   = require('jsdom');
 const logger      = require('kiroku');
-const browser     = require('./browser_mock');
 const indexedDB   = require('fake-indexeddb');
 const IDBKeyRange = require('fake-indexeddb/lib/FDBKeyRange');
 
@@ -46,13 +45,18 @@ Object.defineProperties(window.HTMLElement.prototype, {
 
 window.HTMLElement.prototype.scrollIntoView = () => {};
 
+const raf = require('raf');
+
+raf.polyfill(global);
+
+const enzyme  = require('enzyme');
+const Adapter = require('enzyme-adapter-react-16');
+const browser = require('./browser_mock');
+
 global.browser = browser;
 global.chrome = null;
 
 copyProps(window, global);
-
-const enzyme  = require('enzyme');
-const Adapter = require('enzyme-adapter-react-16');
 
 enzyme.configure({ adapter: new Adapter() });
 logger.setLevel('FATAL');
