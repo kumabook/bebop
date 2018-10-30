@@ -63,4 +63,3 @@ test('messageListener does not handle unknown messages from popup', async (t) =>
   await messageListener(message, {}, () => t.end());
   t.pass();
 });
-

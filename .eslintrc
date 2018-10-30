@@ -6,7 +6,7 @@
     },
     "rules": {
     "no-multi-spaces": ["error", {
-      exceptions: {
+      "exceptions": {
         "VariableDeclarator": true,
         "ImportDeclaration": true,
         "Property": true,
@@ -15,6 +15,7 @@
     }],
     "key-spacing":  ["error", { align: "value" }],
     "react/require-extension": ["off", { "extensions": [".jsx", ".js"] }],
+    "react/destructuring-assignment": ["off", "always", { "ignoreClassFields": true }],
     "react/prefer-stateless-function": 0,
     "import/no-extraneous-dependencies": ["error", {
       "devDependencies": true,

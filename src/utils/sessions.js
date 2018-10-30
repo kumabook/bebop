@@ -1,5 +1,5 @@
 import browser from 'webextension-polyfill';
-import { getFaviconUrl } from '../utils/url';
+import { getFaviconUrl } from './url';
 
 let MAX_SESSION_RESULTS = 20;
 if (browser.sessions) {

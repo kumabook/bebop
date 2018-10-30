@@ -50,8 +50,8 @@ export function needDownload(userName) {
   if (!value || !value[storageKey]) {
     return true;
   }
-  return value[storageKey].userName !== userName ||
-    value[storageKey].lastDownloadedAt + duration < now;
+  return value[storageKey].userName !== userName
+    || value[storageKey].lastDownloadedAt + duration < now;
 }
 
 export async function downloadBookmarks(userName) {
