@@ -1721,7 +1721,7 @@ babel-register@6.26.0, babel-register@^6.26.0:
     mkdirp "^0.5.1"
     source-map-support "^0.4.15"
 
-babel-runtime@6.26.0, babel-runtime@^6.11.6, babel-runtime@^6.22.0, babel-runtime@^6.26.0, babel-runtime@^6.9.1:
+babel-runtime@6.26.0, babel-runtime@^6.22.0, babel-runtime@^6.26.0, babel-runtime@^6.9.1:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
   dependencies:
@@ -7274,11 +7274,11 @@ react-router@^4.2.0, react-router@^4.3.1:
     prop-types "^15.6.1"
     warning "^4.0.1"
 
-react-sortable-hoc@^0.8.3:
-  version "0.8.3"
-  resolved "https://registry.yarnpkg.com/react-sortable-hoc/-/react-sortable-hoc-0.8.3.tgz#8537e8ab8d6bad6829885755a0f847817ed78648"
+react-sortable-hoc@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/react-sortable-hoc/-/react-sortable-hoc-1.3.0.tgz#b51a9536c6c380cf683998e50c8003064d46f9c3"
+  integrity sha512-X9IVmMX3WVTVz7+GiM3rXQ44RT7Fn02PhZ9TLB+qK0YanoPYoSn5W42kTsr6dcHRY0MQvX18Y5LDT6UVQjjmpA==
   dependencies:
-    babel-runtime "^6.11.6"
     invariant "^2.2.1"
     prop-types "^15.5.7"
 
