@@ -46,7 +46,7 @@ function getSelectedIndex() {
   return -1;
 }
 
-function* setup() {
+async function setup() {
   document.scrollingElement = { scrollTo: nisemono.func() };
   nisemono.expects(document.scrollingElement.scrollTo).returns();
   window.close = nisemono.func();
@@ -58,7 +58,7 @@ function* setup() {
         return Promise.resolve();
     }
   };
-  popup = yield start();
+  popup = await start();
 }
 
 function restore() {

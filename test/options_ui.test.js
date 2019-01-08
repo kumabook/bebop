@@ -21,8 +21,8 @@ function dispatchEvent(name, node, x, y) {
   node.dispatchEvent(event);
 }
 
-function* setup() {
-  optionsUI = yield start();
+async function setup() {
+  optionsUI = await start();
   Element.prototype.getBoundingClientRect = () => ({
     top:    0,
     left:   0,
