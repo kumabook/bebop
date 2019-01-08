@@ -10,7 +10,7 @@ import {
 import {
   ConnectedRouter,
   routerMiddleware,
-} from 'react-router-redux';
+} from 'connected-react-router';
 import {
   HashRouter,
   Switch,
@@ -21,7 +21,7 @@ import Popup from '../../src/containers/Popup';
 import reducers from '../../src/reducers/popup';
 
 const history = createHistory();
-const store = createStore(reducers, applyMiddleware(routerMiddleware(history)));
+const store = createStore(reducers(history), applyMiddleware(routerMiddleware(history)));
 const element = (
   <Provider store={store}>
     <ConnectedRouter history={history}>

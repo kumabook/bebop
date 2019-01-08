@@ -10,7 +10,7 @@ import {
 import {
   ConnectedRouter,
   routerMiddleware,
-} from 'react-router-redux';
+} from 'connected-react-router';
 import {
   Switch,
   Route,
@@ -45,7 +45,7 @@ export function start() {
     const history        = createHistory();
     const sagaMiddleware = createSagaMiddleware();
     const middleware     = applyMiddleware(sagaMiddleware, routerMiddleware(history));
-    const store          = createStore(reducers, state, middleware);
+    const store          = createStore(reducers(history), state, middleware);
     const container      = document.getElementById('container');
     const element = (
       <Provider store={store}>

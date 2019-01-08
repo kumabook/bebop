@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { routerReducer }   from 'react-router-redux';
+import { connectRouter } from 'connected-react-router';
 
 const defaultScheme = { type: 'object' };
 
@@ -125,8 +125,8 @@ const scheme = (state = defaultScheme, action) => {
   }
 };
 
-const rootReducer = combineReducers({
-  router: routerReducer,
+export default history => combineReducers({
+  router: connectRouter(history),
   query,
   candidates,
   separators,
@@ -135,5 +135,3 @@ const rootReducer = combineReducers({
   mode,
   scheme,
 });
-
-export default rootReducer;
