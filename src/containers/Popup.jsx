@@ -137,7 +137,8 @@ class Popup extends React.Component {
               isMarked={!!this.props.markedCandidateIds[c.id]}
               onClick={() => this.handleCandidateClick(i)}
             />
-          </li>))
+          </li>
+        ))
        }
       </ul>
     );
