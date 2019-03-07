@@ -1,4 +1,3 @@
-/* global URL: false */
 import browser from 'webextension-polyfill';
 
 const { URL } = window;
