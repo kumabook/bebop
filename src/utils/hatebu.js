@@ -1,4 +1,3 @@
-/* global fetch: false */
 import browser from 'webextension-polyfill';
 import logger from 'kiroku';
 import Model from './model';

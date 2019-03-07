@@ -1,4 +1,3 @@
-/* global URL: false */
 import searchCandidates from './sources/search';
 import linkCandidates from './sources/link';
 import tabCandidates from './sources/tab';
