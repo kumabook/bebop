@@ -24,6 +24,7 @@
     "cookies",
     "sessions",
     "system.display",
+    "search",
     "<all_urls>"
   ],
   "background": {

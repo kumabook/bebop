@@ -125,12 +125,22 @@ function googleUrl(q) {
   return `https://www.google.com/search?q=${q}`;
 }
 
-export function searchWithGoogleInNewTab(cs) {
-  return Promise.all(first(cs, 'search').map(({ args }) => open(googleUrl(args[0]))));
+export function searchInNewTab(cs) {
+  return Promise.all(first(cs, 'search').map(({ args }) => {
+    if (browser.search) {
+      return browser.search.search({ query: args[0] });
+    }
+    return open(googleUrl(args[0]));
+  }));
 }
 
-export function searchWithGoogle(cs) {
-  return Promise.all(first(cs, 'search').map(({ args }) => go(googleUrl(args[0]))));
+export function search(cs) {
+  return getActiveContentTab().then(tab => Promise.all(first(cs, 'search').map(({ args }) => {
+    if (browser.search) {
+      return browser.search.search({ query: args[0], tabId: tab.id });
+    }
+    return go(googleUrl(args[0]));
+  })));
 }
 
 export function deleteHistory(cs) {
@@ -226,9 +236,9 @@ export function runCommandOnContent(cs) {
   }));
 }
 
-const googleSearchActions = [
-  { id: 'search-with-google'           , label: 'search with google'           , icon: 'open', handler: searchWithGoogle        , contentHandler: noop },
-  { id: 'search-with-google-in-new-tab', label: 'search with google in new tab', icon: 'tab' , handler: searchWithGoogleInNewTab, contentHandler: noop },
+const searchActions = [
+  { id: 'search'           , label: 'search'           , icon: 'open', handler: search        , contentHandler: noop },
+  { id: 'search-in-new-tab', label: 'search in new tab', icon: 'tab' , handler: searchInNewTab, contentHandler: noop },
 ];
 
 const linkActions = [
@@ -323,7 +333,7 @@ export function find(id = '') {
 }
 
 export function init() {
-  register('search'  , googleSearchActions);
+  register('search'  , searchActions);
   register('link'    , linkActions);
   register('tab'     , tabActions);
   register('history' , historyActions);
