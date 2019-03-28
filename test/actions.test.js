@@ -8,8 +8,8 @@ import {
   openLinkInNewTab,
   openLinkInNewWindow,
   openLinkInPrivateWindow,
-  searchWithGoogle,
-  searchWithGoogleInNewTab,
+  search,
+  searchInNewTab,
   deleteHistory,
   deleteBookmark,
   runCommand,
@@ -68,15 +68,15 @@ test('openLinkInPrivateWindow', (t) => {
   t.pass();
 });
 
-test('searchWithGoogle', (t) => {
-  searchWithGoogle([{ type: 'search', args: searchArgs }]);
-  searchWithGoogle([]);
+test('search', (t) => {
+  search([{ type: 'search', args: searchArgs }]);
+  search([]);
   t.pass();
 });
 
-test('searchWithGoogleInNewTab', (t) => {
-  searchWithGoogleInNewTab([{ type: 'search', args: searchArgs }]);
-  searchWithGoogleInNewTab([]);
+test('searchInNewTab', (t) => {
+  searchInNewTab([{ type: 'search', args: searchArgs }]);
+  searchInNewTab([]);
   t.pass();
 });
 
