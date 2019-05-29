@@ -64,12 +64,23 @@ const hatenaUserName = (state = '', action) => {
   }
 };
 
+const theme = (state = '', action) => {
+  switch (action.type) {
+    case 'SET_THEME':
+      return action.payload || '';
+    default:
+      return state;
+  }
+};
+
+
 const rootReducer = combineReducers({
   popupWidth,
   orderOfCandidates,
   maxResultsForEmpty,
   enabledCJKMove,
   hatenaUserName,
+  theme,
 });
 
 export default rootReducer;

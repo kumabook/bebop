@@ -35,10 +35,15 @@ function updateWidth({ popupWidth }) {
   document.body.style.width = `${width}px`;
 }
 
+function updateTheme({ theme = '' }) {
+  document.documentElement.setAttribute('data-theme', theme);
+}
+
 export function start() {
   return browser.storage.local.get().then((state) => {
     migrateOptions(state);
     updateWidth(state);
+    updateTheme(state);
     candidateInit(state);
     keySequenceInit(state);
     actionInit();

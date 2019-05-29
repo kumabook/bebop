@@ -90,3 +90,13 @@ test.serial('options_ui enable C-j,k move ', async (t) => {
   t.pass();
   await delay(WAIT_MS);
 });
+
+test.serial('options_ui change theme', async (t) => {
+  await delay(WAIT_MS);
+  const { document } = window;
+  const select = document.querySelector('.themeSelect');
+  const theme = 'some-theme-value';
+  ReactTestUtils.Simulate.change(select, { target: { value: theme } });
+  t.pass();
+  await delay(WAIT_MS);
+});
