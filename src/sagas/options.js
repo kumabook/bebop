@@ -60,6 +60,13 @@ function* watchHatenaUserName() {
   });
 }
 
+function* watchTheme() {
+  yield takeEvery('SET_THEME', function* h() {
+    const { theme } = yield select(state => state);
+    yield browser.storage.local.set({ theme });
+  });
+}
+
 export default function* root() {
   yield all([
     fork(dispatchPopupWidth),
@@ -69,5 +76,6 @@ export default function* root() {
     fork(watchDefaultNumberOfCandidates),
     fork(watchEnableCJKMove),
     fork(watchHatenaUserName),
+    fork(watchTheme),
   ]);
 }

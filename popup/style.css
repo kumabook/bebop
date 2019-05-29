@@ -1,9 +1,65 @@
+:root {
+  --background-color: #fff;
+  --text-color: #000;
+  --text-color-selected: #000;
+  --text-color-marked: #000;
+
+  --footer-background-color: #dda0dd;
+  --footer-text-color: #000;
+
+  --candidate-background-color-hover: #d8d8d8;
+  --candidate-background-color-selected: #87cefa;
+  --candidate-background-color-selected-hover: #6ca5c8;
+  --candidate-background-color-marked: #00bfff;
+  --candidate-background-color-marked-hover: #09c;
+
+  --candidate-background-color-selected-marked: #00a2d9;
+  --candidate-background-color-selected-marked-hover: #007ca6;
+
+  --separator-background-color: #fc6;
+  --separator-text-color: #000;
+
+  --image-invert-percent: 0%;
+  --image-invert-percent-selected: 0%;
+}
+
+[data-theme="simple-dark"] {
+  --background-color: #353535;
+  --text-color: #CECECE;
+  --text-color-selected: #FFE6B0;
+  --text-color-marked: #E0E0E0;
+
+  --footer-background-color: #383838;
+  --footer-text-color: #769262;
+
+  --candidate-background-color-hover: #d8d8d8;
+  --candidate-background-color-selected: #2B2B2B;
+  --candidate-background-color-selected-hover: #2B2B2B;
+  --candidate-background-color-marked: #00bfff;
+  --candidate-background-color-marked-hover: #09c;
+
+  --candidate-background-color-selected-marked: #00a2d9;
+  --candidate-background-color-selected-marked-hover: #007ca6;
+
+  --separator-background-color: #282828;
+  --separator-text-color: #00adee;
+
+  --image-invert-percent: 60%;
+  --image-invert-percent-selected: 100%;
+}
+
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
   /* only chrome */
   body {
     height: 500px;
     width: 700px;
   }
+}
+
+body,
+#container {
+  color: var(--text-color);
+  background-color: var(--background-color);
 }
 
 .commandForm {
@@ -21,6 +77,10 @@
   top: 0;
   height: 36px;
   box-sizing: border-box;
+  z-index: 100;
+
+  color: var(--text-color);
+  background-color: var(--background-color);
 }
 
 .footer {
@@ -31,7 +91,8 @@
   width: 100%;
   box-sizing: border-box;
   font-size: small;
-  background-color: #dda0dd;
+  background-color: var(--footer-background-color);
+  color: var(--footer-text-color);
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -41,6 +102,9 @@
   list-style-type: none;
   margin: 0;
   padding: 36px 0 18px 0;
+
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 .candidatesList-no-footer {
@@ -58,31 +122,34 @@
 }
 
 .candidate:hover {
-  background-color: #d8d8d8;
+  color: var(--background-color);
+  background-color: var(--candidate-background-color-hover);
 }
 
 .candidate.selected {
-  background-color: #87cefa;
+  color: var(--text-color-selected);
+  background-color: var(--candidate-background-color-selected);
 }
 
 .candidate.selected:hover {
-  background-color: #6ca5c8;
+  background-color: var(--candidate-background-color-selected-hover);
 }
 
 .candidate.marked {
-  background-color: #00bfff;
+  color: var(--text-color-marked);
+  background-color: var(--candidate-background-color-marked);
 }
 
 .candidate.marked:hover {
-  background-color: #09c;
+  background-color: var(--candidate-background-color-marked-hover);
 }
 
 .candidate.selected.marked {
-  background-color: #00a2d9;
+  background-color: var(--candidate-background-color-selected-marked);
 }
 
 .candidate.selected.marked:hover {
-  background-color: #007ca6;
+  background-color: var(--candidate-background-color-selected-marked-hover);
 }
 
 .candidate-label {
@@ -104,6 +171,16 @@
   padding: 0;
 }
 
+.candidate .candidate-icon:not([src^='https://']) {
+  filter: invert(var(--image-invert-percent));
+}
+
+.candidate:hover .candidate-icon:not([src^='https://']),
+.candidate.selected .candidate-icon:not([src^='https://']),
+.candidate.marked .candidate-icon:not([src^='https://']) {
+  filter: invert(var(--image-invert-percent-selected));
+}
+
 .candidate-icon-dummy {
   display: inline-block;
   vertical-align: middle;
@@ -116,7 +193,8 @@
 .separator {
   padding: 1px 8px;
   font-size: small;
-  background-color: #fc6;
+  background-color: var(--separator-background-color);
+  color: var(--separator-text-color);
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;

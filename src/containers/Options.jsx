@@ -135,10 +135,25 @@ class Options extends React.Component {
     );
   }
 
+  renderTheme() {
+    return (
+      <div>
+        <h4 className="optionsLabel">Select theme</h4>
+        <select
+          value={this.props.theme}
+          onChange={e => this.props.handleThemeChange(e.target.value)}>
+          <option value="">Default</option>
+          <option value="simple-dark">Simple Dark</option>
+        </select>
+      </div>
+    );
+  }
+
   render() {
     return (
       <div className="options">
         <h3 className="optionsTitle">Options</h3>
+        {this.renderTheme()}
         {this.renderPopupWidthInput()}
         {this.renderOrderOfCandidates()}
         {this.renderMaxResultsForEmpty()}
@@ -156,6 +171,7 @@ function mapStateToProps(state) {
     maxResultsForEmpty: state.maxResultsForEmpty,
     enabledCJKMove:     state.enabledCJKMove,
     hatenaUserName:     state.hatenaUserName,
+    theme:              state.theme,
   };
 }
 
@@ -172,6 +188,7 @@ function mapDispatchToProps(dispatch) {
       payload,
     }),
     handleHatenaUserNameChange: payload => dispatch({ type: 'HATENA_USER_NAME', payload }),
+    handleThemeChange: payload => dispatch({ type: 'SET_THEME', payload }),
   };
 }
 

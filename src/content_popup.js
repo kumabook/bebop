@@ -41,7 +41,7 @@ async function createPopup() {
   popup.style.width           = `${width}px`;
   popup.style.height          = `${height}px`;
   popup.style.zIndex          = 10000000;
-  popup.style.backgroundColor = `rgba(255, 255, 255, ${POPUP_OPACITY})`;
+  popup.style.opacity         = `${POPUP_OPACITY}`;
   popup.style.boxShadow       = '0 0 1em';
   return popup;
 }
