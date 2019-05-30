@@ -1,0 +1,46 @@
+{
+  "commandInput_placeholder": {
+    "message": "Введите запрос"
+  },
+  "key_info": {
+    "message": "[return] ... запускает 1ую команду, [S-return] ... запускает 2ую команду, [C-i] ... список команд"
+  },
+  "search": {
+    "message": "Поиск"
+  },
+  "search_placeholder": {
+    "message": "$QUERY$Искать",
+    "placeholders": {
+      "query": {
+        "content": "$1"
+      }
+    }
+  },
+  "links": {
+    "message": "Ссылки"
+  },
+  "tabs": {
+    "message": "Вкладки"
+  },
+  "histories": {
+    "message": "История"
+  },
+  "bookmarks": {
+    "message": "Закладки"
+  },
+  "sessions": {
+    "message": "Сессии"
+  },
+  "commands": {
+    "message": "Команды"
+  },
+  "hatena_bookmarks": {
+    "message": "Hatena Закладки"
+  },
+  "hatena_bookmarks_hint": {
+    "message": "Hatena Закладки: Пожалуйста, укажите имя пользователя в настройках"
+  },
+  "hatena_options_hint": {
+    "message": "Указать имя пользователя hatena"
+  }
+}

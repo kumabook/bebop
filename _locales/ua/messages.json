@@ -1,0 +1,46 @@
+{
+  "commandInput_placeholder": {
+    "message": "Введіть запит"
+  },
+  "key_info": {
+    "message": "[return] ... запускає першу команду, [S-return] ... запускає другу команду, [C-i] ... список команд"
+  },
+  "search": {
+    "message": "Пошук"
+  },
+  "search_placeholder": {
+    "message": "$QUERY$Шукати",
+    "placeholders": {
+      "query": {
+        "content": "$1"
+      }
+    }
+  },
+  "links": {
+    "message": "Посилання"
+  },
+  "tabs": {
+    "message": "Вкладки"
+  },
+  "histories": {
+    "message": "Історія"
+  },
+  "bookmarks": {
+    "message": "Закладки"
+  },
+  "sessions": {
+    "message": "Сесії"
+  },
+  "commands": {
+    "message": "Команди"
+  },
+  "hatena_bookmarks": {
+    "message": "Hatena Закладки"
+  },
+  "hatena_bookmarks_hint": {
+    "message": "Hatena Закладки: Будь ласка, вкажіть ім'я користувача в настройках"
+  },
+  "hatena_options_hint": {
+    "message": "Вказати ім'я користувача hatena"
+  }
+}
