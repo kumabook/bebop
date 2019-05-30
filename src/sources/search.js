@@ -8,7 +8,7 @@ export default function candidates(q, { maxResults }) {
   }
   return Promise.resolve([{
     id:         `search-${q}`,
-    label:      `${query}Search`,
+    label:      `${getMessage('search_placeholder', query)}`,
     type:       'search',
     args:       [q],
     faviconUrl: browser.extension.getURL('images/search.png'),

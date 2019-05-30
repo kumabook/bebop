@@ -1,10 +1,11 @@
 import browser from 'webextension-polyfill';
 import { getFaviconUrl } from '../utils/url';
 import { fetchBookmarks } from '../utils/hatebu';
+import getMessage from '../utils/i18n';
 
 const openOptionCommand = {
   id:         'hatena-options',
-  label:      'Set hatena user name',
+  label:      `${getMessage('hatena_options_hint')}`,
   type:       'command',
   args:       ['open-options'],
   faviconUrl: browser.extension.getURL('images/options.png'),
@@ -15,7 +16,7 @@ export default async function candidates(q, { maxResults } = {}) {
   if (!hatenaUserName && maxResults !== 0) {
     return {
       items: [openOptionCommand],
-      label: 'Hatena Bookmarks: Please specify username at options ui',
+      label: `${getMessage('hatena_bookmarks_hint')}`,
     };
   }
 
@@ -44,6 +45,6 @@ export default async function candidates(q, { maxResults } = {}) {
 
   return {
     items,
-    label: 'Hatena Bookmarks (:hatebu or hb)',
+    label: `${getMessage('hatena_bookmarks')} (:hatebu or hb)`,
   };
 }
