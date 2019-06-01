@@ -8,6 +8,14 @@
   "search": {
     "message": "検索"
   },
+  "search_placeholder": {
+    "message": "$QUERY$検索",
+    "placeholders": {
+      "query": {
+        "content": "$1"
+      }
+    }
+  },
   "links": {
     "message": "リンク"
   },
@@ -25,5 +33,14 @@
   },
   "commands": {
     "message": "コマンド"
+  },
+  "hatena_bookmarks": {
+    "message": "Hatena Bookmarks"
+  },
+  "hatena_bookmarks_hint": {
+    "message": "Hatena Bookmarks: Please specify username at options ui"
+  },
+  "hatena_options_hint": {
+    "message": "Set hatena user name"
   }
 }

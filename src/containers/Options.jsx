@@ -31,11 +31,13 @@ class Options extends React.Component {
       maxResultsForEmpty:             PropTypes.objectOf(PropTypes.number).isRequired,
       enabledCJKMove:                 PropTypes.bool.isRequired,
       hatenaUserName:                 PropTypes.string.isRequired,
+      theme:                          PropTypes.string.isRequired,
       handlePopupWidthChange:         PropTypes.func.isRequired,
       handleMaxResultsForEmptyChange: PropTypes.func.isRequired,
       handleCJKMoveChange:            PropTypes.func.isRequired,
       handleSortEnd:                  PropTypes.func.isRequired,
       handleHatenaUserNameChange:     PropTypes.func.isRequired,
+      handleThemeChange:              PropTypes.func.isRequired,
     };
   }
 
@@ -135,6 +137,22 @@ class Options extends React.Component {
     );
   }
 
+  renderTheme() {
+    return (
+      <div>
+        <h4 className="optionsLabel">Select theme</h4>
+        <select
+          className="themeSelect"
+          value={this.props.theme}
+          onChange={e => this.props.handleThemeChange(e.target.value)}
+        >
+          <option value="">Default</option>
+          <option value="simple-dark">Simple Dark</option>
+        </select>
+      </div>
+    );
+  }
+
   render() {
     return (
       <div className="options">
@@ -144,6 +162,7 @@ class Options extends React.Component {
         {this.renderMaxResultsForEmpty()}
         {this.renderKeyBindings()}
         {this.renderHatenaUserName()}
+        {this.renderTheme()}
       </div>
     );
   }
@@ -156,6 +175,7 @@ function mapStateToProps(state) {
     maxResultsForEmpty: state.maxResultsForEmpty,
     enabledCJKMove:     state.enabledCJKMove,
     hatenaUserName:     state.hatenaUserName,
+    theme:              state.theme,
   };
 }
 
@@ -172,6 +192,7 @@ function mapDispatchToProps(dispatch) {
       payload,
     }),
     handleHatenaUserNameChange: payload => dispatch({ type: 'HATENA_USER_NAME', payload }),
+    handleThemeChange:          payload => dispatch({ type: 'SET_THEME', payload }),
   };
 }
 
