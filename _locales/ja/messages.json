@@ -3,7 +3,7 @@
     "message": "クエリを入力"
   },
   "key_info": {
-    "message": "[return] ... runs the 1st command, [S-return] ... runs the 2nd command, [C-i] ... lists commands"
+    "message": "[return] ... 最初のコマンドを実行, [S-return] ... 2つ目のコマンドを実行, [C-i] ... コマンド一覧を表示"
   },
   "search": {
     "message": "検索"
@@ -35,12 +35,12 @@
     "message": "コマンド"
   },
   "hatena_bookmarks": {
-    "message": "Hatena Bookmarks"
+    "message": "はてなブックマーク"
   },
   "hatena_bookmarks_hint": {
-    "message": "Hatena Bookmarks: Please specify username at options ui"
+    "message": "はてなブックマーク: オプションページからはてなユーザをセットしてください"
   },
   "hatena_options_hint": {
-    "message": "Set hatena user name"
+    "message": "はてなユーザをセットします"
   }
 }
