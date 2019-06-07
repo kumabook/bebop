@@ -1,5 +1,7 @@
 :root {
   --command-input-border: 2px inset lightgray;
+  --scroll-bar-thumb-color: #d8d8d8;
+  --scroll-bar-background-color: #EEEEEE;
 
   --background-color: #fff;
   --text-color: #000;
@@ -22,6 +24,8 @@
 
 [data-theme="simple-dark"] {
   --command-input-border: 1px solid #00adee;
+  --scroll-bar-thumb-color: #535353;
+  --scroll-bar-background-color: #282828;
 
   --background-color: #353535;
   --text-color: #cecece;
@@ -48,6 +52,23 @@
     height: 500px;
     width: 700px;
   }
+}
+
+*[data-theme] {
+  /* firefox only */
+  scrollbar-width: thin;
+  scrollbar-color: var(--scroll-bar-thumb-color) var(--scroll-bar-background-color);
+}
+
+*[data-theme]::-webkit-scrollbar {
+  width: 5px;
+  height: 8px;
+  background-color: var(--scroll-bar-background-color);
+}
+
+/* Add a thumb */
+*[data-theme]::-webkit-scrollbar-thumb {
+  background: var(--scroll-bar-thumb-color);
 }
 
 body,
