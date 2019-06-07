@@ -1,8 +1,7 @@
 :root {
   --command-input-border: 2px inset lightgray;
   --scroll-bar-thumb-color: #d8d8d8;
-  --scroll-bar-background-color: #EEEEEE;
-
+  --scroll-bar-background-color: #eee;
   --background-color: #fff;
   --text-color: #000;
   --text-color-selected: #000;
@@ -19,14 +18,14 @@
   --separator-background-color: #fc6;
   --separator-text-color: #000;
   --image-invert-percent: 0%;
-  --image-invert-percent-selected: 0%;
+  --ext-image-invert-percent: 0%;
+  --ext-image-invert-percent-selected: 0%;
 }
 
 [data-theme="simple-dark"] {
   --command-input-border: 1px solid #00adee;
   --scroll-bar-thumb-color: #535353;
   --scroll-bar-background-color: #282828;
-
   --background-color: #353535;
   --text-color: #cecece;
   --text-color-selected: #ffe6b0;
@@ -42,8 +41,9 @@
   --candidate-background-color-selected-marked-hover: #007ca6;
   --separator-background-color: #282828;
   --separator-text-color: #00adee;
-  --image-invert-percent: 60%;
-  --image-invert-percent-selected: 100%;
+  --image-invert-percent: 30%;
+  --ext-image-invert-percent: 60%;
+  --ext-image-invert-percent-selected: 100%;
 }
 
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
@@ -52,6 +52,13 @@
     height: 500px;
     width: 700px;
   }
+}
+
+body,
+#container,
+*[data-theme] {
+  color: var(--text-color);
+  background-color: var(--background-color);
 }
 
 *[data-theme] {
@@ -69,13 +76,6 @@
 /* Add a thumb */
 *[data-theme]::-webkit-scrollbar-thumb {
   background: var(--scroll-bar-thumb-color);
-}
-
-body,
-#container,
-*[data-theme] {
-  color: var(--text-color);
-  background-color: var(--background-color);
 }
 
 .commandForm {
@@ -186,14 +186,18 @@ body,
   padding: 0;
 }
 
-.candidate .candidate-icon:not([src^='https://']) {
+.candidate .candidate-icon {
   filter: invert(var(--image-invert-percent));
 }
 
-.candidate:hover .candidate-icon:not([src^='https://']),
-.candidate.selected .candidate-icon:not([src^='https://']),
-.candidate.marked .candidate-icon:not([src^='https://']) {
-  filter: invert(var(--image-invert-percent-selected));
+.candidate .candidate-icon.candidate-icon-ext {
+  filter: invert(var(--ext-image-invert-percent));
+}
+
+.candidate:hover .candidate-icon.candidate-icon-ext,
+.candidate.selected .candidate-icon.candidate-icon-ext,
+.candidate.marked .candidate-icon.candidate-icon-ext {
+  filter: invert(var(--ext-image-invert-percent-selected));
 }
 
 .candidate-icon-dummy {
