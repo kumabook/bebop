@@ -1,4 +1,6 @@
 :root {
+  --command-input-border: 2px inset lightgray;
+
   --background-color: #fff;
   --text-color: #000;
   --text-color-selected: #000;
@@ -19,6 +21,8 @@
 }
 
 [data-theme="simple-dark"] {
+  --command-input-border: 1px solid #00adee;
+
   --background-color: #353535;
   --text-color: #cecece;
   --text-color-selected: #ffe6b0;
@@ -47,7 +51,8 @@
 }
 
 body,
-#container {
+#container,
+*[data-theme] {
   color: var(--text-color);
   background-color: var(--background-color);
 }
@@ -70,6 +75,7 @@ body,
   z-index: 100;
   color: var(--text-color);
   background-color: var(--background-color);
+  border: var(--command-input-border);
 }
 
 .footer {
