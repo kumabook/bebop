@@ -8,6 +8,7 @@
   --text-color-marked: #000;
   --footer-background-color: #dda0dd;
   --footer-text-color: #000;
+  --candidate-text-color-hover: #000;
   --candidate-background-color-hover: #d8d8d8;
   --candidate-background-color-selected: #87cefa;
   --candidate-background-color-selected-hover: #6ca5c8;
@@ -32,6 +33,7 @@
   --text-color-marked: #e0e0e0;
   --footer-background-color: #383838;
   --footer-text-color: #769262;
+  --candidate-text-color-hover: #353535;
   --candidate-background-color-hover: #d8d8d8;
   --candidate-background-color-selected: #2b2b2b;
   --candidate-background-color-selected-hover: #2b2b2b;
@@ -137,7 +139,7 @@ body,
 }
 
 .candidate:hover {
-  color: var(--background-color);
+  color: var(--candidate-text-color-hover);
   background-color: var(--candidate-background-color-hover);
 }
 
