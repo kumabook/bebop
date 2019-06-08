@@ -19,6 +19,7 @@
   --separator-background-color: #fc6;
   --separator-text-color: #000;
   --image-invert-percent: 0%;
+  --image-hover-invert-percent: 0%;
   --ext-image-invert-percent: 0%;
   --ext-image-invert-percent-selected: 0%;
 }
@@ -44,6 +45,7 @@
   --separator-background-color: #282828;
   --separator-text-color: #00adee;
   --image-invert-percent: 30%;
+  --image-hover-invert-percent: 0%;
   --ext-image-invert-percent: 60%;
   --ext-image-invert-percent-selected: 100%;
 }
@@ -196,7 +198,10 @@ body,
   filter: invert(var(--ext-image-invert-percent));
 }
 
-.candidate:hover .candidate-icon.candidate-icon-ext,
+.candidate:hover .candidate-icon.candidate-icon-ext {
+  filter: invert(var(--image-hover-invert-percent));
+}
+
 .candidate.selected .candidate-icon.candidate-icon-ext,
 .candidate.marked .candidate-icon.candidate-icon-ext {
   filter: invert(var(--ext-image-invert-percent-selected));
