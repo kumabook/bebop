@@ -1,5 +1,5 @@
 :root {
-  --command-input-border: 2px inset lightgray;
+  --command-input-border: 2px solid #fc6;
   --scroll-bar-thumb-color: #d8d8d8;
   --scroll-bar-background-color: #eee;
   --background-color: #fff;
