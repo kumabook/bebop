@@ -11,9 +11,10 @@ import {
 const tabSession = {
   tab: {
     sessionId: 1,
+    index:     75,
     title:     'tab-title',
     url:       'https://example.com',
-    windowId:  1,
+    windowId:  5,
   },
 };
 
@@ -57,9 +58,9 @@ test.afterEach(() => {
 
 test.serial('session2candidate converts session to candidate', (t) => {
   t.deepEqual(session2candidate(tabSession), {
-    id:         'session-tab-1',
+    id:         'session-tab-1-5-75',
     label:      'tab-title:https://example.com',
-    args:       [1, 'tab', 1],
+    args:       [1, 'tab', 5, 75],
     faviconUrl: getFaviconUrl(tabSession.tab.url),
     type:       'session',
   });
