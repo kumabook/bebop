@@ -2,6 +2,8 @@ import browser from 'webextension-polyfill';
 import React     from 'react';
 import PropTypes from 'prop-types';
 
+import { isExtensionUrl } from '../utils/url';
+
 function noop() {}
 
 function imageURL(type) {
@@ -14,16 +16,20 @@ function typeImg(type) {
     case 'search':
       return <span className="candidate-icon-dummy" />;
     default:
-      return <img className="candidate-icon" src={imageURL(type)} alt={alt} />;
+      return <img className="candidate-icon candidate-icon-ext" src={imageURL(type)} alt={alt} />;
   }
 }
 
 function faviconImg(url) {
   let src = url;
+  let classes = 'candidate-icon';
   if (!src) {
     src = browser.extension.getURL('images/blank_page.png');
+    classes += ' candidate-icon-ext';
+  } else if (isExtensionUrl(url)) {
+    classes += ' candidate-icon-ext';
   }
-  return <img className="candidate-icon" src={src} alt="favicon" />;
+  return <img className={classes} src={src} alt="favicon" />;
 }
 
 function className(isSelected, isMarked) {
