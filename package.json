@@ -70,7 +70,7 @@
     "redux-saga-router": "^2.1.1",
     "stylelint": "^10.0.0",
     "stylelint-config-standard": "^18.0.0",
-    "uuid": "^3.1.0",
+    "uuid": "^7.0.0",
     "web-ext": "^3.0.0",
     "webextension-polyfill": "kumabook/webextension-polyfill",
     "webpack": "^4.8.3"
