@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.8.7",
-    "@babel/polyfill": "^7.0.0-beta.47",
+    "@babel/polyfill": "^7.8.7",
     "@babel/preset-env": "^7.0.0-beta.47",
     "@babel/preset-react": "^7.0.0-beta.47",
     "@babel/register": "^7.0.0-beta.47",
