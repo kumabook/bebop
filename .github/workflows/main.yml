@@ -11,3 +11,7 @@ jobs:
         npm install
         npm run test
         npm run build:release
+    - uses: actions/upload-artifact@v1
+      with:
+        name: web-ext-artifacts
+        path: web-ext-artifacts/
