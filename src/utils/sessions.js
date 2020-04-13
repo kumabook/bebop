@@ -10,10 +10,10 @@ export function session2candidate(session) {
   const { tab, window } = session;
   if (tab) {
     return {
-      id:         `session-tab-${tab.sessionId}`,
+      id:         `session-tab-${tab.sessionId}-${tab.windowId}-${tab.index}`,
       label:      `${tab.title}:${tab.url}`,
       type:       'session',
-      args:       [tab.sessionId, 'tab', tab.windowId],
+      args:       [tab.sessionId, 'tab', tab.windowId, tab.index],
       faviconUrl: getFaviconUrl(tab.url),
     };
   }
