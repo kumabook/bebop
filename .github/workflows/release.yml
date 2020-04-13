@@ -16,7 +16,7 @@ jobs:
         API_SECRET: ${{ secrets.API_SECRET }}
       run: |
         npm install
-        npm run release:firefox
+        npm run release:firefox || true
     - uses: actions/upload-artifact@v1
       with:
         name: web-ext-artifacts
