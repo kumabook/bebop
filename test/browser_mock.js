@@ -9,6 +9,7 @@ browser.extension = {};
 browser.extension.getURL = key => `moz-extension://extension-id/${key}`;
 
 browser.runtime = {};
+browser.runtime.id = 'bebop-test';
 browser.runtime.connect = createPort;
 
 const port = createPort();

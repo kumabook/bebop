@@ -20,7 +20,8 @@
     "eslint:fix": "eslint \"src/**/*.js?(x)\" \"test/**/*.{js,jsx}\" --fix",
     "stylelint": "stylelint \"./{popup,options_ui}/*.css\" --ignore-pattern normalize.css --fix",
     "pretest": "npm run lint",
-    "test": "cross-env NODE_ENV=test nyc ava \"test/**/*.test.{js,jsx}\"",
+    "test": "cross-env NODE_ENV=test ava \"test/**/*.test.{js,jsx}\"",
+    "test:coverage": "cross-env NODE_ENV=test nyc ava \"test/**/*.test.{js,jsx}\"",
     "test:watch": "npm test -- --watch",
     "coverage": "cross-env NODE_ENV=test nyc report --reporter=text-lcov | coveralls"
   },
@@ -28,6 +29,8 @@
     "ava": "1.4.0",
     "chrome-webstore-upload-cli": "^1.1.1",
     "coveralls": "^3.0.0",
+    "esm": "^3.2.25",
+    "nyc": "^15.1.0",
     "webpack-cli": "^3.1.2"
   },
   "permissions": {
@@ -56,7 +59,6 @@
     "jsdom": "^15.0.0",
     "kiroku": "^0.0.4",
     "nisemono": "^0.0.3",
-    "nyc": "^13.1.0",
     "prop-types": "^15.6.0",
     "raf": "^3.4.0",
     "react": "^16.0.0",
@@ -72,12 +74,17 @@
     "stylelint-config-standard": "^18.0.0",
     "uuid": "^3.1.0",
     "web-ext": "^3.0.0",
-    "webextension-polyfill": "kumabook/webextension-polyfill",
+    "webextension-polyfill": "^0.12.0",
     "webpack": "^4.8.3"
   },
   "ava": {
     "babel": {
       "testOptions": {}
-    }
+    },
+    "require": [
+      "@babel/register",
+      "@babel/polyfill",
+      "./test/setup.js"
+    ]
   }
 }

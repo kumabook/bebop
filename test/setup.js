@@ -54,7 +54,7 @@ const Adapter = require('enzyme-adapter-react-16');
 const browser = require('./browser_mock');
 
 global.browser = browser;
-global.chrome = null;
+global.chrome = { runtime: { id: 'bebop-test' } };
 
 copyProps(window, global);
 
