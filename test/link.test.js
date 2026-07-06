@@ -169,3 +169,14 @@ test.serial('click triggers target element click', (t) => {
   click();
   t.pass();
 });
+
+test.serial('click dispatches mousedown/mouseup/click to widgets listening on them', (t) => {
+  setup();
+  const target = document.querySelector('div[role="button"]');
+  const fired = [];
+  ['mousedown', 'mouseup', 'click'].forEach((type) => {
+    target.addEventListener(type, () => fired.push(type));
+  });
+  click({ index: 9, url: '' });
+  t.deepEqual(fired, ['mousedown', 'mouseup', 'click']);
+});

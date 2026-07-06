@@ -130,6 +130,19 @@ export function search({ query = '', maxResults = 20 } = {}) {
   }).slice(0, maxResults);
 }
 
+function simulateClick(element) {
+  const doc  = element.ownerDocument;
+  const view = doc.defaultView;
+  ['mousedown', 'mouseup', 'click'].forEach((type) => {
+    const event = new view.MouseEvent(type, {
+      view,
+      bubbles:    true,
+      cancelable: true,
+    });
+    element.dispatchEvent(event);
+  });
+}
+
 export function click({ index, url } = {}) {
   const elements = getTargetElements();
   for (let i = 0, len = elements.length; i < len; i += 1) {
@@ -137,7 +150,7 @@ export function click({ index, url } = {}) {
     const l = elem2Link(e, i);
     const selected = i === index && l.url === url;
     if (selected) {
-      e.click();
+      simulateClick(e);
       return;
     }
   }
