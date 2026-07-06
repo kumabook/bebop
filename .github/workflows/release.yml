@@ -1,4 +1,4 @@
-name: CI
+name: Release
 
 on:
   push:
@@ -8,16 +8,19 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version-file: .tool-versions
     - name: release
       env:
         EXTENSION_ID: ${{ secrets.EXTENSION_ID }}
         API_KEY: ${{ secrets.API_KEY }}
         API_SECRET: ${{ secrets.API_SECRET }}
       run: |
-        npm install
+        npm ci
         npm run release:firefox || true
-    - uses: actions/upload-artifact@v1
+    - uses: actions/upload-artifact@v4
       with:
         name: web-ext-artifacts
         path: web-ext-artifacts/
