@@ -6,7 +6,7 @@ import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import getMessage from '../utils/i18n';
 import { defaultOrder } from '../reducers/options';
 
-const dragIcon = browser.extension.getURL('images/drag.png');
+const dragIcon = browser.runtime.getURL('images/drag.png');
 
 const SortableItem = SortableElement(({ value }) => ((
   <li className="sortableListItem">

@@ -46,6 +46,9 @@ bundle.js.map
 web-ext-artifacts/
 *.zip
 
+# chrome MV3 staging dir
+chrome-build/
+
 # nyc
 .nyc_output/
 

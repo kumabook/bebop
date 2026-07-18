@@ -127,8 +127,11 @@ function googleUrl(q) {
 
 export function searchInNewTab(cs) {
   return Promise.all(first(cs, 'search').map(({ args }) => {
-    if (browser.search) {
+    if (browser.search && browser.search.search) {
       return browser.search.search({ query: args[0] });
+    }
+    if (browser.search && browser.search.query) {
+      return browser.search.query({ text: args[0], disposition: 'NEW_TAB' });
     }
     return open(googleUrl(args[0]));
   }));
@@ -136,8 +139,11 @@ export function searchInNewTab(cs) {
 
 export function search(cs) {
   return getActiveContentTab().then(tab => Promise.all(first(cs, 'search').map(({ args }) => {
-    if (browser.search) {
+    if (browser.search && browser.search.search) {
       return browser.search.search({ query: args[0], tabId: tab.id });
+    }
+    if (browser.search && browser.search.query) {
+      return browser.search.query({ text: args[0], tabId: tab.id });
     }
     return go(googleUrl(args[0]));
   })));
@@ -310,7 +316,7 @@ export function action2Candidate(c) {
     id:         c.id,
     label:      c.label,
     type:       'action',
-    faviconUrl: c.icon ? browser.extension.getURL(`images/${c.icon}.png`) : null,
+    faviconUrl: c.icon ? browser.runtime.getURL(`images/${c.icon}.png`) : null,
   });
 }
 

@@ -11,7 +11,7 @@ export default function candidates(q, { maxResults }) {
     label:      `${getMessage('search_placeholder', query)}`,
     type:       'search',
     args:       [q],
-    faviconUrl: browser.extension.getURL('images/search.png'),
+    faviconUrl: browser.runtime.getURL('images/search.png'),
   }]).then(items => ({
     items: items.slice(0, maxResults),
     label: `${getMessage('search')} (:search or s)`,

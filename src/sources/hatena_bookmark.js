@@ -8,7 +8,7 @@ const openOptionCommand = {
   label:      `${getMessage('hatena_options_hint')}`,
   type:       'command',
   args:       ['open-options'],
-  faviconUrl: browser.extension.getURL('images/options.png'),
+  faviconUrl: browser.runtime.getURL('images/options.png'),
 };
 
 export default async function candidates(q, { maxResults } = {}) {

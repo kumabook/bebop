@@ -9,7 +9,7 @@ export function faviconUrl(link) {
   if (link.role === 'link') {
     return getFaviconUrl(link.url);
   }
-  return browser.extension.getURL('images/click.png');
+  return browser.runtime.getURL('images/click.png');
 }
 
 export function getLabel(link) {

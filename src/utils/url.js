@@ -1,6 +1,8 @@
 import browser from 'webextension-polyfill';
 
-const { URL } = window;
+/* global globalThis */
+// window does not exist in the MV3 background service worker
+const { URL } = globalThis;
 const faviconUrl = 'https://s2.googleusercontent.com/s2/favicons';
 let browserInfo = { name: 'chrome' };
 
@@ -27,6 +29,11 @@ export function extractDomain(url) {
 export function getFaviconUrl(url) {
   switch (browserInfo.name) {
     case 'chrome':
+      // chrome://favicon was removed in MV3; use the _favicon endpoint
+      // (requires the "favicon" permission).
+      if (browser.runtime.getManifest().manifest_version >= 3) {
+        return `${browser.runtime.getURL('_favicon/')}?pageUrl=${encodeURIComponent(url)}&size=16`;
+      }
       return `chrome://favicon/${url}`;
     default: {
       const domain = extractDomain(url);

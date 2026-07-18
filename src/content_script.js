@@ -68,14 +68,29 @@ export function messageListener(request) {
   }
 }
 
-setTimeout(() => {
+function connect() {
   port = browser.runtime.connect({ name: portName });
   port.onMessage.addListener(portMessageListener);
   const disconnectListener = () => {
     port.onMessage.removeListener(portMessageListener);
     port.onDisconnect.removeListener(disconnectListener);
+    port = null;
+    // The MV3 background service worker drops ports when it is terminated;
+    // reconnect so it can reach this tab again. connect() throws once the
+    // extension context itself is gone (reloaded/uninstalled) — then stop.
+    setTimeout(() => {
+      try {
+        connect();
+      } catch (e) {
+        logger.info('bebop content_script: extension context is gone');
+      }
+    }, 500);
   };
   port.onDisconnect.addListener(disconnectListener);
+}
+
+setTimeout(() => {
+  connect();
   browser.runtime.onMessage.addListener(messageListener);
   logger.info('bebop content_script is loaded');
 }, 500);

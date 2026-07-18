@@ -7,7 +7,7 @@ import { isExtensionUrl } from '../utils/url';
 function noop() {}
 
 function imageURL(type) {
-  return browser.extension.getURL(`images/${type}.png`);
+  return browser.runtime.getURL(`images/${type}.png`);
 }
 
 function typeImg(type) {
@@ -24,7 +24,7 @@ function faviconImg(url) {
   let src = url;
   let classes = 'candidate-icon';
   if (!src) {
-    src = browser.extension.getURL('images/blank_page.png');
+    src = browser.runtime.getURL('images/blank_page.png');
     classes += ' candidate-icon-ext';
   } else if (isExtensionUrl(url)) {
     classes += ' candidate-icon-ext';

@@ -178,7 +178,7 @@ export function createHighlighter(rect) {
 
 function createLinkMarker({ left, top }, selected) {
   const e = document.createElement('img');
-  e.src = browser.extension.getURL('images/link.png');
+  e.src = browser.runtime.getURL('images/link.png');
   e.className      = LINK_MARKER_CLASS;
   e.style.position = 'absolute';
   e.style.display  = 'block';

@@ -27,7 +27,7 @@ export function messageListener(event) {
 
 async function createPopup() {
   const popup = document.createElement('iframe');
-  popup.src = browser.extension.getURL('popup/index.html');
+  popup.src = browser.runtime.getURL('popup/index.html');
   const { popupWidth } = await browser.storage.local.get('popupWidth');
   const w      = window.innerWidth - 100;
   const width  = Math.min(w, popupWidth || DEFAULT_POPUP_WIDTH);

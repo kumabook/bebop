@@ -24,7 +24,7 @@ export default function candidates(q, { maxResults }) {
     label:      c.name,
     type:       'command',
     args:       [c.name],
-    faviconUrl: browser.extension.getURL(`images/${c.icon}.png`),
+    faviconUrl: browser.runtime.getURL(`images/${c.icon}.png`),
   }))).then(items => ({
     items,
     label: `${getMessage('commands')} (:command or c)`,

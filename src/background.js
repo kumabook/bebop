@@ -21,6 +21,7 @@ import config from './config';
 
 let contentScriptPorts = {};
 let popupPorts         = {};
+let ready              = null;
 
 if (process.env.NODE_ENV === 'production') {
   logger.setLevel('FATAL');
@@ -123,11 +124,11 @@ export function messageListener(request) {
     }
     case 'SEARCH_CANDIDATES': {
       const query = request.payload;
-      return search(query);
+      return Promise.resolve(ready).then(() => search(query));
     }
     case 'EXECUTE_ACTION': {
       const { actionId, candidates } = request.payload;
-      return executeAction(actionId, candidates);
+      return Promise.resolve(ready).then(() => executeAction(actionId, candidates));
     }
     case 'RESPONSE_ARG': {
       const listener = getArgListener();
@@ -173,14 +174,8 @@ export async function init() {
   contentScriptPorts = {};
   popupPorts         = {};
 
-  await loadOptions();
-  try {
-    await idb.upgrade(config.dbName, config.dbVersion, db => createObjectStore(db));
-    logger.info('create indexedDB');
-  } catch (e) {
-    logger.info(e);
-  }
-
+  // MV3 service worker: event listeners must be registered synchronously
+  // on startup, before any await.
   browser.windows.onFocusChanged.addListener(onWindowFocusChanged);
   browser.runtime.onConnect.addListener(connectListener);
   browser.tabs.onActivated.addListener(activatedListener);
@@ -189,6 +184,16 @@ export async function init() {
   browser.commands.onCommand.addListener(commandListener);
   browser.storage.onChanged.addListener(storageChangedListener);
 
+  ready = (async () => {
+    await loadOptions();
+    try {
+      await idb.upgrade(config.dbName, config.dbVersion, db => createObjectStore(db));
+      logger.info('create indexedDB');
+    } catch (e) {
+      logger.info(e);
+    }
+  })();
+  await ready;
   logger.info('bebop is initialized.');
 }
 
